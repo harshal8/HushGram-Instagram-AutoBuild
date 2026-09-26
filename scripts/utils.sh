@@ -2191,8 +2191,36 @@ get_apkcombo_vers() {
 	echo "$__APKCOMBO_RESP__" | grep -oP 'phone-\K[0-9][^-]+-apk' | sed 's/-apk$//' | head -1
 }
 get_apkcombo_pkg_name() { echo "$__APKCOMBO_PKG__"; }
+# Pick APKCombo's link for the architecture being built.
+#
+# The redesigned variant page keeps its download links in a hidden "APK Variants" tab,
+# grouped by ABI: a <code>armeabi-v7a</code> / <code>arm64-v8a</code> header owns every
+# link that follows it until the next header, and each link is the tokenised form
+#
+#   https://apkcombo.com/d?u=<url-safe base64 of https://download.pureapk.com/b/XAPK/...>
+#
+# dl_apkcombo used to take the first link it could find, which is always the first ABI
+# on the page (armeabi-v7a for atvTools), so every arch build fetched the same 32-bit
+# bundle under an arm64 file name - the defect just fixed on APKPure, here.
+#
+# Version scoping needs no handling: the page requested is already
+# /download/phone-<version>-apk, so the first row inside a group is the newest shown.
+# Returns 1 when the page has no group for this ABI, leaving the caller to fall back.
+_apkcombo_pick_link() { # $1=page html  $2=arch
+	local abi
+	case "$2" in
+		arm64-v8a | arm64) abi=arm64-v8a ;;
+		arm-v7a | arm) abi=armeabi-v7a ;;
+		x86_64) abi=x86_64 ;;
+		x86) abi=x86 ;;
+		*) return 1 ;;
+	esac
+	# Links wrap across newlines in the markup, so flatten first; .*? stops at the first
+	# link after this ABI's header and \K drops the header from the output.
+	tr -d '\n\r' <<<"$1" | grep -oP "<code>\Q${abi}\E</code>.*?\Khttps://apkcombo\.com/d\?u=[A-Za-z0-9_=+/%-]+" | head -1
+}
 dl_apkcombo() {
-	local _url=$1 version=$2 output=$3 _arch=$4 _dpi=$5
+	local _url=$1 version=$2 output=$3 arch=${4:-} _dpi=${5:-}
 	local html="" dl_url="" final_url checkin page_url page compact_page
 
 	if [ -n "$version" ]; then
@@ -2222,7 +2250,8 @@ dl_apkcombo() {
 			fi
 		fi
 
-		dl_url=$(echo "$page" | grep -oP '(?<=a href=")https://download\.apkcombo\.com/[^"]+' | head -1) || true
+		dl_url=$(_apkcombo_pick_link "$page" "$arch") || true
+		[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=a href=")https://download\.apkcombo\.com/[^"]+' | head -1) || true
 		[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=a href=")/r2[^"]+' | head -1) || true
 		[ -z "$dl_url" ] && dl_url=$(echo "$compact_page" | grep -oP '"download_url"\s*:\s*"\K[^"]+' | head -1 | sed 's#\\/#/#g') || true
 		[ -z "$dl_url" ] && dl_url=$(echo "$compact_page" | grep -oP '"url"\s*:\s*"\Khttps://download\.apkcombo\.com/[^"]+' | head -1 | sed 's#\\/#/#g') || true
@@ -2238,7 +2267,12 @@ dl_apkcombo() {
 	[[ "$dl_url" != http* ]] && dl_url="https://apkcombo.com${dl_url}"
 	dl_url=$(echo "$dl_url" | sed 's/\\u0026/\&/g; s/&amp;/\&/g')
 
-	if [[ "$dl_url" == https://apkcombo.com/r2\?u=* ]]; then
+	if [[ "$dl_url" == *apkcombo.com/d\?u=* ]]; then
+		# Tokenised wrapper: it carries its own signed path, so the checkin parameters the
+		# old /r2 form expected must not be appended to it, and it resolves to the file
+		# through a redirect chain that ends on another host entirely.
+		final_url="$dl_url"
+	elif [[ "$dl_url" == https://apkcombo.com/r2\?u=* ]]; then
 		final_url=$(python - <<'PYC' "$dl_url"
 import sys, urllib.parse
 u=sys.argv[1]
@@ -2272,9 +2306,16 @@ PYC
 	fi
 
 	pr "Downloading from APKCombo: $final_url"
-	curl -L --fail -s -S --connect-timeout 30 --max-time 300 \
-		-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
-		-H "Referer: $page_url" "$final_url" -o "$output" || { rm -f "$output"; return 1; }
+	# The chain runs apkcombo.com -> download.pureapk.com -> apkpure.com, and that last
+	# host answers a Cloudflare managed challenge which no browser fingerprint passes on
+	# its own - only the solver-backed path can clear it, and it now solves for the host
+	# that actually challenged. Keep the plain request for networks never challenged.
+	if ! _cf_cffi_download "$final_url" "$output" "$page_url"; then
+		rm -f "$output" 2>/dev/null
+		curl -L --fail -s -S --connect-timeout 30 --max-time 300 \
+			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
+			-H "Referer: $page_url" "$final_url" -o "$output" || { rm -f "$output"; return 1; }
+	fi
 	if ! unzip -l "$output" >/dev/null 2>&1; then
 		epr "Downloaded file from APKCombo is not a valid zip"
 		rm -f "$output"
