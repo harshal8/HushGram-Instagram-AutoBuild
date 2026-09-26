@@ -2015,6 +2015,73 @@ get_apkpure_vers() {
 
 get_apkpure_pkg_name() { echo "$__APKPURE_PKG__"; }
 
+# Choose APKPure's link for the architecture being built.
+#
+# An APKPure download page carries exactly one <a id="download_link"> - the variant
+# APKPure happens to feature, which need not be the arch being built - plus a
+# per-variant link for every ABI it publishes. atvTools 1.3.2 for example:
+#
+#   b/XAPK/<pkg>?versionCode=49&nc=armeabi-v7a&sv=26   <- the featured #download_link
+#   b/XAPK/<pkg>?versionCode=49&nc=arm64-v8a&sv=26
+#
+# and, where an app is published universal, a multi-ABI single APK whose ABI list is
+# comma separated and percent encoded:
+#
+#   b/APK/com.google.android.youtube?versionCode=...&nc=arm64-v8a%2Carmeabi-v7a%2Cx86%2Cx86_64&sv=29
+#
+# Taking the featured link for every arch meant an arm64 build fetched the
+# armeabi-v7a bundle and published it under an arm64-v8a file name - the native code
+# inside was simply wrong for the label (the two bases are different artifacts, only
+# their AndroidManifest differs). So match the ABI here. Whether the fetched file is
+# really arch-specific stays decided by the archive contents, as everywhere else in
+# this pipeline: check_is_universal runs after the download and renames to -all.
+#
+# Returns 1 whenever nothing matches - the caller then keeps using the featured link,
+# which is all a single-variant app ever offers.
+_apkpure_pick_link() { # $1=page html  $2=arch  $3=featured url
+	local html=$1 arch=$2 featured=$3 abi="" want_type want_vc cands picked
+	case "$arch" in
+		arm64-v8a | arm64) abi=arm64-v8a ;;
+		arm-v7a | arm) abi=armeabi-v7a ;;
+		x86_64) abi=x86_64 ;;
+		x86) abi=x86 ;;
+	esac
+	want_type=$(grep -oE '/b/(XAPK|APK)/' <<<"$featured" | head -1) || true
+	want_vc=$(grep -oE 'versionCode=[0-9]+' <<<"$featured" | head -1 | cut -d= -f2) || true
+
+	if [ -n "$abi" ]; then
+		# Exact ABI only: nc=arm64-v8a& / end of query. Matching a prefix would let the
+		# multi-ABI universal link win, which for a single arch means fetching every ABI.
+		# &amp; is decoded first: the page writes every query separator as an entity, so
+		# matching on the raw markup would never see a "&" before "nc=" at all.
+		cands=$(grep -oE 'https://d\.apkpure\.com/b/(XAPK|APK)/[^"]+' <<<"$html" | sed 's/&amp;/\&/g' | grep -E "[?&]nc=${abi}(&|$)" | sort -u) || true
+	elif isoneof "$arch" all universal; then
+		cands=$(grep -oE 'https://d\.apkpure\.com/b/(XAPK|APK)/[^"]+' <<<"$html" | sed 's/&amp;/\&/g' | grep -E '[?&]nc=[^&]*%2C' | sort -u) || true
+	else
+		return 1
+	fi
+	[ -z "$cands" ] && return 1
+	# Stay on the bundle kind the featured link used, so the caller's xapk-vs-apk
+	# handling (merge_splits vs a plain file) does not silently change shape.
+	if [ -n "$want_type" ]; then
+		picked=$(grep -F "$want_type" <<<"$cands") || true
+		[ -n "$picked" ] && cands="$picked"
+	fi
+	# Prefer the same version code APKPure featured; if the page lists older builds for
+	# this ABI, take the newest one rather than whatever appears first in the markup.
+	if [ -n "$want_vc" ]; then
+		picked=$(grep -F "versionCode=${want_vc}" <<<"$cands") || true
+		[ -n "$picked" ] && cands="$picked"
+	fi
+	picked=$(printf '%s\n' "$cands" | awk '
+		{ vc = -1; if (match($0, /versionCode=[0-9]+/)) vc = substr($0, RSTART + 12, RLENGTH - 12) + 0
+		  if (vc > best) { best = vc; line = $0 } }
+		END { if (line) print line }
+	')
+	[ -z "$picked" ] && return 1
+	printf '%s\n' "$picked"
+}
+
 dl_apkpure() {
 	local url=$1 version=$2 output=$3 arch=${4:-} _dpi=${5:-}
 	local html=""
@@ -2045,6 +2112,13 @@ dl_apkpure() {
 		return 1
 	fi
 
+	# The featured link is only correct for the arch APKPure happened to feature; ask
+	# the page for this build's own variant and keep the featured one as the fallback.
+	local variant_url
+	if variant_url=$(_apkpure_pick_link "$html" "$arch" "$download_url") && [ -n "$variant_url" ]; then
+		download_url="$variant_url"
+	fi
+
 	pr "Downloading from APKPure: $download_url"
 	local cookie_header=()
 	[ -n "${CF_COOKIES:-}" ] && cookie_header=(-H "Cookie: $CF_COOKIES")
@@ -2054,7 +2128,11 @@ dl_apkpure() {
 
 	local bundle="${output%.apk}.xapk"
 	if [ "$is_bundle" = true ]; then
-		curl -L -s -S \
+		# --fail matters: without it a Cloudflare interstitial (403/503) exits 0, gets
+		# written to the .xapk, and only then trips the zip check, so the log blames a
+		# corrupt archive instead of naming the HTTP status. APKPure challenges are also
+		# frequently transient, hence the retry on the transient statuses curl knows.
+		curl -L --fail --retry 2 --retry-delay 3 --retry-connrefused -s -S \
 			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
 			-H "Referer: $dl_page_url" \
 			"${cookie_header[@]}" \
