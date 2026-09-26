@@ -2240,23 +2240,39 @@ get_apkcombo_pkg_name() { echo "$__APKCOMBO_PKG__"; }
 #
 # Version scoping needs no handling: the page requested is already
 # /download/phone-<version>-apk, so the first row inside a group is the newest shown.
-# Returns 1 when the page has no group for this ABI, leaving the caller to fall back.
+#
+# A fat row (its header names two ABIs with a '+', e.g. "arm64-v8a + armeabi-v7a") also
+# satisfies a specific ABI, but only when the page has no single-ABI row for it - the
+# narrow artifact is what the output file name promises.
+#
+# Returns 1 when the page has no row for this ABI; the caller then keeps the first link
+# it saw on any page and says so, rather than failing the source silently.
 _apkcombo_pick_link() { # $1=page html  $2=arch
-	local abi
+	local abi flat link
 	case "$2" in
 		arm64-v8a | arm64) abi=arm64-v8a ;;
 		arm-v7a | arm) abi=armeabi-v7a ;;
 		x86_64) abi=x86_64 ;;
 		x86) abi=x86 ;;
+		all | universal) abi='' ;;
 		*) return 1 ;;
 	esac
-	# Links wrap across newlines in the markup, so flatten first; .*? stops at the first
-	# link after this ABI's header and \K drops the header from the output.
-	tr -d '\n\r' <<<"$1" | grep -oP "<code>\Q${abi}\E</code>.*?\Khttps://apkcombo\.com/d\?u=[A-Za-z0-9_=+/%-]+" | head -1
+	# Links wrap across newlines in the markup, so flatten before matching. .*? stops at
+	# the first link after the matched header, and \K drops the header from the output.
+	flat=$(tr -d '\n\r' <<<"$1")
+	if [ -z "$abi" ]; then
+		printf '%s' "$flat" | grep -oP '<code>[^<]*\+[^<]*</code>.*?\Khttps://apkcombo\.com/d\?u=[A-Za-z0-9_=+/%-]+' | head -1 || true
+		return
+	fi
+	link=$(printf '%s' "$flat" | grep -oP "<code>\Q${abi}\E</code>.*?\Khttps://apkcombo\.com/d\?u=[A-Za-z0-9_=+/%-]+" | head -1) || true
+	if [ -z "$link" ]; then
+		link=$(printf '%s' "$flat" | grep -oP "<code>([^<]*\Q${abi}\E[^<]*\+[^<]*|[^<]*\+[^<]*\Q${abi}\E[^<]*)</code>.*?\Khttps://apkcombo\.com/d\?u=[A-Za-z0-9_=+/%-]+" | head -1) || true
+	fi
+	[ -n "$link" ] && printf '%s\n' "$link"
 }
 dl_apkcombo() {
 	local _url=$1 version=$2 output=$3 arch=${4:-} _dpi=${5:-}
-	local html="" dl_url="" final_url checkin page_url page compact_page
+	local html="" dl_url="" final_url checkin page_url page compact_page any_url=""
 
 	if [ -n "$version" ]; then
 		local sfxs=("apk" "xapk" "apks")
@@ -2286,6 +2302,14 @@ dl_apkcombo() {
 		fi
 
 		dl_url=$(_apkcombo_pick_link "$page" "$arch") || true
+		if [ -z "$dl_url" ]; then
+			# No row labelled for this arch here. Remember any link on the page, but keep
+			# looking: the next suffix page may still have a labelled row, and a labelled
+			# artifact beats an unverified one.
+			local any_link
+			any_link=$(tr -d '\n\r' <<<"$page" | grep -oP 'https://apkcombo\.com/d\?u=[A-Za-z0-9_=+/%-]+' | head -1) || true
+			[ -z "$any_url" ] && any_url="$any_link"
+		fi
 		[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=a href=")https://download\.apkcombo\.com/[^"]+' | head -1) || true
 		[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=a href=")/r2[^"]+' | head -1) || true
 		[ -z "$dl_url" ] && dl_url=$(echo "$compact_page" | grep -oP '"download_url"\s*:\s*"\K[^"]+' | head -1 | sed 's#\\/#/#g') || true
@@ -2297,6 +2321,14 @@ dl_apkcombo() {
 			break
 		fi
 	done
+
+	if [ -z "$dl_url" ] && [ -n "$any_url" ]; then
+		# Same trade-off as APKPure: shipping something beats losing the build, but an
+		# unlabelled link may carry a different ABI than the file name claims, so it has to
+		# be said out loud instead of passing as a normal selection.
+		wpr "APKCombo lists no '$arch' variant for '${__APKCOMBO_PKG__}'; using the first link on the page, which may carry a different ABI"
+		dl_url="$any_url"
+	fi
 
 	[ -z "$dl_url" ] && { epr "Could not find APK link on APKCombo"; return 1; }
 	[[ "$dl_url" != http* ]] && dl_url="https://apkcombo.com${dl_url}"
