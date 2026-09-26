@@ -2112,11 +2112,31 @@ dl_apkpure() {
 		return 1
 	fi
 
-	# The featured link is only correct for the arch APKPure happened to feature; ask
-	# the page for this build's own variant and keep the featured one as the fallback.
-	local variant_url
-	if variant_url=$(_apkpure_pick_link "$html" "$arch" "$download_url") && [ -n "$variant_url" ]; then
+	# The featured link is only correct for the arch APKPure happened to feature, so ask
+	# for this build's own variant and keep the featured one as the fallback.
+	#
+	# The version page is not enough: /downloading/<version> advertises only the single
+	# variant APKPure features for that version (measured on atvTools 1.3.2: one
+	# nc=armeabi-v7a link, no nc=arm64-v8a at all), while the app's /download page lists
+	# every ABI. So ask the version page first, then the all-variants page, and only then
+	# fall back - otherwise an arm64 build silently fetches a 32-bit bundle.
+	local apkpure_page_html="$html" variant_url="" apkpure_allvars=""
+	variant_url=$(_apkpure_pick_link "$apkpure_page_html" "$arch" "$download_url") || true
+	if [ -z "$variant_url" ] && [ -n "$arch" ]; then
+		html=""
+		if _cf_get "${__APKPURE_BASE_URL__}/download" >/dev/null 2>&1; then
+			apkpure_allvars="$html"
+		fi
+		html="$apkpure_page_html"
+		[ -n "$apkpure_allvars" ] && variant_url=$(_apkpure_pick_link "$apkpure_allvars" "$arch" "$download_url") || true
+	fi
+	if [ -n "$variant_url" ]; then
 		download_url="$variant_url"
+	elif [ -n "$arch" ] && ! isoneof "$arch" all universal; then
+		# Deliberately a warning, not a refusal: an app published for fewer ABIs than the
+		# matrix builds is common, and dropping the build would be worse than shipping the
+		# only bundle that exists - but the mismatch has to be visible in the log.
+		wpr "APKPure lists no '$arch' variant for '${__APKPURE_PKG__}'; using the featured link, which may carry a different ABI than '$arch'"
 	fi
 
 	pr "Downloading from APKPure: $download_url"
