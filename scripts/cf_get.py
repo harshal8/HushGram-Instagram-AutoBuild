@@ -127,6 +127,40 @@ def save_cookies(session, cookie_file: str, user_agent: str = ""):
     except Exception:
         pass
 
+def effective_url(resp, fallback: str) -> str:
+    """The URL a response actually came from, after following redirects.
+
+    A Cloudflare clearance belongs to the host that issued the challenge, and
+    solve_challenge() can only solve for the one URL it is given. Downloads that hop
+    across hosts (apkcombo.com -> download.pureapk.com -> apkpure.com/url) get their
+    challenge from the LAST host, so solving for the URL we first requested returns a
+    cookie that can never unlock it. resp.url is where we ended up.
+    """
+    try:
+        u = str(getattr(resp, "url", "") or "")
+    except Exception:
+        u = ""
+    return u or fallback
+
+def html_interstitial(head: bytes, headers) -> bool:
+    """True when a HTTP-200 body is an HTML page rather than the file being fetched.
+
+    download_file() used to trust status == 200 alone, and passed an empty string as
+    the body to is_challenge(), so an interstitial answering 200 was written to the
+    destination as the .apk and reported as a successful download. APKPure's
+    "Redirecting" page does exactly that to one of the browser fingerprints tried, so
+    the caller only caught it later via the archive check, after the junk was saved.
+    """
+    ct = ""
+    try:
+        ct = (headers.get("content-type") or "").lower()
+    except Exception:
+        pass
+    if "text/html" in ct or "application/xml" in ct:
+        return True
+    probe = (head or b"")[:64].lstrip()
+    return probe[:1] == b"<"
+
 def solve_challenge(url: str, session) -> tuple[bool, str]:
     solver_url = os.getenv("CF_SOLVER_URL", "http://localhost:8000").rstrip("/")
     try:
@@ -176,22 +210,40 @@ def download_file(url: str, dest_path: str, referer: str = "", cookie_file: str 
 
             resp = s.get(url, headers=headers, timeout=(10, 300), stream=True, allow_redirects=True)
             if is_challenge(resp.status_code, "", getattr(resp, "headers", None)):
-                solved, ua = solve_challenge(url, s)
+                solved, ua = solve_challenge(effective_url(resp, url), s)
                 if solved:
                     save_cookies(s, cookie_file, ua)
                     resp = s.get(url, headers=headers, timeout=(10, 300), stream=True, allow_redirects=True)
 
             if resp.status_code == 200:
+                rejected = False
+                probing = True
                 with open(temp_dest, "wb") as f:
                     for chunk in resp.iter_content(chunk_size=1048576):
-                        if chunk:
-                            f.write(chunk)
-                if os.path.isfile(temp_dest) and os.path.getsize(temp_dest) > 0:
-                    if os.path.isfile(dest_path):
-                        os.remove(dest_path)
-                    os.rename(temp_dest, dest_path)
-                    save_cookies(s, cookie_file)
-                    return True
+                        if not chunk:
+                            continue
+                        if probing:
+                            probing = False
+                            if html_interstitial(chunk, getattr(resp, "headers", None)):
+                                rejected = True
+                                break
+                        f.write(chunk)
+                try:
+                    resp.close()
+                except Exception:
+                    pass
+                if rejected or not os.path.isfile(temp_dest) or os.path.getsize(temp_dest) == 0:
+                    if os.path.isfile(temp_dest):
+                        try:
+                            os.remove(temp_dest)
+                        except Exception:
+                            pass
+                    continue
+                if os.path.isfile(dest_path):
+                    os.remove(dest_path)
+                os.rename(temp_dest, dest_path)
+                save_cookies(s, cookie_file)
+                return True
         except Exception as e:
             sys.stderr.write(f"[cf_get] Download error with target {imp}: {e}\n")
             if os.path.isfile(temp_dest):
@@ -230,7 +282,7 @@ def main():
 
             resp = s.get(url, timeout=15, allow_redirects=True)
             if is_challenge(resp.status_code, resp.text, getattr(resp, "headers", None)):
-                solved, ua = solve_challenge(url, s)
+                solved, ua = solve_challenge(effective_url(resp, url), s)
                 if solved:
                     save_cookies(s, cookie_file, ua)
                     # Retry with solved clearance cookies + User-Agent
@@ -240,7 +292,7 @@ def main():
                         sys.exit(0)
 
                 # Fallback: query solver's direct /html endpoint
-                solver_html = fetch_from_solver_html(url)
+                solver_html = fetch_from_solver_html(effective_url(resp, url))
                 if solver_html:
                     sys.stdout.write(solver_html)
                     sys.exit(0)
