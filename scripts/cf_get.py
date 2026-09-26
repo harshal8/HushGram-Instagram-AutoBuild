@@ -10,6 +10,7 @@ except ImportError:
     # Exit 2: curl_cffi not installed, caller should fall back to curl/solver
     sys.exit(2)
 
+
 def is_challenge(status_code: int, text: str, headers: dict = None) -> bool:
     if status_code in (403, 503):
         return True
@@ -24,6 +25,7 @@ def is_challenge(status_code: int, text: str, headers: dict = None) -> bool:
         "turnstile",
         "challenges.cloudflare.com",
     ))
+
 
 def get_impersonate_targets() -> list:
     targets = []
@@ -75,6 +77,7 @@ def get_impersonate_targets() -> list:
 
     return targets[:8]
 
+
 def load_cookies(session, cookie_file: str):
     if not cookie_file or not os.path.isfile(cookie_file):
         return
@@ -83,7 +86,8 @@ def load_cookies(session, cookie_file: str):
             for line in f:
                 parts = line.strip().split("\t")
                 if len(parts) >= 7 and not line.startswith("#"):
-                    session.cookies.set(parts[5], parts[6], domain=parts[0], path=parts[2])
+                    session.cookies.set(
+                        parts[5], parts[6], domain=parts[0], path=parts[2])
     except Exception:
         pass
 
@@ -98,6 +102,7 @@ def load_cookies(session, cookie_file: str):
                     session.headers["User-Agent"] = ua
         except Exception:
             pass
+
 
 def save_cookies(session, cookie_file: str, user_agent: str = ""):
     if not cookie_file:
@@ -114,18 +119,21 @@ def save_cookies(session, cookie_file: str, user_agent: str = ""):
                 expires = str(int(getattr(c, "expires", 0) or 0))
                 name = getattr(c, "name", "")
                 val = getattr(c, "value", "")
-                f.write(f"{domain}\tTRUE\t{path}\t{secure}\t{expires}\t{name}\t{val}\n")
+                f.write(
+                    f"{domain}\tTRUE\t{path}\t{secure}\t{expires}\t{name}\t{val}\n")
 
         if user_agent:
             with open(os.path.join(temp_dir, "cf_ua.txt"), "w", encoding="utf-8") as f:
                 f.write(user_agent)
 
-        cookie_header = "; ".join(f"{c.name}={c.value}" for c in session.cookies)
+        cookie_header = "; ".join(
+            f"{c.name}={c.value}" for c in session.cookies)
         if cookie_header:
             with open(os.path.join(temp_dir, "cf_cookies.txt"), "w", encoding="utf-8") as f:
                 f.write(cookie_header)
     except Exception:
         pass
+
 
 def effective_url(resp, fallback: str) -> str:
     """The URL a response actually came from, after following redirects.
@@ -141,6 +149,7 @@ def effective_url(resp, fallback: str) -> str:
     except Exception:
         u = ""
     return u or fallback
+
 
 def html_interstitial(head: bytes, headers) -> bool:
     """True when a HTTP-200 body is an HTML page rather than the file being fetched.
@@ -161,10 +170,13 @@ def html_interstitial(head: bytes, headers) -> bool:
     probe = (head or b"")[:64].lstrip()
     return probe[:1] == b"<"
 
+
 def solve_challenge(url: str, session) -> tuple[bool, str]:
-    solver_url = os.getenv("CF_SOLVER_URL", "http://localhost:8000").rstrip("/")
+    solver_url = os.getenv(
+        "CF_SOLVER_URL", "http://localhost:8000").rstrip("/")
     try:
-        resp = requests.get(f"{solver_url}/cookies", params={"url": url}, timeout=60)
+        resp = requests.get(f"{solver_url}/cookies",
+                            params={"url": url}, timeout=60)
         if resp.status_code == 200:
             data = resp.json()
             cookies = data.get("cookies", {})
@@ -181,19 +193,24 @@ def solve_challenge(url: str, session) -> tuple[bool, str]:
                 session.headers["User-Agent"] = user_agent
             return True, user_agent
     except Exception as e:
-        sys.stderr.write(f"[cf_get] Solver error connecting to {solver_url}: {e}\n")
+        sys.stderr.write(
+            f"[cf_get] Solver error connecting to {solver_url}: {e}\n")
     return False, ""
 
+
 def fetch_from_solver_html(url: str) -> str | None:
-    solver_url = os.getenv("CF_SOLVER_URL", "http://localhost:8000").rstrip("/")
+    solver_url = os.getenv(
+        "CF_SOLVER_URL", "http://localhost:8000").rstrip("/")
     try:
-        resp = requests.get(f"{solver_url}/html", params={"url": url}, timeout=60)
+        resp = requests.get(f"{solver_url}/html",
+                            params={"url": url}, timeout=60)
         if resp.status_code == 200 and resp.text:
             if not is_challenge(resp.status_code, resp.text, getattr(resp, "headers", None)):
                 return resp.text
     except Exception:
         pass
     return None
+
 
 def download_file(url: str, dest_path: str, referer: str = "", cookie_file: str = "") -> bool:
     os.makedirs(os.path.dirname(os.path.abspath(dest_path)), exist_ok=True)
@@ -208,12 +225,14 @@ def download_file(url: str, dest_path: str, referer: str = "", cookie_file: str 
             if referer:
                 headers["Referer"] = referer
 
-            resp = s.get(url, headers=headers, timeout=(10, 300), stream=True, allow_redirects=True)
+            resp = s.get(url, headers=headers, timeout=(
+                10, 300), stream=True, allow_redirects=True)
             if is_challenge(resp.status_code, "", getattr(resp, "headers", None)):
                 solved, ua = solve_challenge(effective_url(resp, url), s)
                 if solved:
                     save_cookies(s, cookie_file, ua)
-                    resp = s.get(url, headers=headers, timeout=(10, 300), stream=True, allow_redirects=True)
+                    resp = s.get(url, headers=headers, timeout=(
+                        10, 300), stream=True, allow_redirects=True)
 
             if resp.status_code == 200:
                 rejected = False
@@ -245,7 +264,8 @@ def download_file(url: str, dest_path: str, referer: str = "", cookie_file: str 
                 save_cookies(s, cookie_file)
                 return True
         except Exception as e:
-            sys.stderr.write(f"[cf_get] Download error with target {imp}: {e}\n")
+            sys.stderr.write(
+                f"[cf_get] Download error with target {imp}: {e}\n")
             if os.path.isfile(temp_dest):
                 try:
                     os.remove(temp_dest)
@@ -254,6 +274,7 @@ def download_file(url: str, dest_path: str, referer: str = "", cookie_file: str 
             continue
 
     return False
+
 
 def main():
     if len(sys.argv) < 2:
@@ -315,6 +336,7 @@ def main():
         sys.exit(0)
 
     sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
