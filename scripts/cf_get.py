@@ -110,24 +110,35 @@ def save_cookies(session, cookie_file: str, user_agent: str = ""):
     try:
         temp_dir = os.path.dirname(os.path.abspath(cookie_file))
         os.makedirs(temp_dir, exist_ok=True)
+        jar = getattr(session.cookies, "jar", None)
         with open(cookie_file, "w", encoding="utf-8") as f:
             f.write("# Netscape HTTP Cookie File\n")
-            for c in session.cookies:
-                domain = getattr(c, "domain", "") or ""
-                path = getattr(c, "path", "/") or "/"
-                secure = "TRUE" if getattr(c, "secure", False) else "FALSE"
-                expires = str(int(getattr(c, "expires", 0) or 0))
-                name = getattr(c, "name", "")
-                val = getattr(c, "value", "")
-                f.write(
-                    f"{domain}\tTRUE\t{path}\t{secure}\t{expires}\t{name}\t{val}\n")
+            if jar is not None:
+                for c in jar:
+                    domain = getattr(c, "domain", "") or ""
+                    path = getattr(c, "path", "/") or "/"
+                    secure = "TRUE" if getattr(c, "secure", False) else "FALSE"
+                    expires = str(int(getattr(c, "expires", 0) or 0))
+                    name = getattr(c, "name", "")
+                    val = getattr(c, "value", "")
+                    f.write(
+                        f"{domain}\tTRUE\t{path}\t{secure}\t{expires}\t{name}\t{val}\n")
+            elif hasattr(session.cookies, "items"):
+                for name, val in session.cookies.items():
+                    f.write(f"\tTRUE\t/\tFALSE\t0\t{name}\t{val}\n")
 
         if user_agent:
             with open(os.path.join(temp_dir, "cf_ua.txt"), "w", encoding="utf-8") as f:
                 f.write(user_agent)
 
-        cookie_header = "; ".join(
-            f"{c.name}={c.value}" for c in session.cookies)
+        if hasattr(session.cookies, "items"):
+            cookie_header = "; ".join(
+                f"{k}={v}" for k, v in session.cookies.items())
+        elif jar is not None:
+            cookie_header = "; ".join(
+                f"{c.name}={c.value}" for c in jar if hasattr(c, "name"))
+        else:
+            cookie_header = ""
         if cookie_header:
             with open(os.path.join(temp_dir, "cf_cookies.txt"), "w", encoding="utf-8") as f:
                 f.write(cookie_header)
@@ -175,19 +186,25 @@ def solve_challenge(url: str, session) -> tuple[bool, str]:
     solver_url = os.getenv(
         "CF_SOLVER_URL", "http://localhost:8000").rstrip("/")
     try:
+        import urllib.parse
         resp = requests.get(f"{solver_url}/cookies",
                             params={"url": url}, timeout=60)
         if resp.status_code == 200:
             data = resp.json()
             cookies = data.get("cookies", {})
             user_agent = data.get("user_agent", "")
+            parsed_host = urllib.parse.urlparse(url).hostname or ""
+            parts = parsed_host.split(".")
+            default_domain = f".{'.'.join(parts[-2:])}" if len(parts) >= 2 else parsed_host
             if isinstance(cookies, dict):
                 for k, v in cookies.items():
-                    session.cookies.set(k, v)
+                    session.cookies.set(k, v, domain=default_domain)
             elif isinstance(cookies, list):
                 for c in cookies:
                     if isinstance(c, dict) and "name" in c and "value" in c:
-                        session.cookies.set(c["name"], c["value"])
+                        c_domain = c.get("domain") or default_domain
+                        c_path = c.get("path", "/")
+                        session.cookies.set(c["name"], c["value"], domain=c_domain, path=c_path)
 
             if user_agent:
                 session.headers["User-Agent"] = user_agent
@@ -228,11 +245,21 @@ def download_file(url: str, dest_path: str, referer: str = "", cookie_file: str 
             resp = s.get(url, headers=headers, timeout=(
                 10, 300), stream=True, allow_redirects=True)
             if is_challenge(resp.status_code, "", getattr(resp, "headers", None)):
-                solved, ua = solve_challenge(effective_url(resp, url), s)
-                if solved:
-                    save_cookies(s, cookie_file, ua)
-                    resp = s.get(url, headers=headers, timeout=(
-                        10, 300), stream=True, allow_redirects=True)
+                # If referer triggered a block/challenge (e.g. cross-origin anti-hotlink on redirects),
+                # try without Referer header.
+                if referer:
+                    resp_no_ref = s.get(url, timeout=(10, 300), stream=True, allow_redirects=True)
+                    if not is_challenge(resp_no_ref.status_code, "", getattr(resp_no_ref, "headers", None)):
+                        resp = resp_no_ref
+
+                if is_challenge(resp.status_code, "", getattr(resp, "headers", None)):
+                    solved, ua = solve_challenge(effective_url(resp, url), s)
+                    if not solved and referer:
+                        solved, ua = solve_challenge(referer, s)
+                    if solved:
+                        save_cookies(s, cookie_file, ua)
+                        resp = s.get(url, timeout=(
+                            10, 300), stream=True, allow_redirects=True)
 
             if resp.status_code == 200:
                 rejected = False

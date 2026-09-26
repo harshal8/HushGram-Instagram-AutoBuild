@@ -1962,7 +1962,7 @@ dl_apkmirror() {
 
 	if ! _cf_cffi_download "$final_url" "$target_dl_dest" "$referer_url"; then
 		wget -nv -O "$target_dl_dest" \
-			--header="User-Agent: ${user_agent:-Mozilla/5.0}" \
+			--header="User-Agent: ${user_agent:-$DEFAULT_UA}" \
 			--referer="$referer_url" \
 			"${cookie_args[@]}" \
 			--timeout=300 \
@@ -2106,6 +2106,7 @@ dl_apkpure() {
 		download_url=$(echo "$html" | grep -oP '<a[^>]+id="download_link"[^>]+href="\Khttps://[^"]+' | head -1) || true
 	[ -z "$download_url" ] && \
 		download_url=$(echo "$html" | grep -oP 'id="download_link"[^>]*href="\Khttps://[^"]+' | head -1) || true
+	[ -n "$download_url" ] && download_url=$(echo "$download_url" | sed 's/&amp;/\&/g')
 
 	if [ -z "$download_url" ]; then
 		epr "Could not find download link on APKPure"
@@ -2164,7 +2165,7 @@ dl_apkpure() {
 		if ! _cf_cffi_download "$download_url" "$bundle" "$dl_page_url"; then
 			rm -f "$bundle" 2>/dev/null
 			curl -L --fail --retry 2 --retry-delay 3 --retry-connrefused -s -S \
-				-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
+				-H "User-Agent: ${user_agent:-$DEFAULT_UA}" \
 				-H "Referer: $dl_page_url" \
 				"${cookie_header[@]}" \
 				--connect-timeout 30 --max-time 300 \
@@ -2181,7 +2182,7 @@ dl_apkpure() {
 		if ! _cf_cffi_download "$download_url" "${output}" "$dl_page_url"; then
 			rm -f "${output}" 2>/dev/null
 			curl -L --fail -s -S \
-				-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
+				-H "User-Agent: ${user_agent:-$DEFAULT_UA}" \
 				-H "Referer: $dl_page_url" \
 				"${cookie_header[@]}" \
 				--connect-timeout 30 --max-time 300 \
@@ -2368,20 +2369,19 @@ PYC
 			fi
 		fi
 		final_url=$(curl -s -o /dev/null -w "%{url_effective}" -L --max-redirs 10 \
-			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
+			-H "User-Agent: ${user_agent:-$DEFAULT_UA}" \
 			-H "Referer: $page_url" "$dl_url") || return 1
 	fi
 
 	pr "Downloading from APKCombo: $final_url"
-	# The chain runs apkcombo.com -> download.pureapk.com -> apkpure.com, and that last
-	# host answers a Cloudflare managed challenge which no browser fingerprint passes on
-	# its own - only the solver-backed path can clear it, and it now solves for the host
-	# that actually challenged. Keep the plain request for networks never challenged.
-	if ! _cf_cffi_download "$final_url" "$output" "$page_url"; then
+	# The redirect chain from apkcombo.com -> download.pureapk.com -> data.winudf.com
+	# forbids cross-origin referers from apkcombo.com (pureapk treats it as hotlinking
+	# and redirects to apkpure.com/url?e=2 which 403s). Send with no referer.
+	if ! _cf_cffi_download "$final_url" "$output" ""; then
 		rm -f "$output" 2>/dev/null
 		curl -L --fail -s -S --connect-timeout 30 --max-time 300 \
-			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
-			-H "Referer: $page_url" "$final_url" -o "$output" || { rm -f "$output"; return 1; }
+			-H "User-Agent: ${user_agent:-$DEFAULT_UA}" \
+			"$final_url" -o "$output" || { rm -f "$output"; return 1; }
 	fi
 	if ! unzip -l "$output" >/dev/null 2>&1; then
 		epr "Downloaded file from APKCombo is not a valid zip"
