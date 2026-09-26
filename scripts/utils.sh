@@ -2148,16 +2148,28 @@ dl_apkpure() {
 
 	local bundle="${output%.apk}.xapk"
 	if [ "$is_bundle" = true ]; then
-		# --fail matters: without it a Cloudflare interstitial (403/503) exits 0, gets
-		# written to the .xapk, and only then trips the zip check, so the log blames a
-		# corrupt archive instead of naming the HTTP status. APKPure challenges are also
-		# frequently transient, hence the retry on the transient statuses curl knows.
-		curl -L --fail --retry 2 --retry-delay 3 --retry-connrefused -s -S \
-			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
-			-H "Referer: $dl_page_url" \
-			"${cookie_header[@]}" \
-			--connect-timeout 30 --max-time 300 \
-			"$download_url" -o "$bundle" || { rm -f "$bundle"; return 1; }
+		# d.apkpure.com sits behind Cloudflare (verified: Server: cloudflare, CF-RAY on the
+		# file endpoint itself). It answers a residential IP with a plain 302 to the CDN and
+		# a datacenter IP with a managed challenge, which is why this source works from a
+		# laptop and 403s on the runner. The solver-backed path is the only one that can
+		# clear it - the solver container shares the runner's egress IP, so the clearance it
+		# earns is valid for the request that follows, provided the user agent travels with
+		# it (cf_get.py applies the solver's UA). Plain curl stays as the fallback for
+		# networks that are never challenged, and for when curl_cffi is not installed.
+		#
+		# --fail on the fallback matters: without it a challenge page exits 0, is written to
+		# the .xapk, and only then trips the zip check, so the log blames a corrupt archive
+		# instead of naming the HTTP status. APKPure challenges are also frequently
+		# transient, hence the retry on the transient statuses curl knows.
+		if ! _cf_cffi_download "$download_url" "$bundle" "$dl_page_url"; then
+			rm -f "$bundle" 2>/dev/null
+			curl -L --fail --retry 2 --retry-delay 3 --retry-connrefused -s -S \
+				-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
+				-H "Referer: $dl_page_url" \
+				"${cookie_header[@]}" \
+				--connect-timeout 30 --max-time 300 \
+				"$download_url" -o "$bundle" || { rm -f "$bundle"; return 1; }
+		fi
 		if ! _apkpure_install_xapk "$bundle" "${output}"; then
 			rm -f "$bundle"
 			return 1
@@ -2166,12 +2178,15 @@ dl_apkpure() {
 			rm -f "$bundle"
 		fi
 	else
-		curl -L --fail -s -S \
-			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
-			-H "Referer: $dl_page_url" \
-			"${cookie_header[@]}" \
-			--connect-timeout 30 --max-time 300 \
-			"$download_url" -o "${output}" || { rm -f "${output}"; return 1; }
+		if ! _cf_cffi_download "$download_url" "${output}" "$dl_page_url"; then
+			rm -f "${output}" 2>/dev/null
+			curl -L --fail -s -S \
+				-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
+				-H "Referer: $dl_page_url" \
+				"${cookie_header[@]}" \
+				--connect-timeout 30 --max-time 300 \
+				"$download_url" -o "${output}" || { rm -f "${output}"; return 1; }
+		fi
 	fi
 }
 
