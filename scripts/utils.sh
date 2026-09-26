@@ -2855,7 +2855,7 @@ patch_apk() {
 
 		local patches_to_run=""
 		if [ -n "$per_bundle_ed" ]; then
-			patches_to_run=$(echo "$per_bundle_ed" | grep -oE "['\"][^'\"]+['\"]" | tr -d "'\"" | tr '\n' ' ' | sed 's/ *$//')
+			patches_to_run=$(_ed_names "$per_bundle_ed" | paste -sd " " -)
 		fi
 		if [ -z "$patches_to_run" ]; then
 			patches_to_run="$RVB_INSTAFEL_DEFAULT_PATCHES"
@@ -4268,6 +4268,24 @@ build_rv() {
 }
 
 list_args() { tr -d '\t\r' <<<"$1" | tr -s ' ' | sed "s/' '/'\\n'/g" | sed 's/" "/"\n"/g' | sed 's/\([^"]\)"\([^"]\)/\1'\''\2/g' | grep -v '^$' || :; }
+# Read back the words join_args produced ("-e 'a' -e 'b c'") as raw patch names, one
+# per line. Needed wherever code wants the NAMES rather than the command words: the
+# Instafel branch of patch_apk used to grep quoted spans out of the same string
+# (grep -oE "['\"][^'\"]+['\"]"), which misreads the backslash-quote escape join_args
+# emits for a name like "Keep the screen's refresh rate", handing Instafel a truncated
+# patch name.
+# Letting the shell re-parse is the only correct reader, since it resolves the escaping
+# instead of trying to second-guess it. Flag words are skipped; -e and -d names are
+# both returned, which is what the previous scrape did and what the Instafel caller
+# has always passed on.
+_ed_names() { # $1=ed string as join_args built it
+	local IFS=$' \t\n' w
+	eval "set -- $1" || return 1
+	for w in "$@"; do
+		case "$w" in -e | -d) continue ;; esac
+		printf '%s\n' "$w"
+	done
+}
 # Turn a group string ("'A' 'B'", the shape included-patches/excluded-patches hold)
 # into "<flag> '<name>'" words. This is the one place patch names get shell-quoted:
 # the result is interpolated into a command string that build_rv evals, so a name
