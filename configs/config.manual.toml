@@ -6,8 +6,21 @@ patches-source = "SysAdminDoc/hushfeed"
 brand = "hushfeed"
 inclusive-patches = true
 excluded-patches = "'Remove unused language packs'"
-patcher-args = "--continue-on-error"
+arch = "all"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly"
 uptodown-dlurl = "https://tiktok.en.uptodown.com/android"
 apkpure-dlurl = "https://apkpure.com/tiktok-app/com.zhiliaoapp.musically"
 apkcombo-dlurl = "https://apkcombo.com/tiktok-videos-shop-live/com.zhiliaoapp.musically"
+
+[Discord-rain]
+enabled = true
+patches-source = "raincord/rainXposed"
+patches-source-host = "codeberg"
+patches-version = "stable"
+brand = "rain"
+pkg-name = "com.discord"
+app-name = "Discord"
+cli-source = "7723mod/NPatch"
+patcher-args = "-l 0"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/discord/discord-chat-for-gamers"
+apkcombo-dlurl = "https://apkcombo.com/discord/com.discord"
