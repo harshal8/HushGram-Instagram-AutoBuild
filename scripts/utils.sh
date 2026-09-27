@@ -3646,12 +3646,19 @@ build_rv() {
 		else
 			incl_exc=("$exc_str")
 		fi
+		# Strip the wrapper quotes off the exclusion names before matching them against
+		# the listing, which carries them bare. toml_get hands config names back
+		# DOUBLE-quoted (it rewrites ' to "), so the double-quote pair has to be the one
+		# that really works: inside single quotes \$ is a literal dollar to sed, not the
+		# end-of-line anchor, and a pattern still carrying its trailing quote matches no
+		# listing line at all - the exclusion then silently stays in the expansion and
+		# reaches the CLI as both -e and -d.
 		local incl_bi incl_names incl_drop incl_out incl_join="" incl_n
 		for ((incl_bi=0; incl_bi<n_bundles; incl_bi++)); do
 			if ! incl_names=$(_all_patch_names "$cli_jar" "${p_jars_arr[$incl_bi]}" "$pkg_name" "${args[cli_source]:-}"); then
 				abort "ERROR: inclusive-patches for '$table' needs a CLI that lists its patches; '${args[cli_source]:-}' gave none. Use included-patches for this source."
 			fi
-			incl_drop=$(list_args "${incl_exc[$incl_bi]:-${incl_exc[0]:-}}" | sed -e "s/^'//" -e "s/'\$//" -e 's/^"//' -e 's/"\$//')
+			incl_drop=$(list_args "${incl_exc[$incl_bi]:-${incl_exc[0]:-}}" | sed -e "s/^'//" -e "s/'\$//" -e 's/^"//' -e 's/"$//')
 			incl_out=$(printf '%s\n' "$incl_names" | grep -vxF -f <(printf '%s\n' "$incl_drop") | _group_patch_names)
 			incl_out="${incl_out%"${incl_out##*[![:space:]]}"}"
 			if [ -z "$incl_out" ]; then
