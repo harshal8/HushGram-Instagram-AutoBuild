@@ -1,12 +1,8 @@
-[ProtonMail-SatanMerde]
+[IbisPaintX-hoodles]
 enabled = true
-pkg-name = "ch.protonmail.android"
-app-name = "Proton Mail"
-patches-source = "SatanMerde/D-moniakPatches"
-brand = "SatanMerde"
-arch = "all"
-apkmirror-dlurl = "https://apkmirror.com/apk/proton-technologies-ag/protonmail-encrypted-email"
-uptodown-dlurl = "https://protonmail.en.uptodown.com/android"
-apkpure-dlurl = "https://apkpure.com/proton-mail-encrypted-email/ch.protonmail.android"
-apkcombo-dlurl = "https://apkcombo.com/proton-mail/ch.protonmail.android"
-archive-dlurl = "https://archive.org/download/geologically/apks/ch.protonmail.android"
+pkg-name = "jp.ne.ibis.ibispaintx.app"
+app-name = "Ibis Paint X"
+uptodown-dlurl = "https://ibispaint-x.en.uptodown.com/android"
+apkcombo-dlurl = "https://apkcombo.com/ibis-paint-x/jp.ne.ibis.ibispaintx.app"
+patches-source = "hoo-dles/morphe-patches"
+brand = "hoodles"
