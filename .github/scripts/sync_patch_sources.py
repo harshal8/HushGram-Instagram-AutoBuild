@@ -16,6 +16,7 @@ import sys
 import glob
 import json
 import re
+import time
 import urllib.request
 import urllib.parse
 
@@ -99,6 +100,36 @@ def discover_active_sources(patches_dir=PATCHES_DIR):
     return active_sources
 
 
+def _fetch_releases_with_retry(req, repo, forge_name, blocked_codes, timeout=25, max_retries=3):
+    last_err = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return json.loads(resp.read().decode("utf-8")), False
+        except urllib.error.HTTPError as e:
+            if e.code in blocked_codes:
+                if forge_name == "GitHub" and e.code == 403:
+                    if e.headers.get("X-RateLimit-Remaining") == "0":
+                        print(
+                            f"Warning: GitHub API rate limit exceeded for {repo}", file=sys.stderr)
+                        return None, False
+                return None, True
+            if e.code in (429, 500, 502, 503, 504) and attempt < max_retries:
+                time.sleep(2 * attempt)
+                continue
+            print(
+                f"Warning: {forge_name} API error {e.code} for {repo}", file=sys.stderr)
+            return None, False
+        except Exception as e:
+            last_err = e
+            if attempt < max_retries:
+                time.sleep(2 * attempt)
+                continue
+    print(
+        f"Warning: Failed to fetch {forge_name} releases for {repo}: {last_err}", file=sys.stderr)
+    return None, False
+
+
 def fetch_github_releases(repo, token=None):
     url = f"https://api.github.com/repos/{repo}/releases?per_page=100"
     headers = {
@@ -109,67 +140,46 @@ def fetch_github_releases(repo, token=None):
         headers["Authorization"] = f"token {token}"
 
     req = urllib.request.Request(url, headers=headers)
-    try:
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            return json.loads(resp.read().decode("utf-8")), False
-    except urllib.error.HTTPError as e:
-        if e.code in (403, 404, 451):
-            return None, True
-        print(
-            f"Warning: GitHub API error {e.code} for {repo}", file=sys.stderr)
-        return None, False
-    except Exception as e:
-        print(
-            f"Warning: Failed to fetch releases for {repo}: {e}", file=sys.stderr)
-        return None, False
+    return _fetch_releases_with_retry(
+        req, repo, "GitHub", blocked_codes=(403, 404, 451), timeout=25, max_retries=3
+    )
 
 
 def fetch_gitlab_releases(repo):
     encoded = urllib.parse.quote(repo, safe="")
     url = f"https://gitlab.com/api/v4/projects/{encoded}/releases?per_page=100"
-    headers = {"User-Agent": "Mozilla/5.0 (rvb-patch-sync)"}
+    headers = {
+        "User-Agent": "Mozilla/5.0 (rvb-patch-sync)",
+        "Accept": "application/json"
+    }
     req = urllib.request.Request(url, headers=headers)
-    try:
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            return json.loads(resp.read().decode("utf-8")), False
-    except urllib.error.HTTPError as e:
-        if e.code in (403, 404):
-            return None, True
-        print(
-            f"Warning: GitLab API error {e.code} for {repo}", file=sys.stderr)
-        return None, False
-    except Exception as e:
-        print(
-            f"Warning: Failed to fetch GitLab releases for {repo}: {e}", file=sys.stderr)
-        return None, False
+    return _fetch_releases_with_retry(
+        req, repo, "GitLab", blocked_codes=(403, 404), timeout=25, max_retries=3
+    )
 
 
-def fetch_codeberg_releases(repo):
+def fetch_codeberg_releases(repo, token=None):
     """Release list from codeberg.org, which runs Forgejo (Gitea API).
 
     The response shape matches GitHub's (tag_name / prerelease / published_at), so
     parse_releases reads it on that branch. Two differences that matter: the page
     size parameter is `limit` (`per_page` is ignored, and the default page is only
     30 items), and `limit=50` is that API's maximum.
+    Codeberg's community instance can be slow on cold queries, so use a higher
+    timeout and retry on transient failures.
     """
     url = f"https://codeberg.org/api/v1/repos/{repo}/releases?limit=50"
-    headers = {"User-Agent": "Mozilla/5.0 (rvb-patch-sync)",
-               "Accept": "application/json"}
+    headers = {
+        "User-Agent": "Mozilla/5.0 (rvb-patch-sync)",
+        "Accept": "application/json"
+    }
+    if token:
+        headers["Authorization"] = f"token {token}"
+
     req = urllib.request.Request(url, headers=headers)
-    try:
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            return json.loads(resp.read().decode("utf-8")), False
-    except urllib.error.HTTPError as e:
-        # 404 deleted or private, 403 access refused, 451 taken down
-        if e.code in (403, 404, 451):
-            return None, True
-        print(
-            f"Warning: Codeberg API error {e.code} for {repo}", file=sys.stderr)
-        return None, False
-    except Exception as e:
-        print(
-            f"Warning: Failed to fetch Codeberg releases for {repo}: {e}", file=sys.stderr)
-        return None, False
+    return _fetch_releases_with_retry(
+        req, repo, "Codeberg", blocked_codes=(403, 404, 451), timeout=45, max_retries=3
+    )
 
 
 def parse_releases(releases, host):
@@ -223,6 +233,7 @@ def parse_releases(releases, host):
 
 def main():
     token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    codeberg_token = os.environ.get("CODEBERG_TOKEN")
     active_sources = discover_active_sources()
     print(
         f"Discovered {len(active_sources)} active patch source(s) across TOML configs.")
@@ -249,7 +260,7 @@ def main():
         if host == "gitlab":
             releases, blocked = fetch_gitlab_releases(repo)
         elif host == "codeberg":
-            releases, blocked = fetch_codeberg_releases(repo)
+            releases, blocked = fetch_codeberg_releases(repo, codeberg_token)
         else:
             releases, blocked = fetch_github_releases(repo, token)
 

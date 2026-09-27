@@ -735,7 +735,14 @@ source_release_req() {
 	local host=${1,,} url=$2 out=${3:--}
 	case "$host" in
 		github) gh_req "$url" "$out" ;;
-		codeberg | gitlab)
+		codeberg)
+			if [ -n "${CODEBERG_TOKEN-}" ]; then
+				_req "$url" "$out" -H "Accept: application/json" -H "Authorization: token ${CODEBERG_TOKEN}"
+			else
+				_req "$url" "$out" -H "Accept: application/json"
+			fi
+			;;
+		gitlab)
 			_req "$url" "$out" -H "Accept: application/json"
 			;;
 		*) req "$url" "$out" ;;

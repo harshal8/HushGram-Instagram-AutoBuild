@@ -242,8 +242,8 @@ def evaluate_repo_channel(repo_lower, repo, tag, channel, new_info, hashes, acti
             # GitHub API call for a repository that only exists on Codeberg.
             api_url = f"https://codeberg.org/api/v1/repos/{repo}/releases/tags/{tag}"
             req = urllib.request.Request(
-                api_url, headers={'Accept': 'application/json'})
-            with urllib.request.urlopen(req) as response:
+                api_url, headers={'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0 (rvb-patch-sync)'})
+            with urllib.request.urlopen(req, timeout=45) as response:
                 release_data = json.loads(response.read().decode('utf-8'))
 
             download_url = None
@@ -260,7 +260,9 @@ def evaluate_repo_channel(repo_lower, repo, tag, channel, new_info, hashes, acti
                 raise Exception(
                     f"No .mpp, .rvp, or .jar asset found in Codeberg release for {repo}@{tag}")
 
-            with urllib.request.urlopen(download_url) as dl_resp, open(file_name, 'wb') as out_file:
+            dl_req = urllib.request.Request(
+                download_url, headers={'User-Agent': 'Mozilla/5.0 (rvb-patch-sync)'})
+            with urllib.request.urlopen(dl_req, timeout=45) as dl_resp, open(file_name, 'wb') as out_file:
                 out_file.write(dl_resp.read())
         else:
             # Download asset using gh cli

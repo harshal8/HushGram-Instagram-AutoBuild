@@ -21,5 +21,6 @@ config.beta.json
 /state/
 active*.json
 tags_*.json
+changed_sources.json
 
 .updated_pointers

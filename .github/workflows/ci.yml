@@ -44,6 +44,7 @@ jobs:
         id: sync_patch_sources
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CODEBERG_TOKEN: ${{ secrets.CODEBERG_TOKEN }}
         run: python3 .github/scripts/sync_patch_sources.py
 
       - name: Fetch App Versions
