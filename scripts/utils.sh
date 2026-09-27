@@ -15,7 +15,7 @@ fi
 if [ "${GITHUB_TOKEN-}" ]; then GH_HEADER="Authorization: token ${GITHUB_TOKEN}"; else GH_HEADER=; fi
 NEXT_VER_CODE=${NEXT_VER_CODE:-$(date +'%Y%m%d')}
 OS=$(uname -o)
-DEFAULT_UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36"
+DEFAULT_UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36"
 
 # Signing identity — overridable from CI (secrets written to these files/vars
 # by build.yml); defaults preserve the upstream keystore in the repo.
@@ -421,7 +421,7 @@ _get_prebuilts() {
 	# so its channel keyword still resolves through the live listing below.
 	channel=$(_release_channel_of "$ver")
 	if [ "$channel" = beta ]; then
-		resp=$({ if [ "$host" = github ]; then gh_req "$rv_rel" -; else req "$rv_rel" -; fi; }) || return 1
+		resp=$(source_release_req "$host" "$rv_rel" -) || return 1
 		release=$(source_release_pick_from_list "$host" beta <<<"$resp") || true
 		ver=$(jq -r '.tag_name' <<<"$release") || true
 		if [ -z "$ver" ] || [ "$ver" = "null" ]; then
@@ -430,11 +430,11 @@ _get_prebuilts() {
 		fi
 	fi
 	if [ "$channel" = stable ]; then
-		resp=$({ if [ "$host" = github ]; then gh_req "$rv_rel" -; else req "$rv_rel" -; fi; }) || return 1
+		resp=$(source_release_req "$host" "$rv_rel" -) || return 1
 		release=$(source_release_pick_from_list "$host" stable <<<"$resp") || return 1
 	elif [ -z "${release:-}" ]; then
 		rv_rel=$(source_release_tag_api "$host" "$src" "$ver") || return 1
-		release=$({ if [ "$host" = github ]; then gh_req "$rv_rel" -; else req "$rv_rel" -; fi; }) || return 1
+		release=$(source_release_req "$host" "$rv_rel" -) || return 1
 	fi
 	tag_name=$(jq -r '.tag_name' <<<"$release") || return 1
 	name_ver=$tag_name
@@ -548,7 +548,7 @@ _get_prebuilts() {
 			fi
 		fi
 		if [ "$channel" = beta ]; then
-			resp=$({ if [ "$host" = github ]; then gh_req "$rv_rel" -; else req "$rv_rel" -; fi; }) || return 1
+			resp=$(source_release_req "$host" "$rv_rel" -) || return 1
 			release=$(source_release_pick_from_list "$host" beta <<<"$resp") || true
 			ver=$(jq -r '.tag_name' <<<"$release") || true
 			if [ -z "$ver" ] || [ "$ver" = "null" ]; then
@@ -557,11 +557,11 @@ _get_prebuilts() {
 			fi
 		fi
 		if [ "$channel" = stable ]; then
-			resp=$({ if [ "$host" = github ]; then gh_req "$rv_rel" -; else req "$rv_rel" -; fi; }) || return 1
+			resp=$(source_release_req "$host" "$rv_rel" -) || return 1
 			release=$(source_release_pick_from_list "$host" stable <<<"$resp") || return 1
 		elif [ -z "${release:-}" ]; then
 			rv_rel=$(source_release_tag_api "$host" "$src" "$ver") || return 1
-			release=$({ if [ "$host" = github ]; then gh_req "$rv_rel" -; else req "$rv_rel" -; fi; }) || return 1
+			release=$(source_release_req "$host" "$rv_rel" -) || return 1
 		fi
 		tag_name=$(jq -r '.tag_name' <<<"$release") || return 1
 		name_ver=$tag_name
@@ -731,6 +731,16 @@ _req() {
 }
 req() { _req "$1" "$2" -H "User-Agent: ${DEFAULT_UA}"; }
 gh_req() { _req "$1" "$2" -H "$GH_HEADER"; }
+source_release_req() {
+	local host=${1,,} url=$2 out=${3:--}
+	case "$host" in
+		github) gh_req "$url" "$out" ;;
+		codeberg | gitlab)
+			_req "$url" "$out" -H "Accept: application/json"
+			;;
+		*) req "$url" "$out" ;;
+	esac
+}
 gh_dl() {
 	if [ ! -f "$1" ]; then
 		pr "Getting '$1' from '$2'"
