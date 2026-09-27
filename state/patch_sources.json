@@ -72,8 +72,8 @@
     "stable_date": "2026-09-01T16:37:52.954Z"
   },
   "PrathxmOp/Prathxm-Patches": {
-    "beta": "v1.13.1-dev.4",
-    "beta_date": "2026-08-24T16:16:24Z",
+    "beta": "v1.13.2-dev.1",
+    "beta_date": "2026-09-27T16:37:53Z",
     "blocked": false,
     "host": "github",
     "repo": "PrathxmOp/Prathxm-Patches",
@@ -207,8 +207,8 @@
     "stable_date": "2026-07-18T18:58:06Z"
   },
   "byehi98/okish-morphe-patches": {
-    "beta": "v1.33.1-dev.2",
-    "beta_date": "2026-09-27T09:30:47Z",
+    "beta": "v1.34.0-dev.1",
+    "beta_date": "2026-09-27T16:49:22Z",
     "blocked": false,
     "host": "github",
     "repo": "byehi98/okish-morphe-patches",
@@ -225,8 +225,8 @@
     "stable_date": "2026-08-31T02:40:04Z"
   },
   "dh6k/morphe-patches": {
-    "beta": "v1.8.0-dev.12",
-    "beta_date": "2026-09-27T14:09:37Z",
+    "beta": "v1.7.0-dev.7",
+    "beta_date": "2026-09-23T17:27:21Z",
     "blocked": false,
     "host": "github",
     "repo": "dh6k/morphe-patches",
@@ -261,8 +261,8 @@
     "stable_date": "2026-09-22T01:01:04Z"
   },
   "franticg33k/morphe-patches": {
-    "beta": "v1.3.10-dev.7",
-    "beta_date": "2026-09-27T08:21:46Z",
+    "beta": "v1.4.0-dev.2",
+    "beta_date": "2026-09-27T16:47:18Z",
     "blocked": false,
     "host": "github",
     "repo": "franticg33k/morphe-patches",
