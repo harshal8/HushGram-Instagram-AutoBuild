@@ -206,17 +206,17 @@
   "hxreborn/hxreborn-tiktok-patches": {
     "beta": {},
     "stable": {
-      "com.zhiliaoapp.musically": "e5fa4e9f08a571bff06eea6ebf828e72",
+      "com.zhiliaoapp.musically": "ab35fa0298769c3032ac28b317eb9c43",
       "shared": "261a0b0cd5b11f65cbae870040a7ef37"
     }
   },
   "hxreborn/morphe-patches": {
     "beta": {},
     "stable": {
-      "ch.protonmail.android": "8e22eae41444f2204c6a1a218f083407",
-      "com.michaldrabik.showly2": "265fe5743eee2f2ec1acc3bb39dae392",
-      "dev.vodik7.atvtools": "33a1b98533e9c318850a6bb548a48109",
-      "shared": "96f30e0216e43bb53f77bdb4e44c28ff"
+      "ch.protonmail.android": "d84088db51e0b3de1b46083e66ec2bb3",
+      "com.michaldrabik.showly2": "cbdb92b7dc12e32e923a7e297dc92d86",
+      "dev.vodik7.atvtools": "e942ddab7d2d404a9965f7ac808f4dab",
+      "shared": "484b46df7ca7072c30720d237119f850"
     }
   },
   "icysymmetra/tiktok-patches-for-morphe": {

@@ -942,6 +942,16 @@
     "apkpure-dlurl": "https://apkpure.com/xodo-pdf-reader-editor/com.xodo.pdf.reader",
     "apkcombo-dlurl": "https://apkcombo.com/pdf-reader-editor-xodo/com.xodo.pdf.reader"
   },
+  "IbisPaintX-hoodles": {
+    "patches-source": "hoo-dles/morphe-patches",
+    "brand": "hoodles",
+    "enabled": false,
+    "pkg-name": "jp.ne.ibis.ibispaintx.app",
+    "app-name": "Ibis Paint X",
+    "arch": "arm64-v8a",
+    "uptodown-dlurl": "https://ibispaint-x.en.uptodown.com/android",
+    "apkcombo-dlurl": "https://apkcombo.com/ibis-paint-x/jp.ne.ibis.ibispaintx.app"
+  },
   "Rumble-hooman": {
     "patches-source": "arandomhooman/hoomans-morphe-patches",
     "brand": "hooman",
@@ -1601,7 +1611,7 @@
     "archive-dlurl": "https://archive.org/download/geologically/apks/ch.protonmail.android"
   },
   "ProtonMail-SatanMerde": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "ch.protonmail.android",
     "app-name": "Proton Mail",
     "patches-source": "SatanMerde/D-moniakPatches",
@@ -1613,7 +1623,7 @@
     "archive-dlurl": "https://archive.org/download/geologically/apks/ch.protonmail.android"
   },
   "ProtonMail-dhrubonai": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "ch.protonmail.android",
     "app-name": "Proton Mail",
     "patches-source": "dhrubonai/morphe-patches",
@@ -1917,7 +1927,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/tiktok-videos-shop-live/com.zhiliaoapp.musically"
   },
   "TikTok-hxreborn": {
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "com.zhiliaoapp.musically",
     "app-name": "TikTok",
     "patches-source": "hxreborn/hxreborn-tiktok-patches",
