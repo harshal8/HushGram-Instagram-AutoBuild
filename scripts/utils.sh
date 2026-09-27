@@ -2296,6 +2296,28 @@ _apkcombo_pick_link() { # $1=page html  $2=arch
 	fi
 	[ -n "$hit" ] && printf '%s\n' "$hit"
 }
+# What extension the bytes APKCombo is about to serve really have.
+#
+# The storage object key and the delivered file disagree for split bundles: the bucket
+# holds "<sha>.apks" while the presigned URL overrides the response with
+#
+#   response-content-disposition=attachment; filename="<App>_<ver>_apkcombo.com.xapk"
+#   response-content-type=application/xapk-package-archive
+#
+# Naming the sidecar from the key labelled those bytes ".apks", so the identical
+# artifact arriving from APKPure (…-arm-v7a.xapk) and from APKCombo (…-arm-v7a.apks)
+# took two cache entries and two release assets, and the file name misdescribed its
+# content. The disposition is the server's own statement of what the file is, so it
+# wins; the key remains the fallback for link forms that carry no disposition. Those
+# values arrive percent-encoded twice over, hence two rounds of decoding before matching.
+_apkcombo_served_ext() { # $@=urls to inspect
+	local served
+	served=$(printf '%s\n' "$@" | sed 's/%25/%/g; s/%22/"/g; s/%3D/=/g; s/%3B/;/g')
+	grep -qiE 'filename=[^&;"]*\.xapk' <<<"$served" && { echo xapk; return; }
+	grep -qiE 'filename=[^&;"]*\.apks' <<<"$served" && { echo apks; return; }
+	grep -qi 'xapk' <<<"$served" && { echo xapk; return; }
+	echo apks
+}
 dl_apkcombo() {
 	local _url=$1 version=$2 output=$3 arch=${4:-} _dpi=${5:-}
 	local html="" dl_url="" final_url checkin page_url page compact_page any_url=""
@@ -2414,8 +2436,8 @@ PYC
 		return 1
 	fi
 	if echo "$final_url$dl_url" | grep -qi 'xapk\|\.apks'; then
-		local ext="xapk"
-		echo "$final_url$dl_url" | grep -qi '\.apks' && ext="apks"
+		local ext
+		ext=$(_apkcombo_served_ext "$final_url" "$dl_url")
 		if ! _apkpure_install_xapk "$output" "${output}.extracted"; then
 			rm -f "$output" "${output}.extracted"
 			return 1
