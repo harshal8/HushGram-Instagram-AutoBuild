@@ -231,12 +231,20 @@ produces cleaner patched APKs and avoids caching two copies of the same app.
 - **Scope**: automatic — no per-app config. Applies per build when the download
   is a bundle; plain `.apk` stocks and all other patcher tools (revanced family,
   Xposed, instafel) are untouched.
-- **Cache**: the bundle is stored once as `${pkg}-${version}-all.xapk` (or
-  `.apkm`/`.apks`). For `arch = all`/`auto` it goes to morphe whole; for
-  `arm64-v8a`/`arm-v7a`/`x86`/`x86_64` the engine strips only the *other ABIs'*
-  `config.*` members (a `zip -d`, no merge, no re-sign) and passes the trimmed
-  bundle. Switching an app from `all` to `both`/`arm64-v8a` reuses the cached
-  bundle rather than re-downloading.
+- **Cache**: a bundle is stored under the ABIs it actually carries, read off its
+  contents: `${pkg}-${version}-${versionCode}-all.xapk` when it holds every arm ABI or
+  none, and `${pkg}-${version}-${versionCode}-arm64-v8a.xapk` when it holds only that
+  one (`.apkm`/`.apks` likewise). A universal bundle is shared: for `arch = all`/`auto`
+  it goes to morphe whole, and for `arm64-v8a`/`arm-v7a`/`x86`/`x86_64` the engine
+  strips only the *other ABIs'* `config.*` members (a `zip -d`, no merge, no re-sign)
+  and passes the trimmed bundle, so switching an app from `all` to `both`/`arm64-v8a`
+  reuses the cached bundle rather than re-downloading.
+  That sharing rested on a premise that is not always true: APKPure and APKCombo publish
+  *per-arch* bundles (atvTools 1.3.2 arm64 = base + `config.arm64_v8a` +
+  `config.xxxhdpi`, nothing else). Stored as `-all`, such a bundle was adopted by the
+  `arm-v7a` build, which trimmed away the only ABI split it had and then failed in the
+  patcher for want of `lib/armeabi-v7a`. Keys now come from the artifact, so a build can
+  only find a bundle that is able to serve it.
 - **Module stock**: `include-stock = merged` merges from the cached bundle on
   demand (throwaway, never cached); `split` reads the bundle directly; `disable`
   needs nothing. All three work with passthrough active.

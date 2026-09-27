@@ -981,9 +981,10 @@ _cache_probe_apk() {
 	[ -f "$stock_apk" ] && check_apk="$stock_apk"
 	[ -z "$check_apk" ] && [ -f "$all_apk" ] && check_apk="$all_apk"
 	if [ -z "$check_apk" ] && [ "${_CACHE_BUNDLE_OK:-false}" = true ]; then
-		local bx
+		local bx bpath
 		for bx in xapk apkm apks; do
-			local bpath="${apk_cache_dir}/${pkg_name}-${ver}${vc_infix}-all.${bx}"
+			bpath="${apk_cache_dir}/${pkg_name}-${ver}${vc_infix}-${arch}.${bx}"
+			[ -f "$bpath" ] || bpath="${apk_cache_dir}/${pkg_name}-${ver}${vc_infix}-all.${bx}"
 			if [ -f "$bpath" ]; then check_apk="$bpath"; all_apk="$bpath"; break; fi
 		done
 	fi
@@ -1002,6 +1003,9 @@ _cache_touch_apks() {
 	local f
 	for f in "${apk_cache_dir}/${pkg_name}-${ver}${vc_infix}-${arch}.apk" \
 		"${apk_cache_dir}/${pkg_name}-${ver}${vc_infix}-all.apk" \
+		"${apk_cache_dir}/${pkg_name}-${ver}${vc_infix}-${arch}.xapk" \
+		"${apk_cache_dir}/${pkg_name}-${ver}${vc_infix}-${arch}.apkm" \
+		"${apk_cache_dir}/${pkg_name}-${ver}${vc_infix}-${arch}.apks" \
 		"${apk_cache_dir}/${pkg_name}-${ver}${vc_infix}-all.xapk" \
 		"${apk_cache_dir}/${pkg_name}-${ver}${vc_infix}-all.apkm" \
 		"${apk_cache_dir}/${pkg_name}-${ver}${vc_infix}-all.apks"; do
@@ -3381,18 +3385,67 @@ verify_downloaded_apk() {
 	return 0
 }
 
-check_is_universal() {
-	local stock_apk=$1
-	if [ -f "${stock_apk%.apk}.apkm" ]; then
-		if ! unzip -l "${stock_apk%.apk}.apkm" 2>/dev/null | grep -iq "arm64\|armeabi\|x86\|x86_64" || (unzip -l "${stock_apk%.apk}.apkm" 2>/dev/null | grep -iq "arm64" && unzip -l "${stock_apk%.apk}.apkm" 2>/dev/null | grep -iq "armeabi"); then
-			return 0
-		fi
-	else
-		if ! unzip -l "$stock_apk" 2>/dev/null | grep -q "lib/" || (unzip -l "$stock_apk" 2>/dev/null | grep -q "lib/arm64-v8a/" && unzip -l "$stock_apk" 2>/dev/null | grep -q "lib/armeabi-v7a/"); then
-			return 0
-		fi
-	fi
-	return 1
+# Which ABIs an artifact actually carries, read off its contents.
+#
+# Prints one build-arch token per line (arm64-v8a, arm-v7a, x86_64, x86), nothing when
+# the artifact has no ABI-specific content, and fails when the file is not a zip.
+# Two shapes have to be understood, and only the first ever was:
+#   merged apk               -> native libraries at lib/<abi>/
+#   bundle (xapk/apkm/apks)  -> nested config.<abi>.apk splits. A listing of one has no
+#                          "lib/" entry at all, so grepping for lib/ concludes "nothing
+#                          arch specific here" about a file whose entire purpose is being
+#                          arch specific - which is how every XAPK came to be called
+#                          universal and cached under the shared -all key.
+_artifact_abis() { # $1=apk or bundle
+	local names
+	# The status of unzip itself has to be checked: piping it into awk makes the
+	# pipeline succeed on empty input, which would read a corrupt or truncated download
+	# as "no ABI content" and therefore "universal" - caching junk under the key every
+	# arch is allowed to adopt.
+	names=$(unzip -l "$1" 2>/dev/null) || return 1
+	printf '%s\n' "$names" | awk 'NF >= 4 { p = $4; for (i = 5; i <= NF; i++) p = p " " $i; print p }' | {
+		while IFS= read -r n; do
+			case "$n" in
+				lib/arm64-v8a/*) echo arm64-v8a ;;
+				lib/armeabi-v7a/*) echo arm-v7a ;;
+				lib/x86_64/*) echo x86_64 ;;
+				lib/x86/*) echo x86 ;;
+				*config.arm64_v8a.apk) echo arm64-v8a ;;
+				*config.armeabi_v7a.apk | *config.armeabi-v7a.apk | *config.armeabi.apk) echo arm-v7a ;;
+				*config.x86_64.apk) echo x86_64 ;;
+				*config.x86.apk) echo x86 ;;
+			esac
+		done
+		# LC_ALL=C: plain sort collates '-' before digits differently per locale, which
+		# would make this output (and so the key derived from it) machine-dependent.
+	} | LC_ALL=C sort -u | grep . || :
+}
+
+# True when the artifact may be cached under the shared "-all" key: it carries no
+# ABI-specific content at all, or it carries both arm ABIs (the rule as it was, kept).
+check_is_universal() { # $1=apk or bundle
+	local abis
+	abis=$(_artifact_abis "$1") || return 1
+	[ -z "$abis" ] && return 0
+	printf '%s\n' "$abis" | grep -qx arm64-v8a && printf '%s\n' "$abis" | grep -qx arm-v7a
+}
+
+# The arch token an artifact belongs under in a cache file name.
+#
+# Derived from the bytes, not from what the build asked for: a bundle carrying a single
+# ABI is keyed by that ABI even when it was fetched for another arch, so a mis-served
+# download lands under a name that cannot be mistaken for somebody else's artifact and
+# the mismatch is logged instead of silently adopted by the next build. "all" when
+# check_is_universal holds; the requested arch when the artifact names several ABIs but
+# not the pair that makes it universal; the requested arch for a file that cannot be
+# read at all, which is the conservative key (it can only ever be served to itself).
+_cache_arch_key() { # $1=artifact  $2=arch_f this build asked for
+	local abis n
+	abis=$(_artifact_abis "$1") || { printf '%s' "$2"; return 0; }
+	check_is_universal "$1" && { printf 'all'; return 0; }
+	n=$(printf '%s\n' "$abis" | grep -c .)
+	[ "$n" = 1 ] && { printf '%s' "$abis"; return 0; }
+	printf '%s' "$2"
 }
 
 # Recorded version for one app from state/app_versions.json. $1 = build table
@@ -3867,31 +3920,28 @@ build_rv() {
 			# No pre-versionCode name is tried here (see _cache_probe_apk for why): if
 			# the modern names miss, this arch re-downloads and lands under the key that
 			# states the code it was checked against.
+			# Bundle lookup: this arch's own key first, then the shared "-all" key, which
+			# now only ever holds a bundle verified to carry every ABI (or none). Nothing here
+			# re-derives the arch from the file to decide whether the name was honest, because
+			# the name is written from the file in the first place (_cache_arch_key).
+			#
+			# Before that, an arm64 bundle sat in <pkg>-<ver>-<vc>-all.xapk, this arm-v7a build
+			# adopted it, the merge dropped the arm64 split as not the target arch, and the
+			# patcher failed on the resulting library-less APK.
 			local cached_bundle_apk=""
 			if [ "$_CACHE_BUNDLE_OK" = true ]; then
-				local bx
+				local bx _bp
 				for bx in xapk apkm apks; do
-					if [ -f "${apk_cache_dir}/${pkg_name}-${version_f}${vc_infix}-all.${bx}" ]; then
-						cached_bundle_apk="${apk_cache_dir}/${pkg_name}-${version_f}${vc_infix}-all.${bx}"
-						break
-					fi
+					_bp="${apk_cache_dir}/${pkg_name}-${version_f}${vc_infix}-${arch_f}.${bx}"
+					[ -f "$_bp" ] || _bp="${apk_cache_dir}/${pkg_name}-${version_f}${vc_infix}-all.${bx}"
+					if [ -f "$_bp" ]; then cached_bundle_apk="$_bp"; break; fi
 				done
 			fi
 			if [ -n "$cached_bundle_apk" ]; then
-				# vendor bundle is universal; skip per-arch apk names
 				stock_apk="$cached_bundle_apk"
 				all_apk="$cached_bundle_apk"
-			fi
-			if [ -f "$all_apk" ] && [ -z "$cached_bundle_apk" ]; then
-				local missing_arch=false
-				if [ "$arch_f" = "arm64-v8a" ] && ! unzip -l "$all_apk" 2>/dev/null | grep -q "lib/arm64-v8a/"; then
-					unzip -l "$all_apk" 2>/dev/null | grep -q "lib/" && missing_arch=true
-				elif [ "$arch_f" = "arm-v7a" ] && ! unzip -l "$all_apk" 2>/dev/null | grep -q "lib/armeabi-v7a/"; then
-					unzip -l "$all_apk" 2>/dev/null | grep -q "lib/" && missing_arch=true
-				fi
-				if [ "$missing_arch" = false ]; then
-					stock_apk="$all_apk"
-				fi
+			elif [ -f "$all_apk" ]; then
+				stock_apk="$all_apk"
 			fi
 
 			local check_apk=""
@@ -4080,7 +4130,14 @@ build_rv() {
 				if [ -f "$stock_apk" ]; then
 					local _sync_bext
 					if _sync_bext=$(_bundle_ext_of "$stock_apk"); then
-						local cached_bundle="${cached_all_apk%.apk}.${_sync_bext}"
+						# Key the bundle by what it contains. Naming every bundle "-all" is what
+						# let one arch's artifact be adopted by another.
+						local _bkey cached_bundle
+						_bkey=$(_cache_arch_key "$stock_apk" "$arch_f")
+						cached_bundle="${apk_cache_dir}/${pkg_name}-${version_f}${vc_infix}-${_bkey}.${_sync_bext}"
+						if [ "$_bkey" != all ] && [ "$_bkey" != "$arch_f" ]; then
+							wpr "Bundle fetched for '$table' carries '$_bkey' but '$arch' was requested; caching under its own key"
+						fi
 						cp -f "$stock_apk" "$cached_bundle"
 						stock_apk="$cached_bundle"
 						all_apk="$cached_bundle"
