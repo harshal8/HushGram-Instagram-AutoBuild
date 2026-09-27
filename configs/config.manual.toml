@@ -1,12 +1,3 @@
-[AtvTools-hxreborn]
-enabled = true
-pkg-name = "dev.vodik7.atvtools"
-app-name = "atvTools"
-patches-source = "hxreborn/morphe-patches"
-brand = "hxreborn"
-apkpure-dlurl = "https://apkpure.com/atvtools/dev.vodik7.atvtools"
-apkcombo-dlurl = "https://apkcombo.com/atvtools/dev.vodik7.atvtools"
-
 [TikTok-hushfeed]
 enabled = true
 pkg-name = "com.zhiliaoapp.musically"
@@ -15,6 +6,7 @@ patches-source = "SysAdminDoc/hushfeed"
 brand = "hushfeed"
 inclusive-patches = true
 excluded-patches = "'Remove unused language packs'"
+patcher-args = "--continue-on-error"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly"
 uptodown-dlurl = "https://tiktok.en.uptodown.com/android"
 apkpure-dlurl = "https://apkpure.com/tiktok-app/com.zhiliaoapp.musically"
