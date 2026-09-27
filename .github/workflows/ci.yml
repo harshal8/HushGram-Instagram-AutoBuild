@@ -2,7 +2,7 @@ name: CI
 
 on:
   schedule:
-    - cron: "0 */6 * * *"
+    - cron: "0 */4 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -31,6 +31,9 @@ jobs:
           ref: main
           fetch-depth: 1
 
+      - name: Setup Python dependencies
+        run: pip install --no-cache-dir curl_cffi || true
+
       - name: Fetch configs & state (data branch)
         run: bash .github/scripts/fetch_data_branch.sh
 
@@ -43,15 +46,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 .github/scripts/sync_patch_sources.py
 
-      - name: Setup Python dependencies
-        run: pip install --no-cache-dir curl_cffi || true
-
       - name: Fetch App Versions
         id: fetch_app_versions
         env:
           CF_SOLVER_URL: "http://localhost:8000"
         run: bash .github/scripts/ci_fetch_app_versions.sh
-        
+
       - name: Compare App Versions
         id: compare_apps
         run: bash .github/scripts/ci_compare_app_versions.sh

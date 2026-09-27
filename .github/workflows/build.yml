@@ -44,7 +44,7 @@ jobs:
       # Set to 2-4 to speed up builds (runner has 4 cores).
       PARALLEL_JOBS: "6"
       # How many files upload at the same time.
-      UPLOAD_CONCURRENCY: "10"
+      UPLOAD_CONCURRENCY: "12"
     services:
       cf_solver:
         image: ghcr.io/sarperavci/cloudflarebypassforscraping:latest
