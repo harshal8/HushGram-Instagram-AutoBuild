@@ -2,22 +2,22 @@
   "ajstrick81/morphe-androidtv-patches": {
     "beta": {},
     "stable": {
-      "com.amazon.amazonvideo.livingroom": "e37957d772dba25d22cc3084e1f6b32a",
+      "com.amazon.amazonvideo.livingroom": "35e92aaeb9db7e90edae0c8e4ccf081c",
       "com.disney.disneyplus": "fb4055dcbe6c0270ddec57215ed10bd4",
       "com.netflix.ninja": "c62d934c1675ee6f8bb387f6b8c971f0",
       "com.peacocktv.peacockandroid": "7ff4398760822eebd22cc15045755afd",
-      "com.tubitv": "ad4cfa4b600c6451571625a911aace33",
-      "com.univision.prendetv": "af7f8e042bd4b56df21f80a2c99ac58f",
+      "com.tubitv": "7f139b3a18900f0213dabd8c956cbd99",
+      "com.univision.prendetv": "5ae85ad4e573b75a3d4c55dc5de3469f",
       "com.wbd.hbomax": "04db80a6460c84ff5bb97c71ef770cdf",
-      "shared": "6bf068c4fee17475e617216825999b90",
-      "tv.pluto.android": "40dcc7c8b97d540deab8a158a9ad6ba1",
+      "shared": "06aa863a915f2a332ebe0b8913b8ff7c",
+      "tv.pluto.android": "661b0cff26c5ddd8ffd53d2d271663ab",
       "tv.twitch.android.app": "dcc3c62ee2cb5ba1793d74172bcf61fb"
     }
   },
   "akash-sriram/morphe-google-photos": {
     "beta": {},
     "stable": {
-      "com.google.android.apps.photos": "d10394ec668ad1b989334ece0f3f4ed3",
+      "com.google.android.apps.photos": "08dda254dd37663fdabf17a97321609f",
       "shared": "f17b82e93a1074d085da8a31ec75fd84"
     }
   },
@@ -78,7 +78,7 @@
     "beta": {},
     "stable": {
       "org.swiftapps.swiftbackup": "19f8e7d3f7903d93d21919ae4e0b5bc2",
-      "shared": "ff4b5af8ae2db3f4385cbdfa005c4b56"
+      "shared": "63057c368cc2181c11e0973f7b831ac6"
     }
   },
   "crimera/piko": {
@@ -206,9 +206,10 @@
   "hxreborn/morphe-patches": {
     "beta": {},
     "stable": {
-      "ch.protonmail.android": "0f7a1c2a52a277f359b802d4c6b8b6a7",
-      "com.michaldrabik.showly2": "f4118926a2ac65e36417d0c679225e36",
-      "shared": "1d50af664e17bdd56ff9cbf2c547bed6"
+      "ch.protonmail.android": "1a403eacb573b891a03b0a184bd7140d",
+      "com.michaldrabik.showly2": "4ca588019cf100b955f9ed85896db1f9",
+      "dev.vodik7.atvtools": "49963b9703f58d99d6e12f1d2fbfdb40",
+      "shared": "a92407e9bba34ef5ac419b4f8d48b817"
     }
   },
   "icysymmetra/tiktok-patches-for-morphe": {
@@ -217,7 +218,7 @@
       "shared": "4c8e9750b338baa9b2956091fbe5841a"
     },
     "stable": {
-      "com.zhiliaoapp.musically": "d03a7642f8ae88c64c78c6f68718ce9d",
+      "com.zhiliaoapp.musically": "4dbbc2c764e93c8131bfeba4742c852a",
       "shared": "4c8e9750b338baa9b2956091fbe5841a"
     }
   },
@@ -234,8 +235,8 @@
   },
   "jasonwu1994/gboard-patches": {
     "beta": {
-      "com.google.android.inputmethod.latin": "6f3f9b44eb7d9a4cf013f3006f25b68d",
-      "shared": "af7ad4075bc3ab6af6281cd63dc6283a"
+      "com.google.android.inputmethod.latin": "3145677ffb932a16336cd1440ef67e44",
+      "shared": "e0267034277889dd0bdfdf8fcbcdcda4"
     },
     "stable": {
       "com.google.android.inputmethod.latin": "57b4e407f1ae5167fe783329668f301e",
@@ -284,7 +285,7 @@
   "morpheapp/morphe-patches": {
     "beta": {
       "com.google.android.apps.youtube.music": "124126789c7ac352e96a035261baffa2",
-      "com.google.android.youtube": "2eea92a01242a3885a28d32fb5d9afc2",
+      "com.google.android.youtube": "1e4c4d625edea85755bf78f85d74b6c0",
       "com.reddit.frontpage": "36d2c3154e8110f1ed70e7b26692db1f",
       "shared": "2ae9970594e5fbcba3eef3afbbdce1a6"
     },
@@ -334,6 +335,10 @@
       "com.alibaba.aliexpresshd": "db1739d61bbc548a390d6c39dcf6f2f9",
       "shared": "29ccc7f8306a556542e4d41b869adf94"
     }
+  },
+  "raincord/rainxposed": {
+    "beta": {},
+    "stable": {}
   },
   "revenge-mod/revenge-xposed": {
     "beta": {},
@@ -395,11 +400,18 @@
       "shared": "b729f99c591c50dec896494ebca13344"
     }
   },
+  "sysadmindoc/hushfacebook": {
+    "beta": {},
+    "stable": {
+      "com.facebook.katana": "22a882493e80b1baa68acf436fe31bb1",
+      "shared": "0ffc2ae85e96cc2644a0409a7c234689"
+    }
+  },
   "sysadmindoc/hushfeed": {
     "beta": {},
     "stable": {
-      "com.zhiliaoapp.musically": "72f0af3917246bccfddc8409103d07a3",
-      "shared": "d98d134085e880fcec6fd44b190a04fe"
+      "com.zhiliaoapp.musically": "a287d5dcfe24bc70de3a9fed3483376b",
+      "shared": "0ca417bf7ac7c4735ed4df9c02831487"
     }
   }
 }
