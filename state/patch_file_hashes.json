@@ -102,6 +102,13 @@
       "shared": "f0e5f4fbc50d53ecd565803fb2e4b958"
     }
   },
+  "dhrubonai/morphe-patches": {
+    "beta": {},
+    "stable": {
+      "ch.protonmail.android": "ef8e8c3d44b8e45b0fd27c9abe142792",
+      "shared": "5b8111a32a6bdbc68f7437c0df17d816"
+    }
+  },
   "durgesh0505/chiggi_morphe_patches": {
     "beta": {},
     "stable": {
@@ -206,10 +213,10 @@
   "hxreborn/morphe-patches": {
     "beta": {},
     "stable": {
-      "ch.protonmail.android": "1a403eacb573b891a03b0a184bd7140d",
-      "com.michaldrabik.showly2": "4ca588019cf100b955f9ed85896db1f9",
-      "dev.vodik7.atvtools": "49963b9703f58d99d6e12f1d2fbfdb40",
-      "shared": "a92407e9bba34ef5ac419b4f8d48b817"
+      "ch.protonmail.android": "8e22eae41444f2204c6a1a218f083407",
+      "com.michaldrabik.showly2": "265fe5743eee2f2ec1acc3bb39dae392",
+      "dev.vodik7.atvtools": "33a1b98533e9c318850a6bb548a48109",
+      "shared": "96f30e0216e43bb53f77bdb4e44c28ff"
     }
   },
   "icysymmetra/tiktok-patches-for-morphe": {
@@ -398,6 +405,13 @@
     "stable": {
       "com.facebook.katana": "c08748efec6831fb7ca717fce8b0ce31",
       "shared": "b729f99c591c50dec896494ebca13344"
+    }
+  },
+  "satanmerde/d-moniakpatches": {
+    "beta": {},
+    "stable": {
+      "ch.protonmail.android": "a37fe6278568ab573a2ea1dbe7523b39",
+      "shared": "7ca7f5bc3ccc51e574f1de51bdf78304"
     }
   },
   "sysadmindoc/hushfacebook": {
