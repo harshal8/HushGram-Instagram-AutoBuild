@@ -2036,14 +2036,20 @@ get_apkpure_pkg_name() { echo "$__APKPURE_PKG__"; }
 # Taking the featured link for every arch meant an arm64 build fetched the
 # armeabi-v7a bundle and published it under an arm64-v8a file name - the native code
 # inside was simply wrong for the label (the two bases are different artifacts, only
-# their AndroidManifest differs). So match the ABI here. Whether the fetched file is
-# really arch-specific stays decided by the archive contents, as everywhere else in
-# this pipeline: check_is_universal runs after the download and renames to -all.
+# their AndroidManifest differs).
 #
-# Returns 1 whenever nothing matches - the caller then keeps using the featured link,
-# which is all a single-variant app ever offers.
+# Preference order: universal first, then the exact ABI, then give up. Universal wins
+# because one fetch then serves every arch of the matrix and the store is asked once per
+# app rather than once per arch - avoiding repeated hits from one egress IP is the point
+# of the policy, since that is what gets an address blocked. atvTools publishes no
+# universal at all, which is why the per-ABI link is a fallback and not an error.
+#
+# Returns 1 whenever nothing matches - the caller then keeps using the featured link and
+# says so, which is all a single-variant app ever offers. Whether the fetched file really
+# is universal stays decided by its contents, as everywhere else in this pipeline:
+# _cache_arch_key reads the artifact and picks the cache key from that, never from here.
 _apkpure_pick_link() { # $1=page html  $2=arch  $3=featured url
-	local html=$1 arch=$2 featured=$3 abi="" want_type want_vc cands picked
+	local html=$1 arch=$2 featured=$3 abi="" want_type want_vc cands picked all_links
 	case "$arch" in
 		arm64-v8a | arm64) abi=arm64-v8a ;;
 		arm-v7a | arm) abi=armeabi-v7a ;;
@@ -2053,15 +2059,22 @@ _apkpure_pick_link() { # $1=page html  $2=arch  $3=featured url
 	want_type=$(grep -oE '/b/(XAPK|APK)/' <<<"$featured" | head -1) || true
 	want_vc=$(grep -oE 'versionCode=[0-9]+' <<<"$featured" | head -1 | cut -d= -f2) || true
 
-	if [ -n "$abi" ]; then
-		# Exact ABI only: nc=arm64-v8a& / end of query. Matching a prefix would let the
-		# multi-ABI universal link win, which for a single arch means fetching every ABI.
-		# &amp; is decoded first: the page writes every query separator as an entity, so
-		# matching on the raw markup would never see a "&" before "nc=" at all.
-		cands=$(grep -oE 'https://d\.apkpure\.com/b/(XAPK|APK)/[^"]+' <<<"$html" | sed 's/&amp;/\&/g' | grep -E "[?&]nc=${abi}(&|$)" | sort -u) || true
-	elif isoneof "$arch" all universal; then
-		cands=$(grep -oE 'https://d\.apkpure\.com/b/(XAPK|APK)/[^"]+' <<<"$html" | sed 's/&amp;/\&/g' | grep -E '[?&]nc=[^&]*%2C' | sort -u) || true
-	else
+	all_links=$(grep -oE 'https://d\.apkpure\.com/b/(XAPK|APK)/[^"]+' <<<"$html" | sed 's/&amp;/\&/g' | sort -u) || true
+	[ -z "$all_links" ] && return 1
+	# Universal first, deliberately: one download then serves every arch in the matrix,
+	# so the store is asked once per app instead of once per arch - the reason for the
+	# policy is not spending download quota from one IP, and repeated per-arch hits are
+	# what gets an egress address blocked. Not every app publishes a universal (atvTools
+	# does not), so the per-ABI link is the fallback, never a hard requirement.
+	#
+	# The universal link is recognised by its percent-separated ABI list; matching the
+	# single-ABI form as a prefix would let "arm64-v8a%2Carmeabi-v7a" answer for
+	# arm64-v8a, which is what the universal case is for anyway - so the order below is
+	# what makes the distinction, not the pattern.
+	cands=$(printf '%s\n' "$all_links" | grep -E '[?&]nc=[^&]*%2C') || true
+	if [ -z "$cands" ] && [ -n "$abi" ]; then
+		cands=$(printf '%s\n' "$all_links" | grep -E "[?&]nc=${abi}(&|$)") || true
+	elif [ -z "$cands" ]; then
 		return 1
 	fi
 	[ -z "$cands" ] && return 1
@@ -2253,27 +2266,35 @@ get_apkcombo_pkg_name() { echo "$__APKCOMBO_PKG__"; }
 # Returns 1 when the page has no row for this ABI; the caller then keeps the first link
 # it saw on any page and says so, rather than failing the source silently.
 _apkcombo_pick_link() { # $1=page html  $2=arch
-	local abi flat link
+	local abi flat lnk hit
 	case "$2" in
-		arm64-v8a | arm64) abi=arm64-v8a ;;
-		arm-v7a | arm) abi=armeabi-v7a ;;
-		x86_64) abi=x86_64 ;;
-		x86) abi=x86 ;;
+		arm64-v8a | arm64) abi='arm64[-_]v8a' ;;
+		arm-v7a | arm) abi='armeabi[-_]v7a' ;;
+		x86_64) abi='x86_64' ;;
+		x86) abi='x86' ;;
 		all | universal) abi='' ;;
 		*) return 1 ;;
 	esac
 	# Links wrap across newlines in the markup, so flatten before matching. .*? stops at
-	# the first link after the matched header, and \K drops the header from the output.
+	# the first link after the matched header, and \K drops everything up to the URL.
 	flat=$(tr -d '\n\r' <<<"$1")
+	# Both link forms occur on this site and the difference is per app, not per release:
+	# apps APKCombo hosts themselves link through /r2?u= to their own Cloudflare R2
+	# bucket (YouTube does), apps they do not link through /d?u= to download.pureapk.com
+	# and from there to apkpure.com (atvTools does). Only the first makes APKCombo an
+	# independent source, so neither form may be dropped.
+	lnk='(?:https://apkcombo\.com/d\?u=|/r2\?u=)[^"]+'
+	# A header naming more than one ABI - comma or '+' separated, e.g.
+	# <code>arm64-v8a, armeabi-v7a, x86, x86_64</code> - is the universal row. It wins
+	# over a per-ABI row for the same reason as on APKPure: one download covers every
+	# arch in the matrix, so the source is hit once per app rather than once per arch.
 	if [ -z "$abi" ]; then
-		printf '%s' "$flat" | grep -oP '<code>[^<]*\+[^<]*</code>.*?\Khttps://apkcombo\.com/d\?u=[A-Za-z0-9_=+/%-]+' | head -1 || true
-		return
+		hit=$(printf '%s' "$flat" | grep -oP "<code>[^<]*[+,][^<]*</code>.*?href=\"\\K$lnk" | head -1) || true
+	else
+		hit=$(printf '%s' "$flat" | grep -oP "<code>[^<]*${abi}[^<]*[+,][^<]*</code>.*?href=\"\\K$lnk" | head -1) || true
+		[ -z "$hit" ] && hit=$(printf '%s' "$flat" | grep -oP "<code>${abi}</code>.*?href=\"\\K$lnk" | head -1) || true
 	fi
-	link=$(printf '%s' "$flat" | grep -oP "<code>\Q${abi}\E</code>.*?\Khttps://apkcombo\.com/d\?u=[A-Za-z0-9_=+/%-]+" | head -1) || true
-	if [ -z "$link" ]; then
-		link=$(printf '%s' "$flat" | grep -oP "<code>([^<]*\Q${abi}\E[^<]*\+[^<]*|[^<]*\+[^<]*\Q${abi}\E[^<]*)</code>.*?\Khttps://apkcombo\.com/d\?u=[A-Za-z0-9_=+/%-]+" | head -1) || true
-	fi
-	[ -n "$link" ] && printf '%s\n' "$link"
+	[ -n "$hit" ] && printf '%s\n' "$hit"
 }
 dl_apkcombo() {
 	local _url=$1 version=$2 output=$3 arch=${4:-} _dpi=${5:-}
