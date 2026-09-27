@@ -228,6 +228,13 @@ directly instead of pre-merging it with apkeditor. Morphe merges bundles
 natively, and some apps misbehave after apkeditor's rewrite+re-sign, so this
 produces cleaner patched APKs and avoids caching two copies of the same app.
 
+No merge is performed at all in this mode, for any download source: the engine
+extracts the bundle's `base.apk` purely so the usual package / versionName /
+versionCode checks have a real APK to read, and leaves the bundle untouched for
+patching. (Until now the merge still ran and its output was deleted minutes later
+when the bundle was adopted — an apkeditor JVM start and a full archive pass per
+bundle download, for nothing.)
+
 - **Scope**: automatic — no per-app config. Applies per build when the download
   is a bundle; plain `.apk` stocks and all other patcher tools (revanced family,
   Xposed, instafel) are untouched.

@@ -1731,14 +1731,10 @@ dl_apkmirror() {
 	local html=""
 
 	if [ -f "${output%.apk}.apkm" ]; then
-		if [ "${MORPHE_PASSTHROUGH_ACTIVE:-false}" = true ]; then
-			# sidecar exists but merged output may not (prior passthrough run
-			# adopted+deleted it): hand the bundle itself to the caller's
-			# adoption logic instead of re-merging through apkeditor.
-			cp -f "${output%.apk}.apkm" "${output}"
-			return 0
-		fi
-		merge_splits "${output%.apk}.apkm" "${output}"
+		# Cached sidecar from an earlier run. _bundle_to_apk yields whatever the caller
+		# has to verify - base.apk under passthrough, a merged apk otherwise - and leaves
+		# the bundle itself in place for build_rv's adoption logic.
+		_bundle_to_apk "${output%.apk}.apkm" "${output}"
 		return 0
 	fi
 
@@ -1979,12 +1975,7 @@ dl_apkmirror() {
 			rm -f "${output%.apk}.apkm"
 			return 1
 		fi
-		if [ "${MORPHE_PASSTHROUGH_ACTIVE:-false}" = true ]; then
-			# bundle-as-apk; build_rv's manifest check adopts it as .xapk
-			cp -f "${output%.apk}.apkm" "${output}"
-		else
-			merge_splits "${output%.apk}.apkm" "${output}"
-		fi
+		_bundle_to_apk "${output%.apk}.apkm" "${output}" || return 1
 	fi
 }
 
@@ -2208,6 +2199,38 @@ dl_apkpure() {
 	fi
 }
 
+# Turn a downloaded bundle into the APK the download loop verifies, without merging when
+# morphe will not use the result.
+#
+# morphe-desktop merges split bundles itself; build_rv adopts the vendor bundle sitting
+# next to this output and deletes the merged file. So under passthrough a full apkeditor
+# merge was pure waste - a JVM start, a rewrite and a re-sign of the archive, and the
+# result thrown away minutes later. Two sources tried to dodge it with
+# "cp -f bundle output", which puts bundle bytes into a .apk path; that only survives
+# because the manifest-at-root check renames the file before anything reads metadata,
+# and _meta_field_of decides "is this a bundle?" from the EXTENSION - so the copy makes
+# every later probe look at a zip of zips instead of recognising it.
+#
+# Extracting base.apk is cheaper than both and leaves a real APK behind: package,
+# versionName and versionCode all read correctly, the AndroidManifest check passes on
+# its own terms, and the untouched bundle beside it is what gets cached and patched.
+_bundle_to_apk() { # $1=bundle  $2=output apk
+	local bundle=$1 output=$2
+	if ! unzip -l "$bundle" >/dev/null 2>&1; then
+		epr "Downloaded bundle is not a valid zip (anti-bot interstitial or truncated file): $bundle"
+		return 1
+	fi
+	if [ "${MORPHE_PASSTHROUGH_ACTIVE:-false}" = true ]; then
+		if ! _bundle_extract_base "$bundle" "$output"; then
+			epr "Cannot extract base.apk from bundle: $bundle"
+			return 1
+		fi
+		pr "Passthrough: verifying base.apk of $(basename "$bundle") (no merge)"
+		return 0
+	fi
+	merge_splits "$bundle" "$output"
+}
+
 _apkpure_install_xapk() {
 	local xapk=$1 output=$2
 	if ! unzip -l "$xapk" >/dev/null 2>&1; then
@@ -2215,7 +2238,7 @@ _apkpure_install_xapk() {
 		rm -f "$xapk"
 		return 1
 	fi
-	if ! merge_splits "$xapk" "$output"; then
+	if ! _bundle_to_apk "$xapk" "$output"; then
 		rm -f "$output"
 		return 1
 	fi
@@ -2560,12 +2583,8 @@ dl_uptodown() {
 			if [ "$is_bundle" = "true" ]; then
 				local bundle="${output%.apk}.apkm"
 				req "$cdn_url" "$bundle" || { rm -f "$errf"; return 1; }
-				if [ "${MORPHE_PASSTHROUGH_ACTIVE:-false}" = true ]; then
-					cp -f "$bundle" "${output}"
-				else
-					merge_splits "$bundle" "${output}" || { rm -f "$bundle" "$errf"; return 1; }
-					rm -f "$bundle"
-				fi
+				_bundle_to_apk "$bundle" "${output}" || { rm -f "$bundle" "$errf"; return 1; }
+				[ "${MORPHE_PASSTHROUGH_ACTIVE:-false}" != true ] && rm -f "$bundle"
 			else
 				req "$cdn_url" "$output" || { rm -f "$errf"; return 1; }
 			fi
@@ -2623,7 +2642,7 @@ dl_archive() {
 		apkm|xapk|apks)
 			local bundle="${output%.apk}.${path##*.}"
 			req "${url}/${path}" "$bundle" || return 1
-			merge_splits "$bundle" "${output}" || { rm -f "$bundle"; return 1; }
+			_bundle_to_apk "$bundle" "${output}" || { rm -f "$bundle"; return 1; }
 			if [ "${MORPHE_PASSTHROUGH_ACTIVE:-false}" != true ]; then
 				rm -f "$bundle"
 			fi
@@ -2743,7 +2762,7 @@ local regex=""
         apkm|xapk|apks)
 			local bundle="${output%.apk}.${ext}"
 			req "${base_url}/${path}" "$bundle" || return 1
-			merge_splits "$bundle" "$output" || { rm -f "$bundle"; return 1; }
+			_bundle_to_apk "$bundle" "$output" || { rm -f "$bundle"; return 1; }
 			if [ "${MORPHE_PASSTHROUGH_ACTIVE:-false}" != true ]; then
 				rm -f "$bundle"
 			fi
@@ -2987,7 +3006,7 @@ dl_cache_repo() {
         apkm|xapk|apks)
 			local bundle="${output%.apk}.${ext}"
 			req "${base_url}/${path}" "$bundle" || return 1
-			merge_splits "$bundle" "$output" || { rm -f "$bundle"; return 1; }
+			_bundle_to_apk "$bundle" "$output" || { rm -f "$bundle"; return 1; }
 			if [ "${MORPHE_PASSTHROUGH_ACTIVE:-false}" != true ]; then
 				rm -f "$bundle"
 			fi
