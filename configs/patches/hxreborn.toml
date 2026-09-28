@@ -1,6 +1,16 @@
 patches-source = "hxreborn/morphe-patches"
 brand = "hxreborn"
 
+[ProtonMail-hxreborn]
+enabled = true
+pkg-name = "ch.protonmail.android"
+app-name = "Proton Mail"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/proton-ag/proton-mail-encrypted-email"
+uptodown-dlurl = "https://protonmail.en.uptodown.com/android"
+apkpure-dlurl = "https://apkpure.com/proton-mail-encrypted-email/ch.protonmail.android"
+apkcombo-dlurl = "https://apkcombo.com/proton-mail/ch.protonmail.android"
+archive-dlurl = "https://archive.org/download/geologically/apks/ch.protonmail.android"
+
 [Showly-hxreborn]
 enabled = true
 pkg-name = "com.michaldrabik.showly2"
@@ -10,10 +20,16 @@ uptodown-dlurl = "https://showly-2-0.en.uptodown.com/android"
 apkpure-dlurl = "https://apkpure.com/showly-track-tv-shows-movie/com.michaldrabik.showly2"
 apkcombo-dlurl = "https://apkcombo.com/showly-track-shows-movies/com.michaldrabik.showly2"
 
+
+
+# https://github.com/nullcpy/rvb/issues/158 - Android TV helper tool.
+# Not on APKMirror or Uptodown, so the two stores that do carry it are listed in
+# the order DL_SRCS tries them. Patch folder is auto-detected (the bundle declares
+# the package in its compiled metadata, app/morphe/patches/atvtools/), so no
+# patch-folder key is needed - same as the tables above.
 [AtvTools-hxreborn]
 enabled = true
 pkg-name = "dev.vodik7.atvtools"
 app-name = "atvTools"
 apkpure-dlurl = "https://apkpure.com/atvtools/dev.vodik7.atvtools"
 apkcombo-dlurl = "https://apkcombo.com/atvtools/dev.vodik7.atvtools"
-
