@@ -122,8 +122,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SysAdminDoc/Hushfacebook",
-    "stable": "v0.2.0",
-    "stable_date": "2026-09-27T01:17:31Z"
+    "stable": "v0.3.4",
+    "stable_date": "2026-09-28T02:54:37Z"
   },
   "SysAdminDoc/hushfeed": {
     "beta": "",
@@ -131,17 +131,17 @@
     "blocked": false,
     "host": "github",
     "repo": "SysAdminDoc/hushfeed",
-    "stable": "v0.61.0",
-    "stable_date": "2026-09-27T01:06:12Z"
+    "stable": "v0.63.0",
+    "stable_date": "2026-09-28T03:35:29Z"
   },
   "ajstrick81/morphe-androidtv-patches": {
     "beta": "test-212",
-    "beta_date": "2026-09-26T12:54:16Z",
+    "beta_date": "2026-09-28T02:55:15Z",
     "blocked": false,
     "host": "github",
     "repo": "ajstrick81/morphe-androidtv-patches",
-    "stable": "v1.38.0",
-    "stable_date": "2026-09-26T16:43:40Z"
+    "stable": "v1.40.1",
+    "stable_date": "2026-09-28T01:47:59Z"
   },
   "anddea/revanced-patches": {
     "beta": "v4.3.0-dev.8",
@@ -153,8 +153,8 @@
     "stable_date": "2026-08-07T15:03:16Z"
   },
   "andrewliang25/morphe-patches": {
-    "beta": "v3.2.0-dev.7",
-    "beta_date": "2026-09-24T18:06:29Z",
+    "beta": "v3.3.0-dev.1",
+    "beta_date": "2026-09-28T02:16:54Z",
     "blocked": false,
     "host": "github",
     "repo": "andrewliang25/morphe-patches",
