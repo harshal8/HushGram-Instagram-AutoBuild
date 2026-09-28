@@ -1882,15 +1882,10 @@ dl_apkmirror() {
 					search_links=$($HTMLQ --attribute href "div.appRow h5 a" <<<"$html")
 				fi
 				
-				# Try to find exact version match first to be safe, otherwise fallback to top result
+				# Try to find exact version match first to be safe
 				version_href=$(echo "$search_links" | grep -F "$search_version-release" | head -1) || true
 				if [ -z "$version_href" ] && [ -n "$clean_search_version" ]; then
 					version_href=$(echo "$search_links" | grep -E "${clean_search_version}(-[a-z0-9]+)*-release" | head -1) || true
-				fi
-				
-				# Search query is exact, so the top search result is the best match if strict regexes fail
-				if [ -z "$version_href" ]; then
-					version_href=$(echo "$search_links" | head -1) || true
 				fi
 
 				if [ -n "$version_href" ]; then
