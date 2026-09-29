@@ -11,7 +11,7 @@ generators, watcher, and builds all reference them verbatim.
     configs. They live here only; main's tree is pure code. Edit them in a
     normal main checkout (the paths are gitignored there), then publish with
     `bash .github/scripts/push_data_configs.sh "<commit message>"`.
-  - `stable-build.json`, `beta-build.json` — generated pool configs, written
+  - `stable_build.json`, `beta_build.json` — generated pool configs, written
     by the ci.yml watcher, consumed via the `config_file` workflow input.
 - `state/` — watcher-owned machine state (never hand-edit except recovery):
   - `patch_sources.json` — latest known release of every patch-source repo
@@ -23,7 +23,7 @@ generators, watcher, and builds all reference them verbatim.
 | Path | Writer | Trigger |
 | --- | --- | --- |
 | `configs/*.toml`, `configs/patches/*.toml` | human via `push_data_configs.sh` | on config change |
-| `configs/*-build.json` | `commit_data_branch.sh` (ci.yml watcher) | scheduled run, when changed |
+| `configs/*_build.json` | `commit_data_branch.sh` (ci.yml watcher) | scheduled run, when changed |
 | `state/*.json` | `commit_data_branch.sh` (ci.yml watcher) | scheduled run, when changed |
 
 The watcher only ever commits `*.json`; the human tool only ever commits
