@@ -121,7 +121,7 @@ in; the first source that yields a verified artifact wins:
 
 | # | Source | Notes |
 |---|---|---|
-| 1 | `cache_repo` | `nullcpy/apks` — release per package name, download-only (never used to list versions) |
+| 1 | `cache_repo` | `nullcpy/apks` — release per package name, download-only (never used to list versions) → [cache-repo.md](cache-repo.md) |
 | 2 | `direct` | a straight file URL in the config |
 | 3 | `github` | release assets, filtered by `github-release-regex` / `github-regex`, arch-mapped |
 | 4 | `archive` | `archive.org` item, the long-term fallback for delisted versions |
@@ -157,7 +157,9 @@ Supporting machinery:
 `build_cache_cleanup.sh` keeps `temp/apks` under an 8 GB watermark with tiered
 retention (30/14/7/3 days) so the Actions cache stays below GitHub's 10 GB
 per-repo limit. `update_usage_tracker.py` posts the versions actually consumed
-(`temp/used_versions.txt`) back to the cache repo.
+(`temp/used_versions.txt`) back to the cache repo, whose own weekly retention pass
+keeps the 10 newest versions per package and everything used in the last 30 days —
+see [cache-repo.md](cache-repo.md).
 
 ## Patcher registry
 

@@ -155,15 +155,18 @@ derivation — has a deliberate copy inside the website's `rebuild_catalog.py`
 
 ## `nullcpy/apks` (shared download cache)
 
-One release per **package name**, tagged with it; assets are the stock or bundle
-files the engine downloaded, named `<pkg>-<version>[-<versionCode>]<arch>.<ext>`.
-The engine reads it as the highest-priority download source (`cache_repo`,
-download-only — never used to list versions) and writes back anything it fetched
-freshly, under `UPLOAD_APKS_REPO` with `GH_TOKEN` = `APKS_REPO_TOKEN`. Uploads
-retry view/create/upload because parallel jobs can race on the same package tag.
-`update_usage_tracker.py` records which versions were consumed so eviction can be
-knowledgeable. This repo's Actions cache (`temp/apks`) is a fast local copy of the
-same directory; both are caches, neither is authoritative.
+A **separate repository**, not a branch: one release per Android package name,
+holding the stock APKs and bundles the engine has already fetched, named
+`<pkg>-<version>[-<versionCode>]-<arch>.<ext>`. It is download source #1 and is
+never consulted for version listing, so it cannot become a rival source of truth
+about upstream releases. The engine writes back anything it fetched freshly (never
+a copy that came from the cache itself or from `archive`), and
+`update_usage_tracker.py` stamps the versions a run consumed into the repo's
+`usage.json`, which is what its weekly retention pass keys on.
+
+This repo's Actions cache (`temp/apks`) is a fast local copy of the same
+population; both are caches, neither is authoritative. Layout, read/write rules,
+retention policy and debugging: [cache-repo.md](cache-repo.md).
 
 ## `temp/` (gitignored, but load-bearing locally)
 

@@ -89,7 +89,8 @@ Releases, records build metadata on a Git branch, and feeds a static download si
 Releases: numbered (`260141`) = immutable per-build; `stable`/`beta` = rolling
 archives whose metadata CI never touches. External: `nullcpy/apks` = shared
 download cache (release per package name). Full detail:
-[storage-and-branches.md](storage-and-branches.md).
+[storage-and-branches.md](storage-and-branches.md) and
+[cache-repo.md](cache-repo.md).
 
 ## Version resolution precedence (highest first)
 
@@ -118,6 +119,7 @@ fixed: `cache_repo` → `direct` → `github` → `archive` → `apkmirror` → 
 | `build.md` is copied to `build.tmp` and the changelog step prefers the tmp | so a later append cannot corrupt the recorded changelog |
 | Cleanup keeps 98 numbered releases, 2 archive versions per app+arch, site rebuild retains ≥60% | three different circuit breakers with three different jobs |
 | Module auto-update silently off for local builds | no published `update` branch to point a phone at |
+| No config sets `cache_repo-dlurl`, yet the cache source always works | `build_rv` synthesises the URL from `UPLOAD_APKS_REPO` + package name → [cache-repo.md](cache-repo.md) |
 | There is no download-concurrency knob and no pre-download phase | a prewarm pool was built and reverted as unmeasured complexity → [decisions/0004](decisions/0004-no-download-prewarm-pass.md); the per `pkg+version` flock already collapses duplicates |
 | Tuning values sit in `build.yml` `env:` rather than in config or repo variables | reviewable, fork-safe, git history for the numbers → [decisions/0005](decisions/0005-tuning-knobs-live-in-the-workflow.md) |
 | A malformed `patch_sources.json` answers "not blocked" instead of failing closed | fail-open on purpose: the alternative silently skips every app → [decisions/0003](decisions/0003-blocked-patch-sources-are-skipped.md) |
@@ -129,9 +131,10 @@ fixed: `cache_repo` → `direct` → `github` → `archive` → `apkmirror` → 
 |---|---|---|
 | Add/enable/disable an app or patch | `data:configs/patches/*.toml` ([CONFIG.md](../CONFIG.md)) | Manual CI on `configs/config.manual.toml` |
 | Fix a scraper / download source | `scripts/utils.sh` (`dl_<source>`, `get_<source>_resp/vers`) | trace harness + a single-app manual build |
+| Debug a cache miss or a vanished stock APK | `dl_cache_repo`, `usage.json` in `nullcpy/apks` | [cache-repo.md](cache-repo.md) debugging checklist |
 | Change patch invocation/flags | `scripts/utils.sh:patch_apk`, `.github/scripts/patchers.sh` | `trace_runner.sh verify` (goldens will diff — read them) |
 | Change release upload semantics | `.github/scripts/build_upload_release.sh` | stubbed-`gh` metadata matrix harness |
-| Change what gets built when | `.github/scripts/ci_*.sh|py` | read the previous run's flags; dispatch CI |
+| Change what gets built when | `.github/scripts/ci_*.sh` and `.py` | read the previous run's flags; dispatch CI |
 | Change manifest/catalogue format | `build_make_manifest.py` + site `rebuild_catalog.py` | site rebuild `dry_run: true` + diff |
 | Change module update wiring | `scripts/utils.sh:update_json_path/module_prop`, `build_update_changelog.sh` | inspect `update` branch after a build |
 | Tune concurrency/timeouts | `.github/workflows/build.yml` env | Actions run timings |
