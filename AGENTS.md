@@ -17,10 +17,11 @@ damage when broken.
 4. **Wire formats are frozen:** asset filename grammar, `module.prop` `updateJson`
    paths on the `update` branch, manifest schema keys, `data.json` keys, branch
    names. Add a key or bump a version; never reinterpret an existing one.
-5. **`.github/scripts/naming.py` must stay in step with the site's copy in
-   `nullcpy.github.io/.github/scripts/rebuild_catalog.py`.** Change both in the
-   same series of commits, or arch/name derivation drifts silently between the two
-   ends of the pipeline.
+5. **`.github/scripts/naming.py` is the only implementation of filename/architecture
+   parsing.** The website's `rebuild_catalog.py` imports it through a sparse clone of
+   `main` (`RVB_NAMING_DIR`) — do not add a copy there, and do not move the file's
+   path without updating that clone step. Keep the module stdlib-only.
+   ([docs/decisions/0006](docs/decisions/0006-filename-parsing-is-imported-not-mirrored.md))
 6. **Shell:** `set -euo pipefail`; a `[ … ] && var=x` chain whose last command may
    not run will abort a step before `$GITHUB_OUTPUT` is written — use `if` blocks;
    never call a cache-writing function from inside `$( )`; patch-name quoting

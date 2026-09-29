@@ -138,8 +138,8 @@ about which flags actually reached the tool. Two lessons baked into the habit:
 1. `bash .github/traces/trace_runner.sh verify` passes (if you touched the engine).
 2. Any new/changed wire format is reflected in
    [storage-and-branches.md](storage-and-branches.md) and, if it crosses the seam,
-   in [website-contract.md](website-contract.md) — plus the site's copy of the
-   naming logic if that is what you touched.
+   in [website-contract.md](website-contract.md). Filename-parsing rules belong in
+   `.github/scripts/naming.py` only — the site imports it, so never add a copy.
 3. Behaviour docs updated where the behaviour is documented
    ([ci-pipelines.md](ci-pipelines.md) for steps/ordering,
    [build-engine.md](build-engine.md) for engine stages).

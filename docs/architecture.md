@@ -191,9 +191,11 @@ only fires on `failure()`.
 
 ## Coupling hazards worth knowing before editing
 
-- **Two copies of the naming rules.** `.github/scripts/naming.py` and the site's
-  `rebuild_catalog.py` must agree on arch/file-prefix parsing. The site copy
-  stays dependency-free on purpose; change both in one series of commits.
+- **The site imports rvb's filename rules.** `rebuild_catalog.py` resolves
+  `.github/scripts/naming.py` from a sparse clone of this repo's `main`
+  (`RVB_NAMING_DIR`) rather than mirroring it, so moving that path breaks the
+  catalogue rebuild — loudly. The dependency is one-way and intentional;
+  [decisions/0006](decisions/0006-filename-parsing-is-imported-not-mirrored.md).
 - **Wire formats that are already in the wild.** `updateJson` paths baked into
   installed modules, `module.prop` shape, `data.json` schema keys, and the
   `manifests/`+`archive/` layout. Renaming any of them orphans existing clients.

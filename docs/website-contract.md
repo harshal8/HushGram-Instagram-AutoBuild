@@ -15,6 +15,7 @@ notices, search engine, Obtainium flow) are documented by its own guide:
 | `catalog-updated` dispatch | rvb → site | `repository_dispatch` event type | name only; a lost dispatch is recovered by schedule |
 | `update` branch pointers | phone → rvb | `module.prop` `updateJson` URL + JSON | baked into installed modules |
 | Numbered/archive release URLs | site → rvb | `releases/download/<tag>/<file>` | filename grammar is the contract |
+| `.github/scripts/naming.py` on `main` | site → rvb | Python module, imported by a sparse clone | one-way; a missing path fails the rebuild loudly |
 
 **rvb never writes into the site repository,** and the site never writes into rvb.
 The only file either side edits in the other's name is `data.json`, which the site
@@ -70,19 +71,25 @@ download counts belong to the releases, immutable build-time facts belong to the
 manifests. Splitting them that way is what makes a stale catalogue impossible
 rather than merely unlikely.
 
-## The duplicated naming logic
+## Filename parsing is shared, not duplicated
 
-`arch` extraction/normalisation, `file_prefix` and key normalisation live in
-[.github/scripts/naming.py](../.github/scripts/naming.py) **and** in the site's
-`rebuild_catalog.py`, which must stay dependency-free and therefore carries a
-copy.
+`arch` extraction/normalisation, `file_prefix` and key normalisation have exactly one
+implementation: [.github/scripts/naming.py](../.github/scripts/naming.py). The site's
+`rebuild_catalog.py` **imports** it — `rebuild-catalog.yml` performs a blob-filtered,
+sparse clone of `main` and points `RVB_NAMING_DIR` at `.github/scripts`, and a local
+run resolves the same file from a `rvb` checkout beside the site repo. If the module
+cannot be found the rebuild exits with `FATAL:` rather than falling back to anything.
 
-> Change one, change the other, in the same series of commits.
+That closes what used to be the weakest seam in the design: the site carried a
+hand-copied mirror held together by "change both in the same series of commits",
+and divergence would have been silent — an app grouping under the wrong architecture
+or splitting into two variant cards. History and rejected alternatives:
+[decisions/0006](decisions/0006-filename-parsing-is-imported-not-mirrored.md).
 
-This is the known weak point of the design: divergence here is silent — an app
-would group under the wrong architecture or split into two variant cards — and the
-manifest architecture exists precisely to prevent that class of bug. When touching
-either copy, verify with a site rebuild in `dry_run` mode and read the diff.
+Practical consequence for editing: a behaviour change in `naming.py` reaches the site
+on the next catalogue rebuild with no second edit, so run `rebuild-catalog.yml` with
+`dry_run: true` and read the diff before merging one. Keep `naming.py` stdlib-only —
+a third-party import there would break the site's dependency-free rebuild job.
 
 ## Degraded entries are visible by design
 
@@ -114,7 +121,8 @@ expressed — the full account is
 
 1. **Additive first.** A new manifest key is invisible to the site; a new *build*
    object shape is not, so the site's `rebuild_catalog.py` and its `CONFIG.md`
-   schema section change in the same series.
+   schema section change in the same series. Filename-parsing rules do not have this
+   problem — they live in one module both sides use.
 2. **Never reinterpret an existing key.** Filenames, `updateJson` paths, JSON key
    names and the branch layout are wire formats already in users' hands. Introduce
    a new key and let the old one age out, or accept a forced re-flash.

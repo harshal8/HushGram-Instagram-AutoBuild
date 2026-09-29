@@ -149,8 +149,8 @@ Asset filename grammar — the contract every consumer parses:
 (`naming.py:file_prefix`). Arch spelling is normalised for matching
 (`armeabi-v7a` ≡ `arm-v7a`, `all` ≡ `universal`) because the engines of different
 patchers write different tokens. Filename-derived arch is a *fallback*: the
-manifest's recorded arch is authoritative, and `naming.py` — the shared
-derivation — has a deliberate copy inside the website's `rebuild_catalog.py`
+manifest's recorded arch is authoritative, and the derivation itself lives in
+`naming.py` alone — the website imports that module rather than copying it
 ([website-contract.md](website-contract.md)).
 
 ## `nullcpy/apks` (shared download cache)

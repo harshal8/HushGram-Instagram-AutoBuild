@@ -31,9 +31,10 @@ Releases, records build metadata on a Git branch, and feeds a static download si
    `data.json` schema keys; branch names `data`/`website`/`update`. Changing one
    orphans installed software or the site's catalogue. Add a key, age it out, or
    bump a schema version — never reinterpret in place.
-6. **`.github/scripts/naming.py` has a required copy inside the site's
-   `rebuild_catalog.py`** (dependency-free by design). Change both in one series of
-   commits.
+6. **`.github/scripts/naming.py` is the single implementation of filename and
+   architecture parsing.** The website's `rebuild_catalog.py` imports it via a sparse
+   clone of `main`; adding a copy on either side reintroduces silent divergence
+   ([decisions/0006](decisions/0006-filename-parsing-is-imported-not-mirrored.md)).
 7. Every script starts `set -euo pipefail`. Under it, a `[ … ] && var=x` chain whose
    last command may not run **aborts the step** — write `if` blocks before anything
    that must reach `$GITHUB_OUTPUT`. Command substitution discards global/cache
@@ -135,7 +136,7 @@ fixed: `cache_repo` → `direct` → `github` → `archive` → `apkmirror` → 
 | Change patch invocation/flags | `scripts/utils.sh:patch_apk`, `.github/scripts/patchers.sh` | `trace_runner.sh verify` (goldens will diff — read them) |
 | Change release upload semantics | `.github/scripts/build_upload_release.sh` | stubbed-`gh` metadata matrix harness |
 | Change what gets built when | `.github/scripts/ci_*.sh` and `.py` | read the previous run's flags; dispatch CI |
-| Change manifest/catalogue format | `build_make_manifest.py` + site `rebuild_catalog.py` | site rebuild `dry_run: true` + diff |
+| Change manifest/catalogue format | `build_make_manifest.py` (+ `naming.py`, shared by import) then site `rebuild_catalog.py` | site rebuild `dry_run: true` + diff |
 | Change module update wiring | `scripts/utils.sh:update_json_path/module_prop`, `build_update_changelog.sh` | inspect `update` branch after a build |
 | Tune concurrency/timeouts | `.github/workflows/build.yml` env | Actions run timings |
 

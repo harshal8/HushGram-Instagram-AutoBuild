@@ -141,7 +141,10 @@ python3 .github/scripts/backfill_manifests.py --apply  # upload
 
 ### `naming.py`
 Single source of truth for filename/catalog-name derivation (`file_prefix`,
-arch extraction/normalization) shared by `build_make_manifest.py` and
-`backfill_manifests.py`. The website repo's `rebuild_catalog.py` carries a
-copy — change both in the same series of commits; divergence is the silent
-bug class the manifest architecture exists to prevent.
+arch extraction/normalization). Imported — never copied — by
+`build_make_manifest.py`, `backfill_manifests.py`, **and by the website's
+`rebuild_catalog.py`** (whose rebuild job sparse-clones `main` and points
+`RVB_NAMING_DIR` at this directory). Keep it stdlib-only so it stays importable
+across the repo boundary; a change here is live on the site at the next catalogue
+rebuild, so run `rebuild-catalog.yml` with `dry_run: true` before merging one.
+See [docs/decisions/0006](../../docs/decisions/0006-filename-parsing-is-imported-not-mirrored.md).

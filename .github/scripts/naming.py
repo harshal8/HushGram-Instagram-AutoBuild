@@ -1,10 +1,13 @@
 """Filename and catalog-name conventions — single source of truth.
 
 Shared by .github/scripts/build_make_manifest.py and backfill_manifests.py.
-IMPORTANT: the website repo's .github/scripts/rebuild_catalog.py carries a
-copy of these functions (it must stay dependency-free). If you change them
-here, change them there in the same series of commits — divergence here is
-the silent bug class the manifest architecture exists to prevent.
+IMPORTANT: this module is the one definition of those rules in the system. The
+website's .github/scripts/rebuild_catalog.py imports this file at rebuild time (via a
+sparse clone of main; see RVB_NAMING_DIR there) rather than keeping a copy, so a
+change here takes effect on the site at the next catalogue rebuild and nowhere needs
+to be "changed in both repos". Do not reintroduce a mirror: divergence between
+builder and website parsing is the silent bug class the manifest architecture exists
+to prevent. Keep this module stdlib-only so it stays importable from anywhere.
 
 Manifest schema v1 (per-release build.json asset): see build_make_manifest.py.
 """
