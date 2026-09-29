@@ -35,15 +35,29 @@ numbered release (build outputs) and the archive releases. Note: `gh` names
 an uploaded asset after the **local file's basename** — always stage files
 under their intended asset name.
 
-`gh release edit` overwrites title *and* body wholesale, so metadata writes are
-controlled by `UPDATE_EXISTING_METADATA` (default `true`). The archive upload
-step in `build.yml` sets it to `false`: `stable`/`beta` always exist, and their
-prose is owner-editable — only `--prerelease` normalisation and the asset
-uploads touch them. Passing `RELEASE_TITLE`/`RELEASE_NOTES` there still matters
-for the create branch (a deleted archive release gets recreated properly).
+`gh release edit` overwrites title *and* body wholesale, so every field the
+uploader is allowed to write has to be named by the caller:
 
-Regression test: `temp/_metastop/test_metadata_write.sh` (stubbed `gh`, asserts
-which flags reach `release edit`/`create` for each knob value; Git Bash).
+- `UPDATE_EXISTING_METADATA` (default `true`): `false` leaves an existing
+  release's title and notes alone, which is what the archive step sets — `stable`
+  and `beta` always exist and their prose is owner-editable. `RELEASE_TITLE` /
+  `RELEASE_NOTES` still apply on the create branch, so a deleted archive release
+  comes back with sane metadata.
+- `IS_PRERELEASE`: `true` marks the release a pre-release, `false` marks it a
+  full release, and *unset* means "no opinion" — the flag is not written at all.
+  Any other value fails with exit 2 instead of silently demoting a release.
+
+With both off the uploader makes no metadata call at all and only uploads
+assets. In CI the flag is never unset: the archive step passes the run's
+`IS_PRERELEASE` through, and `build_resolve_context.sh` emits `ARCHIVE_TAG=beta`
+together with `IS_PRERELEASE=true`, so the badge follows the channel whose assets
+are merged in — while a stable run still pins `--prerelease=false` on the stable
+archive.
+
+Regression test: `temp/_metastop/test_metadata_write.sh` (stubbed `gh`; walks the
+exists/missing x knob x prerelease-state matrix, asserts which flags reach
+`release edit`/`create`, that no call is made when nothing is named, and that a
+bogus `IS_PRERELEASE` is rejected without touching `gh`; Git Bash).
 
 ### `merge_archive_branch.sh`
 Merges the current build's manifest into the `website` branch: writes
