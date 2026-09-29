@@ -4284,13 +4284,15 @@ build_rv() {
 	[ -f "${stock_apk%.apk}.apkm" ] && touch "${stock_apk%.apk}.apkm" 2>/dev/null || true
 	[ -n "${all_apk:-}" ] && [ -f "$all_apk" ] && touch "$all_apk" 2>/dev/null || true
 
-	# Log usage for the apks repo cache tracker. The key has to be the one
-	# cleanup-apks.py derives from the stored filename - "<pkg>-<version>" plus the
-	# target versionCode whenever the artifact carries one - because that script
-	# scores a version by max(upload time, usage stamp) and drops anything inactive
-	# for 30 days. Recording the bare version left every versionCode-keyed asset
-	# untracked, so it aged out of the cache however often CI pulled it.
-	echo "${pkg_name}-${version_f}${vc_infix:-}" >> "$TEMP_DIR/used_versions.txt"
+	# Log usage for the apks repo cache tracker. The key is "<pkg>-<version>" and
+	# must NOT carry the target versionCode: cleanup-apks.py derives its key by
+	# stripping (-[0-9]+)?-(<arch>).(<ext>) off the stored filename, so the optional
+	# numeric group removes the version code deliberately and every ABI/artifact of
+	# one app version shares a single usage stamp. Appending ${vc_infix} here - which
+	# looks like it "matches the filename" - untracks those versions instead: the key
+	# is never matched, the version falls back to aging out by upload time, and the
+	# phantom key is pruned as a ghost entry. See docs/cache-repo.md.
+	echo "${pkg_name}-${version_f}" >> "$TEMP_DIR/used_versions.txt"
 
 	local sig_op
 	if _bundle_ext_of "$stock_apk" >/dev/null 2>&1; then

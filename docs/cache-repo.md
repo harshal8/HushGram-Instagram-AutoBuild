@@ -24,7 +24,7 @@ contract. The contributor workflow (getting write access, the three equivalent
 | Assets | `<pkg>-<version>[-<versionCode>]-<arch>.<ext>` |
 | `<arch>` | `all`, `universal`, `common`, `arm64-v8a`, `arm-v7a`, `armeabi-v7a`, `x86`, `x86_64` |
 | `<ext>` | `apk`, `xapk`, `apkm`, `apks` |
-| `usage.json` | `"<pkg>-<version>[-<versionCode>]" → epoch seconds of last use` |
+| `usage.json` | `"<pkg>-<version>"` → epoch seconds of last use (no version code, on purpose — see below) |
 | Uploaders | `upload_apks.ps1` / `.sh` / `.py` (human-contributed), the rvb engine (automated) |
 | Retention | `.github/scripts/cleanup-apks.py`, weekly |
 
@@ -108,28 +108,38 @@ of how long the project has existed. This is a different, much more forgiving po
 than the archive releases' "2 newest versions per app+arch" — those hold patched
 output for users, this holds stock input for builds.
 
-## Usage keys must match the filename-derived version key
+## The usage key is `<pkg>-<version>` — never the version code
 
-Retention only protects what it can recognise, so the two sides must agree on the
-key. `cleanup-apks.py` derives it by stripping `[-<versionCode>]-<arch>.<ext>` from
-the stored asset name, which means **the version code is part of the key** when the
-artifact carries one — and `build_rv` records usage as
-`${pkg_name}-${version_f}${vc_infix}`, the same infix its cache filename uses.
+Retention only protects what it can recognise, so both sides must agree on one key,
+and the shape is **`<pkg>-<version>` with the version code stripped**.
+`cleanup-apks.py` derives it by removing `(-[0-9]+)?-(<arch>).(<ext>)` from the asset
+filename — that optional numeric group exists precisely to drop a version code — and
+`build_rv` writes `used_versions.txt` as `${pkg_name}-${version_f}`.
 
-This was not true until 2026-09-29: the tracker wrote the bare `pkg-version`, so for
-assets stored as `<pkg>-<version>-<versionCode>-<arch>.apk` nothing ever refreshed
-the key cleanup derived. Those versions were scored by upload time alone and became
-deletable 30 days after being added, however often CI pulled them — visible in the
-numbers of the day: `usage.json` held 283 keys and not one ended in a version code,
-while the cache contained
-`com.facebook.katana-573.0.0.37.74-473623755-arm64-v8a.apk`. The old bare-version
-keys for those assets are cleaned up automatically as ghost entries by step 5 of the
-retention pass.
+So all of these assets are **one version** to the retention pass:
 
-The invariant to preserve: **any change to the cache asset filename shape must be
-mirrored in the `used_versions.txt` key**, or the renamed assets silently start
-expiring. Two assets of the same version that differ only by infix are two versions
-to the cleanup script, so each is protected or pruned on its own record.
+```text
+com.facebook.katana-573.0.0.37.74-473623755-arm64-v8a.apk ─┐
+com.facebook.katana-573.0.0.37.74-arm64-v8a.apk            ├→ com.facebook.katana-573.0.0.37.74
+com.facebook.katana-573.0.0.37.74-arm-v7a.apk              ─┘
+```
+
+That is what makes the per-ABI version-code split harmless to track: one app version,
+one usage stamp, one keep-or-delete decision covering every artifact of it.
+
+The trap, documented because it was walked into on 2026-09-29: appending the version
+code to the usage key "so it matches the filename" looks like an obvious consistency
+fix and silently untracks the version instead — cleanup never derives such a key, so
+the version is scored by `upload time` alone and starts expiring after 30 days no
+matter how often CI pulls it, while the phantom key is deleted as a ghost entry the
+following Sunday. Verified against the live repo: every asset under
+`com.facebook.katana`, including its version-code-named ones, resolves to a
+bare-version key that exists in `usage.json` with a current stamp.
+
+What genuinely must stay in step is the **other** end of the name: change the
+`-<arch>.<ext>` suffix pattern, or the arch/extension vocabulary, and the strip stops
+matching — those assets then never group at all, which is both unprunable and
+invisible. The version code is the one component the key intentionally ignores.
 
 ## Debugging checklist
 
