@@ -35,29 +35,36 @@ numbered release (build outputs) and the archive releases. Note: `gh` names
 an uploaded asset after the **local file's basename** — always stage files
 under their intended asset name.
 
-`gh release edit` overwrites title *and* body wholesale, so every field the
-uploader is allowed to write has to be named by the caller:
+`gh release edit` overwrites title *and* body wholesale, so one rule covers every
+metadata field: **a field the caller did not name is not written.** Absence means
+"leave it be", never "write empty":
 
-- `UPDATE_EXISTING_METADATA` (default `true`): `false` leaves an existing
-  release's title and notes alone, which is what the archive step sets — `stable`
-  and `beta` always exist and their prose is owner-editable. `RELEASE_TITLE` /
-  `RELEASE_NOTES` still apply on the create branch, so a deleted archive release
-  comes back with sane metadata.
-- `IS_PRERELEASE`: `true` marks the release a pre-release, `false` marks it a
-  full release, and *unset* means "no opinion" — the flag is not written at all.
-  Any other value fails with exit 2 instead of silently demoting a release.
+- `RELEASE_TITLE`/`TITLE`, `RELEASE_BODY_FILE`, `RELEASE_NOTES` — the body file
+  wins over the inline string, and a missing or zero-byte body file counts as
+  unnamed, so a `generate_release_notes.py` that produced nothing cannot blank a
+  release.
+- `IS_PRERELEASE` — `true` marks a pre-release, `false` a full release, unset
+  leaves the state as it is; any other value exits 2 rather than guessing.
 
-With both off the uploader makes no metadata call at all and only uploads
-assets. In CI the flag is never unset: the archive step passes the run's
-`IS_PRERELEASE` through, and `build_resolve_context.sh` emits `ARCHIVE_TAG=beta`
-together with `IS_PRERELEASE=true`, so the badge follows the channel whose assets
-are merged in — while a stable run still pins `--prerelease=false` on the stable
-archive.
+The named fields go out in a single `gh release edit`; when nothing is named
+there is no call at all. That is what lets the archive step pass `IS_PRERELEASE`
+and nothing else — `stable`/`beta` keep the title and notes written by hand, and
+`cleanup.yml` keeps those releases alive via `releases_keep_keyword`, so the
+create branch never invents prose for them. The badge still follows the channel,
+because `build_resolve_context.sh` emits `ARCHIVE_TAG=beta` together with
+`IS_PRERELEASE=true`. On the create branch `RELEASE_TARGET` applies and gh fills
+in whatever was not named (release name = tag, empty body).
 
-Regression test: `temp/_metastop/test_metadata_write.sh` (stubbed `gh`; walks the
-exists/missing x knob x prerelease-state matrix, asserts which flags reach
-`release edit`/`create`, that no call is made when nothing is named, and that a
-bogus `IS_PRERELEASE` is rejected without touching `gh`; Git Bash).
+Assets are the deliberate exception to the rule: the file list *is* the named
+intent, so there is no absence to interpret, and `gh release upload` refuses a
+name the release already has. `--clobber` therefore stays unconditional — make it
+opt-in and a retried run dies on the file it had already pushed.
+
+Regression test: `temp/_metastop/test_metadata_write.sh` (stubbed `gh`; walks
+exists/create x title x notes-source x prerelease-state, asserts which flags
+reach `release edit`/`create`, that no call is made when nothing is named, that
+an empty body file counts as unnamed, and that a bogus `IS_PRERELEASE` is
+rejected without touching `gh`; Git Bash).
 
 ### `merge_archive_branch.sh`
 Merges the current build's manifest into the `website` branch: writes

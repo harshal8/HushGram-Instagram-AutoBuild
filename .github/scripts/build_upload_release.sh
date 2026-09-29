@@ -3,43 +3,61 @@ set -euo pipefail
 
 # Unified release uploader using native gh CLI with per-file retry and clobber.
 #
+# One rule for every metadata field: a field the caller did not name is not
+# written. Absence means "leave it be" - never a claim of "empty" or "false".
+# That conflation is what let the archive releases get their hand-written notes
+# and pre-release badge overwritten on every build. When a release has to be
+# created, gh's own defaults fill whatever was not named (name = tag, empty
+# body), so a seed value can only ever reach a release that did not exist yet.
+#
 # Inputs (via env vars):
 #   RELEASE_TAG / TAG     : Release tag name (required)
-#   RELEASE_TITLE / TITLE : Release title (default: "Build No. $TAG")
-#   RELEASE_BODY_FILE     : Path to markdown notes file (e.g. build.md)
-#   RELEASE_NOTES         : Inline release notes string (used if no body file)
-#   IS_PRERELEASE         : "true" marks the release a pre-release, "false" marks it
-#                           a full release. UNSET/empty means "no opinion": an
-#                           existing release keeps whatever state it has, and a new
-#                           one is created as non-prerelease (gh's own default).
-#                           Anything else is rejected.
-#   RELEASE_TARGET        : Target branch/commit for new release (optional, e.g. main)
-#   UPDATE_EXISTING_METADATA :
-#                           "false" leaves an EXISTING release's title and notes
-#                           alone; title/notes then only apply when the release has
-#                           to be created. Default: "true"
+#   RELEASE_TITLE / TITLE : Release title. Unset leaves an existing name alone and
+#                           lets gh name a new release after the tag.
+#   RELEASE_BODY_FILE     : Path to a markdown notes file (e.g. build.md). Missing,
+#                           empty or unset all count as "not named".
+#   RELEASE_NOTES         : Inline notes string; consulted only if no body file was
+#                           named. Empty means "not named", not "clear the body".
+#   IS_PRERELEASE         : "true" marks a pre-release, "false" a full release,
+#                           unset/empty leaves the state as it is. Any other value
+#                           is rejected with exit 2 instead of being guessed at.
+#   RELEASE_TARGET        : Target branch/commit for a NEW release (optional).
+#                           Ignored when the release already exists.
 #   UPLOAD_FILES          : Space-separated files/glob patterns (default: "./build/*")
 #   GITHUB_REPOSITORY     : owner/repo (required)
 #   GH_TOKEN              : GitHub token (required)
 #
-# The two metadata knobs are orthogonal: with UPDATE_EXISTING_METADATA=false and
-# IS_PRERELEASE unset the uploader writes no metadata at all and skips the edit
-# call entirely - a field nobody named is not the uploader's to assert.
+# Assets are the deliberate exception to the rule above: the file list IS the
+# caller's named intent, so there is no absence to interpret, and `gh release
+# upload` refuses a name the release already has. Overwriting (--clobber) is
+# therefore unconditional - without it a retried run dies on the file it had
+# already pushed, which is the opposite of idempotent.
 
 TAG="${RELEASE_TAG:-${TAG:?RELEASE_TAG or TAG not set}}"
 REPO="${GITHUB_REPOSITORY:?GITHUB_REPOSITORY not set}"
-TITLE="${RELEASE_TITLE:-${TITLE:-Build No. $TAG}}"
+TITLE="${RELEASE_TITLE:-${TITLE:-}}"
 BODY_FILE="${RELEASE_BODY_FILE:-${BODY_FILE:-}}"
+RELEASE_NOTES="${RELEASE_NOTES:-}"
 IS_PRERELEASE="${IS_PRERELEASE:-}"
 TARGET="${RELEASE_TARGET:-${TARGET:-}}"
 FILES_PATTERN="${UPLOAD_FILES:-${FILES:-./build/*}}"
-UPDATE_EXISTING_METADATA="${UPDATE_EXISTING_METADATA:-true}"
 
 echo "=== Uploading release assets for tag: $TAG ==="
 
-# 1. Prepare create / edit flags
+# 1. Turn each named field into flags; an empty array means "the caller did not
+# name this", so it never reaches gh.
 TARGET_ARG=()
 [ -n "$TARGET" ] && TARGET_ARG=(--target "$TARGET")
+
+TITLE_ARG=()
+[ -n "$TITLE" ] && TITLE_ARG=(-t "$TITLE")
+
+NOTES_ARG=()
+if [ -n "$BODY_FILE" ] && [ -s "$BODY_FILE" ]; then
+    NOTES_ARG=(-F "$BODY_FILE")
+elif [ -n "$RELEASE_NOTES" ]; then
+    NOTES_ARG=(-n "$RELEASE_NOTES")
+fi
 
 PRERELEASE_CREATE_ARG=()
 PRERELEASE_EDIT_ARG=()
@@ -60,23 +78,11 @@ case ${IS_PRERELEASE,,} in
         ;;
 esac
 
-NOTES_ARG=()
-if [ -n "$BODY_FILE" ] && [ -s "$BODY_FILE" ]; then
-    NOTES_ARG=(-F "$BODY_FILE")
-elif [ -n "${RELEASE_NOTES:-}" ]; then
-    NOTES_ARG=(-n "$RELEASE_NOTES")
-else
-    NOTES_ARG=(-n "")
-fi
-
 # 2. Ensure release exists or create it
 if gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
-    # gh release edit replaces the whole body, so an unguarded edit would wipe
-    # hand-written archive notes on every build. Assemble only the fields the
-    # caller named and write them in one call; no named field, no call.
-    EDIT_ARG=()
-    [ "$UPDATE_EXISTING_METADATA" = "true" ] && EDIT_ARG+=(-t "$TITLE" "${NOTES_ARG[@]}")
-    EDIT_ARG+=("${PRERELEASE_EDIT_ARG[@]}")
+    # gh release edit replaces the whole body, so send only the named fields in one
+    # call - and when nothing was named, there is no call to make.
+    EDIT_ARG=("${TITLE_ARG[@]}" "${NOTES_ARG[@]}" "${PRERELEASE_EDIT_ARG[@]}")
     if [ ${#EDIT_ARG[@]} -gt 0 ]; then
         echo "Release $TAG already exists, updating metadata: ${EDIT_ARG[*]}"
         gh release edit "$TAG" "${EDIT_ARG[@]}" -R "$REPO" || true
@@ -84,8 +90,13 @@ if gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
         echo "Release $TAG already exists and no metadata was named - leaving it as-is."
     fi
 else
-    echo "Creating release $TAG..."
-    gh release create "$TAG" -t "$TITLE" "${NOTES_ARG[@]}" "${PRERELEASE_CREATE_ARG[@]}" "${TARGET_ARG[@]}" -R "$REPO"
+    CREATE_ARG=("${TITLE_ARG[@]}" "${NOTES_ARG[@]}" "${PRERELEASE_CREATE_ARG[@]}" "${TARGET_ARG[@]}")
+    if [ ${#CREATE_ARG[@]} -gt 0 ]; then
+        echo "Creating release $TAG with: ${CREATE_ARG[*]}"
+    else
+        echo "Creating release $TAG with gh's defaults (name = tag, empty body)."
+    fi
+    gh release create "$TAG" "${CREATE_ARG[@]}" -R "$REPO"
 fi
 
 # 3. Collect files to upload
