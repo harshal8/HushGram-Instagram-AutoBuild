@@ -49,6 +49,19 @@ Thank you to everyone who helps keep this project alive!
 
 ---
 
+## 📚 Documentation
+
+Everything about **how this project works** lives in [**`docs/`**](docs/): the
+architecture, what each CI stage does, where every file and branch lives, how these
+releases feed the download website, and how to set up a local build or contribute.
+
+- Start here → [docs/README.md](docs/README.md)
+- Adding or changing an app → [docs/contributing.md](docs/contributing.md)
+- AI agents → [docs/ai-context.md](docs/ai-context.md) and [AGENTS.md](AGENTS.md)
+- App/patch configuration reference → [CONFIG.md](CONFIG.md)
+
+---
+
 ## 💖 Credits & Acknowledgements
 
 This automated builder would not be possible without the incredible work and dedication of the open-source Android community. A massive thank you to:

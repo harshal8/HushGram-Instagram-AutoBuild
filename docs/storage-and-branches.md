@@ -1,0 +1,181 @@
+# Storage and branches
+
+Where every artifact lives, who is allowed to write it, and how to get it back.
+The governing rule: **`main` is pure code.** Anything machine-regenerated and
+single-writer lives on another branch, so `main`'s history stays human.
+
+## Branch map
+
+| Branch | Contents | Sole writer(s) | Readers |
+|---|---|---|---|
+| `main` | engine, workflows, scripts, `module/`, `bin/`, `docs/`, `CONFIG.md` | maintainer, via PRs | every CI job (checked out first) |
+| `data` | `configs/` (human TOMLs + generated pool JSON), `state/` (watcher JSONs) | `commit_data_branch.sh` (CI, `*.json`), `push_data_configs.sh` (maintainer, `*.toml`) | watcher + build jobs through `fetch_data_branch.sh` |
+| `website` | `manifests/<tag>.json`, `archive/{stable,beta}.json` | `merge_archive_branch.sh`; pruned by `cleanup_website_branch.sh` | the site's `rebuild_catalog.py` |
+| `update` | `changelogs/<code>.md`, `<channel>/<module-id>.json` | `build_update_changelog.sh`; pruned by `cleanup_update_branch.sh` | KernelSU / Magisk module updaters on phones |
+
+GitHub Releases are storage too, and they are **not** mirrors of branches:
+releases hold files, branches hold the metadata that describes the files.
+
+Each non-code branch carries its own `README.md` at its tip, written for whoever
+lands on it (`git show origin/data:README.md`, `origin/website:README.md`,
+`origin/update:README.md`). Those files are the per-branch contracts and the
+sections below link back to them; keep the two in step when a path changes, and
+treat the branch copy as the one a contributor reading the branch will see first.
+
+## `data`
+
+```
+configs/
+  config.manual.toml          hand-built config for Manual CI
+  patches/<author>.toml       one file per patch source family (the real config)
+  stable_build.json           generated: the stable pool for the next build
+  beta_build.json             generated: the beta pool
+state/
+  patch_sources.json          per source: host, repo, stable tag+date, beta tag+date, blocked
+  app_versions.json           app: {keys: […], version}; "_check_only_listed": true
+  patch_file_hashes.json      source → channel → package → bundle content hash
+```
+
+- Both directories are ignored on `main` ([.gitignore](../.gitignore)) and exist
+  locally only as materialisations. Never `git add` them.
+- **`fetch_data_branch.sh` overwrites local `configs/` and `state/`.** Publish
+  hand-edited TOMLs *before* fetching, or lose them:
+  `bash .github/scripts/push_data_configs.sh "<message>"` — plumbing temp-index
+  commit of `configs/**/*.toml` only, using your git identity.
+- Writer boundaries are enforced by glob, not convention: the CI committer commits
+  only `*.json` directly under those two directories, so it can never sweep a
+  half-edited TOML into history — and equally, it cannot delete one. A *renamed*
+  TOML must therefore be removed on `data` explicitly, or the old name lingers.
+- `state/` is regenerable: the watcher rebuilds it from the forges. `configs/`
+  TOMLs are the sole copy of human intent — they are the thing worth backing up.
+- Recovery: `temp/seed_data_branch.sh` reseeds the branch from a maintainer clone's
+  working copies. All jobs hard-fail when `data` is missing rather than falling
+  back to empty state.
+- `git switch data` for an occasional hand-edit is legitimate, but the ignored
+  local copies get clobbered on switch — re-run `fetch_data_branch.sh` afterwards.
+
+## `website`
+
+Per-build manifests plus two cumulative archives. This branch replaced release
+assets as the manifest store on **2026-09-25**: numbered releases no longer carry
+a `build.json`, so branch history is the only metadata history.
+
+Schema v1 envelope (produced by `build_make_manifest.py`):
+
+```json
+{
+  "schema": 1,
+  "kind": "build" | "archive",
+  "meta": { "build": "<tag>", "channel": "stable" | "beta", "publishedAt": "<iso>" },
+  "files": { "<exact asset filename>": { … per-file entry … } }
+}
+```
+
+Per-file entry keys: `name` (file prefix), `version`, `appKey`, `appName`, `arch`
+(normalised: `arm64`, `arm`, `all`, `universal`, `x86_64`, `x86`), `fileType`
+(`APK` | `Module`), `brandKey`, `brandName`, `variant`, `subVariant`,
+`packageName`, `patchSources[]`, `changelogs[]`, `appliedPatches[]`,
+`originBuild` (the numbered tag the file came from — carried along when an entry
+is merged into an archive, which is how the site still links an archived file to
+its build), `publishedAt`.
+
+An archive envelope restamps `meta` as `{build: <channel>, channel: <channel>,
+publishedAt: <merge time>}` while keeping the surviving file entries.
+
+Merge semantics for `archive/<channel>.json` (`merge_archive_branch.sh`):
+
+1. Fetch and check out `website`; copy the current cumulative file. A fetch
+   failure **fails the job** — there is deliberately no "start from empty" path,
+   which is what eliminated the 2026-09-24 collapse where a failed asset download
+   silently restarted the cumulative manifest.
+2. Union old + new — **new entries win on a filename collision** — then drop every
+   entry whose file no longer exists on the archive release (live filter, read from
+   the Releases API). Existence is the releases' business; history is the branch's.
+3. Sanity gate: recompute `|union(old,new) ∩ live|` and refuse to push if the
+   result kept fewer entries than that.
+4. Push with retries, rebasing over concurrent updates (the `build` concurrency
+   group is what makes "concurrent" rare).
+
+Recovery order for a damaged `archive/*.json`: **branch history first**
+(`git log -p archive/stable.json`, `git show <rev>:archive/stable.json`, force-push
+to undo), then `repair_archive_manifest.py` (dry-run by default), and only while
+legacy release assets still exist does `seed_website_branch.py` make sense.
+
+## `update`
+
+Wire format baked into shipped software. A module zip's `module.prop` carries
+`updateJson=https://raw.githubusercontent.com/<owner>/<repo>/update/<channel>/<module-id>.json`
+— the branch must mirror that path exactly, and `update_json_path()` in
+[scripts/utils.sh](../scripts/utils.sh) is the single derivation:
+
+```
+module id  <table>-<author>[-beta][-arm64|-arm]     (build.sh composes it)
+pointer    <channel>/<id-without-author-or-channel>.json   → stable/youtube.json
+                                                      → beta/youtube-arm64.json
+changelog  changelogs/<build-code>.md
+```
+
+Pointer content: `{ "version", "versionCode", "zipUrl", "changelog" }` — `zipUrl`
+points at the **archive** release (`releases/download/<channel>/<file>`), so a
+pruned archive asset means a pointer that no longer resolves; that coupling is why
+the archive upload precedes the merge step.
+
+Consumers are the KernelSU and Magisk app updaters only. LSPatch is a patching
+backend, not an updater — its APKs come from releases/Obtainium and never poll
+this branch. **Never "tidy" this layout:** every installed module carries the old
+URL and would 404, which is a forced re-flash for the user.
+
+## GitHub Releases
+
+| | Numbered | Archive |
+|---|---|---|
+| Tags | `260141`, `260140`, … (`YY` + sequence) | `stable`, `beta` |
+| Lifetime | append-only; newest 98 survive cleanup | permanent (`releases_keep_keyword`) |
+| Contents | this build's APKs + module zips | cumulative, pruned to 2 versions per app+arch |
+| Title/body | generated per build | **owner-written**; CI names no metadata |
+| Pre-release flag | `--prerelease` on beta runs | set once by hand (`beta` only) |
+| `build.json` | no (moved to the `website` branch) | no |
+
+Asset filename grammar — the contract every consumer parses:
+
+```
+<file-prefix>-v<version>-<arch>.apk                  youtube-morphe-v19.16.39-arm64-v8a.apk
+<file-prefix>-module-v<version>-<arch>.zip           youtube-morphe-module-v19.16.39-arm64-v8a.zip
+```
+
+`file-prefix` is everything before the first `-v<digit>` or `-module-`
+(`naming.py:file_prefix`). Arch spelling is normalised for matching
+(`armeabi-v7a` ≡ `arm-v7a`, `all` ≡ `universal`) because the engines of different
+patchers write different tokens. Filename-derived arch is a *fallback*: the
+manifest's recorded arch is authoritative, and `naming.py` — the shared
+derivation — has a deliberate copy inside the website's `rebuild_catalog.py`
+([website-contract.md](website-contract.md)).
+
+## `nullcpy/apks` (shared download cache)
+
+One release per **package name**, tagged with it; assets are the stock or bundle
+files the engine downloaded, named `<pkg>-<version>[-<versionCode>]<arch>.<ext>`.
+The engine reads it as the highest-priority download source (`cache_repo`,
+download-only — never used to list versions) and writes back anything it fetched
+freshly, under `UPLOAD_APKS_REPO` with `GH_TOKEN` = `APKS_REPO_TOKEN`. Uploads
+retry view/create/upload because parallel jobs can race on the same package tag.
+`update_usage_tracker.py` records which versions were consumed so eviction can be
+knowledgeable. This repo's Actions cache (`temp/apks`) is a fast local copy of the
+same directory; both are caches, neither is authoritative.
+
+## `temp/` (gitignored, but load-bearing locally)
+
+Scratch space for downloads, prebuilts, per-job logs and manifests — plus the
+project's habit of keeping **prototype regression harnesses** here
+(`test_*.sh`, `_mp/`, `_ver/`, `_metastop/`, …). They are not tracked, so the
+references to them in docs and in `.github/scripts/README.md` are pointers to a
+maintainer's disk, not to CI. Anything the pipeline must run forever belongs in
+`.github/traces/` instead.
+
+## Line endings
+
+[.gitattributes](../.gitattributes) forces LF for `*.sh`, `*.py`, `*.yml`,
+`*.json`, `*.toml` and `*.trace` — Windows checkouts with `core.autocrlf=true`
+would otherwise inject CRLF, breaking Linux execution and byte-comparing trace
+goldens. The engine also normalises `utils.sh` defensively (`dos2unix`) before
+sourcing it in CI.

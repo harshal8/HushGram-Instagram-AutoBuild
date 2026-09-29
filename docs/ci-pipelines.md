@@ -1,0 +1,185 @@
+# CI pipelines
+
+Six workflows in [.github/workflows](../.github/workflows). One watcher decides
+*whether* to build; the reusable build job does the building; cleanup keeps
+GitHub's limits; notify reports failures.
+
+| File | Name | Triggered by | Concurrency group |
+|---|---|---|---|
+| [ci.yml](../.github/workflows/ci.yml) | CI | `schedule` cron `0 */4 * * *`, `workflow_dispatch` | `ci` |
+| [build.yml](../.github/workflows/build.yml) | Build | `workflow_call` only — from `ci.yml` (per pool) or `manual-ci.yml` | `build` |
+| [cleanup.yml](../.github/workflows/cleanup.yml) | Cleanup | `workflow_call`, `workflow_dispatch` | `clean` |
+| [manual-ci.yml](../.github/workflows/manual-ci.yml) | Manual CI | `workflow_dispatch` (config choice + optional `remove_apks`) | `ci` |
+| [notify.yml](../.github/workflows/notify.yml) | Notify | `workflow_call`, on `failure()` of the caller | — |
+| [trace-verify.yml](../.github/workflows/trace-verify.yml) | Trace Verify | `push` touching `scripts/build.sh`, `scripts/utils.sh` or `.github/traces/**` | `trace-verify` |
+
+Nothing here runs on `push` to `main` except Trace Verify: a push changes
+behaviour for the *next* scheduled run, it does not start a build.
+
+## The watcher (`ci.yml`)
+
+One job, `check_patch`, decides everything downstream. Order matters because each
+step's output is the next step's input:
+
+| Step | Script | What it decides |
+|---|---|---|
+| Fetch configs & state | `fetch_data_branch.sh` | hard-fails if `data` is missing — no silent fallback to stale state |
+| Compile Base Configs | `compile_patch_configs.py` | every app's pool membership from `configs/patches/*.toml` |
+| Sync Patch Sources | `sync_patch_sources.py` | discovers all `(patches-source, host)` pairs, lists releases on GitHub/GitLab/Codeberg, rewrites `state/patch_sources.json`, prunes sources no config uses, emits `TRIGGER_STABLE`/`TRIGGER_BETA`/`TRIGGER_BLOCKED` and writes `changed_sources.json` |
+| Fetch App Versions | `ci_fetch_app_versions.sh` | scrapes current store versions (honours `"_check_only_listed"` in `state/app_versions.json`) |
+| Compare App Versions | `compare` step | `TRIGGER_APP_UPDATE` when a tracked app moved |
+| Classify triggers | `ci_trigger_flags.sh` | the two questions everyone else asks: `SOURCES_CHANGED`, `ANYTHING_CHANGED` |
+| Check Patch App Updates | `ci_check_app_patches.py` | only when `SOURCES_CHANGED`: downloads the changed bundles and hashes them (`state/patch_file_hashes.json`) to find which apps the new patches actually cover |
+| Generate configs (JSON) | `ci_generate_configs.sh` | only when `ANYTHING_CHANGED`: writes the pool config each channel will build |
+| Resolve effective triggers | `ci_resolve_triggers.sh` | per-channel `TRIGGER_*` **after** generation, and downgrades a trigger to 0 when the resulting pool has no enabled apps |
+| Notify telegram | `ci_notify_telegram.sh` | raw vs effective triggers, so a suppressed trigger is visible |
+| Commit updated state | `commit_data_branch.sh` | pushes **only** `*.json` under `configs/` + `state/` to `data` |
+
+Two design rules worth preserving:
+
+- **`changed_sources.json` is written once**, by the sync step
+  (`derive_source_changes.py`). Config generation, the patch-relevance scan and
+  the trigger flags all project from that one record, so three steps can never
+  disagree about what moved.
+- **Generation is membership-only.** `ci_generate_configs.sh` sets
+  `enabled = false` for apps outside this run's change set and never rewrites a
+  version: an app whose `patches-version` is a channel keyword keeps the keyword,
+  resolved at build time against `state/patch_sources.json`. Stamping a concrete
+  tag into the pool config used to create a second artifact that had to agree
+  with the state snapshot about what "stable" meant.
+- The beta pool keeps one extra gate: an app-version bump alone pulls an app into
+  beta only when one of its sources genuinely has `beta_date > stable_date`,
+  otherwise the stable pool already covers it.
+
+### What causes a build
+
+| Event | Flags | Effect |
+|---|---|---|
+| A patch source publishes a release on the stable channel | `TRIGGER_STABLE` | stable pool regenerates and builds |
+| …on the beta channel | `TRIGGER_BETA` | beta pool only |
+| An app's own version changed in a tracked store | `TRIGGER_APP_UPDATE` | both pools reconsider membership (beta gated as above) |
+| A source is blocked or unblocked (`404`/`451`/`403` from the forge) | `TRIGGER_BLOCKED` | regenerates membership, so frozen sources drop out and recovered ones return |
+| Nothing moved | all `0` | no config write, no notification, no build |
+
+A blocked source is **skipped**, not retried: neither a retry nor a live listing
+recovers a repository that is gone, and the app reappears by itself once the
+forge answers again.
+
+### Ordering and safety rails
+
+- `build_beta` runs first; `build_stable` `needs` it and additionally requires the
+  watcher to have succeeded and beta not to have been cancelled. The single
+  `build` concurrency group therefore serialises every manifest merge against the
+  `website` branch — two builders never merge at once.
+- `trigger_cleanup` runs on `always()` if either build succeeded.
+- `ci_trigger_flags.sh` writes outputs with explicit `if` blocks rather than
+  `[ … ] || [ … ] && var=` lists on purpose: under `set -e` a short-circuit list
+  whose final command never runs exits non-zero and would kill the step *before*
+  it wrote its outputs, silently turning every dependent step into a no-op.
+
+## The build job (`build.yml`)
+
+Called once per pool with `config_file` (and optional `remove_apks`). Everything
+it needs to be reproducible lives in that one file, including the tuning knobs —
+`PARALLEL_JOBS: "6"` and `UPLOAD_CONCURRENCY: "12"` are workflow env values, not
+repo variables, so they are visible in PRs, survive forks, and carry git history.
+
+Step order, with the reason each is where it is:
+
+1. Java 21 (Temurin) → checkout `main` with `fetch-depth: 0` and submodules (full
+   history is needed to enumerate existing tags and to commit to other branches) →
+   `fetch_data_branch.sh`.
+2. `build_resolve_context.sh` maps the config file to `ARCHIVE_TAG`,
+   `IS_PRERELEASE`, `TITLE_SUFFIX` and the Telegram thread — the single owner of
+   "which channel is this run".
+3. Install Bouncy Castle **only if** `patchers.py needs-bks` says a module in this
+   config requires a BKS keystore.
+4. `install_keystore.sh` writes the signing identity from secrets.
+5. `build_resolve_version.sh` computes `NEXT_VER_CODE` (`YY` + the next 4-digit
+   sequence above the highest existing tag/release, e.g. `260141`).
+6. Restore the Actions APK cache (`temp/apks`), optionally drop named APKs, then
+   `pip install curl_cffi` for the store scrapers. The Cloudflare-bypass sidecar
+   runs as a job `service` on `:8000`.
+7. `scripts/build.sh <config>` — the engine ([build-engine.md](build-engine.md)).
+   `UPLOAD_APKS_REPO` + `APKS_REPO_TOKEN` turn on the shared cache repo;
+   `RVB_MORPHE_PASSTHROUGH` and the `RELEASE_NOTES_*_LINK` vars are passed here.
+8. `update_usage_tracker.py` (`|| true`), `build_cache_cleanup.sh`, then the cache
+   manifest (`size name` pairs) is hashed into the save key so a run that changed
+   nothing does not re-upload 8 GB.
+9. `build_get_output.sh` lifts `build.md` into a step output (and `build.tmp`,
+   which the changelog step prefers as the source so the next build's `build.md`
+   append does not corrupt it).
+10. `build_make_manifest.py` → `temp/manifest/build.json`.
+11. **Upload to release** (numbered): title `Build No. <code>`, body from
+    `build.md`, `--prerelease` for beta.
+12. **Update changelog and module update files**: `build_update_changelog.sh`
+    checks out `update`, writes `changelogs/<code>.md` plus one JSON pointer per
+    module zip, and lists the exact paths it created in `.updated_pointers`. The
+    next step stages *those* paths explicitly — a `git add -A` on that branch
+    would sweep in unrelated dirt. Runs only when modules were built.
+13. `git checkout -f main` (dropping the `update` checkout) →
+    `build_exclude_from_archive.sh` removes opted-out apps from `build/`.
+14. **Upload to release (Archive)**: `continue-on-error: true`, assets only. It
+    names no metadata at all, which is deliberate —
+    [decisions/0001-release-metadata-ownership.md](decisions/0001-release-metadata-ownership.md).
+15. `merge_archive_branch.sh` merges this build's manifest into the `website`
+    branch. Must run **after** the archive upload so its live-asset filter sees the
+    new files.
+16. `build_notify_telegram.sh` posts the release to the channel's thread.
+
+## Cleanup (`cleanup.yml`)
+
+1. `ophub/delete-releases-workflows` deletes releases and tags, keeping the newest
+   **98** and anything matching the keyword `stable`/`beta` — that keyword list is
+   the only thing protecting the archive releases from deletion.
+2. `cleanup-archive-assets.py` prunes each archive to the **2 newest versions per
+   app + architecture** (grouping by `<app>-<arch>.<ext>`, newest by `created_at`).
+3. `cleanup_update_branch.sh` drops update pointers and changelogs whose release is
+   gone; `cleanup_website_branch.sh` drops `manifests/<tag>.json` for deleted
+   releases.
+4. A `catalog-updated` `repository_dispatch` to `vars.WEBSITE_REPO`
+   (default `nullcpy/nullcpy.github.io`), authenticated with
+   `WEBSITE_DISPATCH_TOKEN` falling back to `APKS_REPO_TOKEN`. `continue-on-error`,
+   because the site also rebuilds on its own schedule — a lost dispatch delays the
+   catalogue, it does not break it.
+
+## Required secrets and variables
+
+| Kind | Name | Used by | Notes |
+|---|---|---|---|
+| secret | `GITHUB_TOKEN` (auto) | all | `contents: write` on the jobs that push branches |
+| secret | `KEYSTORE_B64`, `KEYSTORE_P12_B64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS` | build | signing identity |
+| secret | `APKS_REPO_TOKEN` | build, cleanup | cross-repo write to `nullcpy/apks`, doubles as dispatch token |
+| secret | `CODEBERG_TOKEN` | watcher | raises Codeberg/Forgejo rate limits |
+| secret | `TG_TOKEN`, `WEBSITE_DISPATCH_TOKEN` (optional) | notify steps | |
+| var | `APKS_REPO`, `WEBSITE_REPO` | build, cleanup | alternate cache/site repos for forks |
+| var | `TG_CHAT_ID`, `TG_CHAT_ID_BROADCAST`, `TG_THREAD_CI`, `TG_THREAD_STABLE`, `TG_THREAD_BETA` | notifications | Telegram topic routing |
+| var | `RELEASE_NOTES_TG_LINK`, `RELEASE_NOTES_DONATE_LINK`, `RELEASE_NOTES_WEBSITE_LINK` | build | footer links in the generated release body |
+| var | `RVB_MORPHE_PASSTHROUGH` | build | bundle handling escape hatch |
+
+## Log conventions
+
+The Actions log is a product surface here: 60+ apps × several arches in parallel,
+and a maintainer reads it on failure.
+
+- `::group::` / `::endgroup::` wrap each build (in pooled mode the parent emits
+  them while replaying a child's log, in completion order).
+- Engine messages go through `pr` / `wpr` / `epr` (green `+`, `!`, red `-`) and
+  `abort` for fatal ones.
+- The asset uploader marks each file's progress with `⬆️` (start) and `✅`
+  (uploaded), and reports a failed attempt as `::warning::Attempt n/3 failed for
+  <file>` before the final `::error::` — so a scan of the log locates the failing
+  file.
+- `::warning::` and `::error::` are reserved for annotatable problems, and a
+  validation rejection that must stop the job writes `::error::` **and** exits
+  non-zero (see `IS_PRERELEASE` handling in the uploader).
+
+## Testing a pipeline change
+
+| Change | Cheapest honest verification |
+|---|---|
+| Engine functions (`utils.sh`) | `bash .github/traces/trace_runner.sh verify` — offline, no network |
+| A shell script CI calls | a stubbed-binary harness in `temp/` (see [contributing.md](contributing.md)) |
+| Release/upload behaviour | the metadata matrix harness + a `workflow_dispatch` of Manual CI against `configs/config.manual.toml` |
+| Watcher gating | Manual CI with a chosen config, or read the previous run's flags in the Actions UI |
+| Website-facing formats | rebuild the site catalogue with `dry_run: true` on `rebuild-catalog.yml` |
