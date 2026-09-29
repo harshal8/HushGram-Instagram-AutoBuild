@@ -41,8 +41,8 @@
     "blocked": false,
     "host": "github",
     "repo": "Fripe070/PixivPatches",
-    "stable": "v1.4.0",
-    "stable_date": "2026-09-28T11:09:05Z"
+    "stable": "v1.4.1",
+    "stable_date": "2026-09-28T21:39:43Z"
   },
   "IMXEren/mix-patches": {
     "beta": "v1.7.2-dev.2",
@@ -72,13 +72,13 @@
     "stable_date": "2026-09-01T16:37:52.954Z"
   },
   "PrathxmOp/Prathxm-Patches": {
-    "beta": "v1.14.0-dev.2",
-    "beta_date": "2026-09-28T15:40:01Z",
+    "beta": "v1.15.0-dev.1",
+    "beta_date": "2026-09-28T21:57:54Z",
     "blocked": false,
     "host": "github",
     "repo": "PrathxmOp/Prathxm-Patches",
-    "stable": "v1.13.1",
-    "stable_date": "2026-09-19T16:25:09Z"
+    "stable": "v1.15.0",
+    "stable_date": "2026-09-28T22:01:05Z"
   },
   "Quantro100/Morphe-patches": {
     "beta": "",
@@ -90,8 +90,8 @@
     "stable_date": "2026-06-02T20:22:14Z"
   },
   "RookieEnough/De-Vanced": {
-    "beta": "v1.4.4-dev.1",
-    "beta_date": "2026-09-20T23:37:47Z",
+    "beta": "v1.5.0-dev.1",
+    "beta_date": "2026-09-28T20:32:14Z",
     "blocked": false,
     "host": "github",
     "repo": "RookieEnough/De-Vanced",
@@ -115,15 +115,6 @@
     "repo": "SatanMerde/D-moniakPatches",
     "stable": "v1.33.0",
     "stable_date": "2026-09-26T14:39:41Z"
-  },
-  "SysAdminDoc/Hushfacebook": {
-    "beta": "",
-    "beta_date": "",
-    "blocked": false,
-    "host": "github",
-    "repo": "SysAdminDoc/Hushfacebook",
-    "stable": "v0.4.0",
-    "stable_date": "2026-09-28T15:11:16Z"
   },
   "SysAdminDoc/hushfeed": {
     "beta": "",
@@ -279,13 +270,13 @@
     "stable_date": "2026-09-28T10:24:59Z"
   },
   "hoo-dles/morphe-patches": {
-    "beta": "v1.45.0-dev.5",
-    "beta_date": "2026-09-28T06:56:09Z",
+    "beta": "v1.46.0-dev.2",
+    "beta_date": "2026-09-28T21:15:10Z",
     "blocked": false,
     "host": "github",
     "repo": "hoo-dles/morphe-patches",
-    "stable": "v1.44.1",
-    "stable_date": "2026-09-17T16:37:30Z"
+    "stable": "v1.45.0",
+    "stable_date": "2026-09-28T18:20:13Z"
   },
   "hxreborn/hxreborn-tiktok-patches": {
     "beta": "v0.10.0-dev.1",
@@ -365,8 +356,8 @@
     "blocked": false,
     "host": "github",
     "repo": "kveld9/kveld-morphe-patches",
-    "stable": "v2.0.0",
-    "stable_date": "2026-09-26T03:51:31Z"
+    "stable": "v2.1.0",
+    "stable_date": "2026-09-29T01:39:16Z"
   },
   "liongalahad/nuviotv-morphe-patches": {
     "beta": "v1.0.0-beta.1",
