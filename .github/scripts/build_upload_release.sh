@@ -3,12 +3,9 @@ set -euo pipefail
 
 # Unified release uploader using native gh CLI with per-file retry and clobber.
 #
-# One rule for every metadata field: a field the caller did not name is not
-# written. Absence means "leave it be" - never a claim of "empty" or "false".
-# That conflation is what let the archive releases get their hand-written notes
-# and pre-release badge overwritten on every build. When a release has to be
-# created, gh's own defaults fill whatever was not named (name = tag, empty
-# body), so a seed value can only ever reach a release that did not exist yet.
+# Rule: a metadata field the caller did not name is not written - absence means
+# "leave it be", never "write empty". Rationale, incident history and rejected
+# alternatives: docs/decisions/0001-release-metadata-ownership.md
 #
 # Inputs (via env vars):
 #   RELEASE_TAG / TAG     : Release tag name (required)
@@ -27,11 +24,8 @@ set -euo pipefail
 #   GITHUB_REPOSITORY     : owner/repo (required)
 #   GH_TOKEN              : GitHub token (required)
 #
-# Assets are the deliberate exception to the rule above: the file list IS the
-# caller's named intent, so there is no absence to interpret, and `gh release
-# upload` refuses a name the release already has. Overwriting (--clobber) is
-# therefore unconditional - without it a retried run dies on the file it had
-# already pushed, which is the opposite of idempotent.
+# Assets are the exception: the file list IS the named intent and gh refuses a
+# duplicate asset name, so --clobber stays unconditional (retries must be idempotent).
 
 TAG="${RELEASE_TAG:-${TAG:?RELEASE_TAG or TAG not set}}"
 REPO="${GITHUB_REPOSITORY:?GITHUB_REPOSITORY not set}"

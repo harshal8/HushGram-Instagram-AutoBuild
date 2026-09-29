@@ -35,32 +35,15 @@ numbered release (build outputs) and the archive releases. Note: `gh` names
 an uploaded asset after the **local file's basename** — always stage files
 under their intended asset name.
 
-`gh release edit` overwrites title *and* body wholesale, so one rule covers every
-metadata field: **a field the caller did not name is not written.** Absence means
-"leave it be", never "write empty":
-
-- `RELEASE_TITLE`/`TITLE`, `RELEASE_BODY_FILE`, `RELEASE_NOTES` — the body file
-  wins over the inline string, and a missing or zero-byte body file counts as
-  unnamed, so a `generate_release_notes.py` that produced nothing cannot blank a
-  release.
-- `IS_PRERELEASE` — `true` marks a pre-release, `false` a full release, unset
-  leaves the state as it is; any other value exits 2 rather than guessing.
-
-The named fields go out in a single `gh release edit`; when nothing is named
-there is no call at all. The archive step uses exactly that — it names no
-metadata, which makes it a pure asset uploader and leaves `stable`/`beta` with
-the title, notes and pre-release badge written by hand (beta is the pre-release
-pool, marked once rather than re-asserted every build). `IS_PRERELEASE` still
-drives the *numbered* release, where the channel's badge is earned, and stays
-available to the archive path for ad-hoc use. Consequence of naming nothing: if
-an archive release is ever deleted, `RELEASE_TARGET` recreates it as a full
-release with an empty body, and the notes plus
-`gh release edit beta --prerelease` have to go back by hand.
-
-Assets are the deliberate exception to the rule: the file list *is* the named
-intent, so there is no absence to interpret, and `gh release upload` refuses a
-name the release already has. `--clobber` therefore stays unconditional — make it
-opt-in and a retried run dies on the file it had already pushed.
+Metadata obeys one rule: **a field the caller did not name is not written.**
+`RELEASE_TITLE`, `RELEASE_BODY_FILE`, `RELEASE_NOTES` and the tri-state
+`IS_PRERELEASE` all mean "leave it be" when unset; whatever is named goes out in a
+single `gh release edit`, and when nothing is named there is no call at all. CI's
+archive step names none, which makes it a pure asset uploader, while the numbered
+step names title, body and channel. `--clobber` stays unconditional on assets.
+Per-variable semantics are in the script header; the rationale, the zero-byte
+`build.md` case and the rejected alternatives are in
+[docs/decisions/0001](../../docs/decisions/0001-release-metadata-ownership.md).
 
 Regression test: `temp/_metastop/test_metadata_write.sh` (stubbed `gh`; walks
 exists/create x title x notes-source x prerelease-state, asserts which flags
