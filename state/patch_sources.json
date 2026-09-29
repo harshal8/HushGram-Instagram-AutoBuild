@@ -41,8 +41,8 @@
     "blocked": false,
     "host": "github",
     "repo": "Fripe070/PixivPatches",
-    "stable": "v2.2.0",
-    "stable_date": "2026-09-29T15:58:38Z"
+    "stable": "v2.2.3",
+    "stable_date": "2026-09-29T23:23:28Z"
   },
   "IMXEren/mix-patches": {
     "beta": "v1.7.2-dev.2",
@@ -90,8 +90,8 @@
     "stable_date": "2026-06-02T20:22:14Z"
   },
   "RookieEnough/De-Vanced": {
-    "beta": "v1.5.0-dev.1",
-    "beta_date": "2026-09-28T20:32:14Z",
+    "beta": "v1.5.0-dev.4",
+    "beta_date": "2026-09-29T19:47:24Z",
     "blocked": false,
     "host": "github",
     "repo": "RookieEnough/De-Vanced",
@@ -261,8 +261,8 @@
     "stable_date": "2026-09-29T16:39:00Z"
   },
   "heval99/Heval-Morphe-Patches": {
-    "beta": "v1.6.0-dev.1",
-    "beta_date": "2026-09-29T14:48:38Z",
+    "beta": "v1.6.0-dev.2",
+    "beta_date": "2026-09-29T19:06:44Z",
     "blocked": false,
     "host": "github",
     "repo": "heval99/Heval-Morphe-Patches",
@@ -270,8 +270,8 @@
     "stable_date": "2026-09-28T10:24:59Z"
   },
   "hoo-dles/morphe-patches": {
-    "beta": "v1.46.0-dev.4",
-    "beta_date": "2026-09-29T07:50:54Z",
+    "beta": "v1.46.0-dev.5",
+    "beta_date": "2026-09-29T19:34:43Z",
     "blocked": false,
     "host": "github",
     "repo": "hoo-dles/morphe-patches",
