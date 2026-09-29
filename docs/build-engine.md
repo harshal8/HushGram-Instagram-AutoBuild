@@ -65,7 +65,11 @@ build becomes a fresh `bash -c` child that re-sources `utils.sh`:
 - `INT` kills in-flight children before running the normal abort sweep.
 
 The `=()` initialisers on the job arrays are required: bash 5.3 treats a bare
-`declare -gA` as unset under `set -u`.
+`declare -gA` as unset under `set -u`. Why the knob is a workflow env value and not
+a config key: [decisions/0005](decisions/0005-tuning-knobs-live-in-the-workflow.md).
+There is no second pool for downloads either — a prewarm pass was built and reverted
+for adding surface without a measured gain
+([decisions/0004](decisions/0004-no-download-prewarm-pass.md)).
 
 ## `build_rv`, stage by stage
 

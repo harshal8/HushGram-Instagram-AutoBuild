@@ -32,9 +32,13 @@ document.
 | # | Decision | Affects |
 |---|---|---|
 | [0001](0001-release-metadata-ownership.md) | Release metadata is owned by whoever names it | release uploads, archive releases |
+| [0002](0002-manifests-live-on-a-branch.md) | Build manifests live on a branch, not on releases | `website` branch, archive merge, catalogue rebuild |
+| [0003](0003-blocked-patch-sources-are-skipped.md) | A blocked patch source is skipped, never re-queried | watcher state, `get_prebuilts` |
+| [0004](0004-no-download-prewarm-pass.md) | No download prewarm pass; fetching stays inside each build | build pool, download flock, `RVB_DL_MAX_TIME` |
+| [0005](0005-tuning-knobs-live-in-the-workflow.md) | Build tuning knobs live in the workflow's env block | `PARALLEL_JOBS`, `UPLOAD_CONCURRENCY`, no config keys |
 
-Worth writing next, because the reasoning currently lives only in comments and
-commit messages: why manifests moved from release assets to the `website` branch
-(2026-09-25), why blocked patch sources are skipped rather than retried, why
-download prewarming was rejected, and why tuning knobs live in `build.yml` env
-instead of repository variables.
+Candidates still unwritten, because the reasoning currently lives only in commit
+messages: pinning a patch source's `patches-version` to a tag vs resolving the
+keyword from the state snapshot (2fced014), the universal-bundle strategy on
+APKMirror (20eb4e5a), and why the archive release is the download target for module
+update pointers rather than the numbered release.

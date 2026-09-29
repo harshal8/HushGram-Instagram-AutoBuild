@@ -107,7 +107,8 @@ Both sides can lose an input, so both refuse to publish a collapse:
 The 2026-09-24 archive collapse is the reason the first two exist: a transient
 download failure fell back to an empty base and the cumulative manifest restarted
 from one build. Storage moved to a branch so that failure mode cannot be
-expressed.
+expressed — the full account is
+[decisions/0002](decisions/0002-manifests-live-on-a-branch.md).
 
 ## Changing a format without breaking the site
 

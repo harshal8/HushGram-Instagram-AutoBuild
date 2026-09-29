@@ -63,7 +63,8 @@ Two design rules worth preserving:
 
 A blocked source is **skipped**, not retried: neither a retry nor a live listing
 recovers a repository that is gone, and the app reappears by itself once the
-forge answers again.
+forge answers again. The deliberate fail-open inside that check is recorded in
+[decisions/0003](decisions/0003-blocked-patch-sources-are-skipped.md).
 
 ### Ordering and safety rails
 
@@ -82,7 +83,8 @@ forge answers again.
 Called once per pool with `config_file` (and optional `remove_apks`). Everything
 it needs to be reproducible lives in that one file, including the tuning knobs —
 `PARALLEL_JOBS: "6"` and `UPLOAD_CONCURRENCY: "12"` are workflow env values, not
-repo variables, so they are visible in PRs, survive forks, and carry git history.
+repo variables, so they are visible in PRs, survive forks, and carry git history
+(why: [decisions/0005](decisions/0005-tuning-knobs-live-in-the-workflow.md)).
 
 Step order, with the reason each is where it is:
 
@@ -124,7 +126,8 @@ Step order, with the reason each is where it is:
     [decisions/0001-release-metadata-ownership.md](decisions/0001-release-metadata-ownership.md).
 15. `merge_archive_branch.sh` merges this build's manifest into the `website`
     branch. Must run **after** the archive upload so its live-asset filter sees the
-    new files.
+    new files. Why manifests live on a branch at all:
+    [decisions/0002](decisions/0002-manifests-live-on-a-branch.md).
 16. `build_notify_telegram.sh` posts the release to the channel's thread.
 
 ## Cleanup (`cleanup.yml`)

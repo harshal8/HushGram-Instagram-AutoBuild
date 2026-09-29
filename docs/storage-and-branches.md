@@ -58,7 +58,9 @@ state/
 
 Per-build manifests plus two cumulative archives. This branch replaced release
 assets as the manifest store on **2026-09-25**: numbered releases no longer carry
-a `build.json`, so branch history is the only metadata history.
+a `build.json`, so branch history is the only metadata history. The move and the
+failure it eliminated are recorded in
+[decisions/0002](decisions/0002-manifests-live-on-a-branch.md).
 
 Schema v1 envelope (produced by `build_make_manifest.py`):
 
