@@ -47,13 +47,15 @@ metadata field: **a field the caller did not name is not written.** Absence mean
   leaves the state as it is; any other value exits 2 rather than guessing.
 
 The named fields go out in a single `gh release edit`; when nothing is named
-there is no call at all. That is what lets the archive step pass `IS_PRERELEASE`
-and nothing else — `stable`/`beta` keep the title and notes written by hand, and
-`cleanup.yml` keeps those releases alive via `releases_keep_keyword`, so the
-create branch never invents prose for them. The badge still follows the channel,
-because `build_resolve_context.sh` emits `ARCHIVE_TAG=beta` together with
-`IS_PRERELEASE=true`. On the create branch `RELEASE_TARGET` applies and gh fills
-in whatever was not named (release name = tag, empty body).
+there is no call at all. The archive step uses exactly that — it names no
+metadata, which makes it a pure asset uploader and leaves `stable`/`beta` with
+the title, notes and pre-release badge written by hand (beta is the pre-release
+pool, marked once rather than re-asserted every build). `IS_PRERELEASE` still
+drives the *numbered* release, where the channel's badge is earned, and stays
+available to the archive path for ad-hoc use. Consequence of naming nothing: if
+an archive release is ever deleted, `RELEASE_TARGET` recreates it as a full
+release with an empty body, and the notes plus
+`gh release edit beta --prerelease` have to go back by hand.
 
 Assets are the deliberate exception to the rule: the file list *is* the named
 intent, so there is no absence to interpret, and `gh release upload` refuses a
@@ -62,9 +64,9 @@ opt-in and a retried run dies on the file it had already pushed.
 
 Regression test: `temp/_metastop/test_metadata_write.sh` (stubbed `gh`; walks
 exists/create x title x notes-source x prerelease-state, asserts which flags
-reach `release edit`/`create`, that no call is made when nothing is named, that
-an empty body file counts as unnamed, and that a bogus `IS_PRERELEASE` is
-rejected without touching `gh`; Git Bash).
+reach `release edit`/`create`, that CI's archive shape makes no metadata call at
+all even with `RELEASE_TARGET` set, that an empty body file counts as unnamed,
+and that a bogus `IS_PRERELEASE` is rejected without touching `gh`; Git Bash).
 
 ### `merge_archive_branch.sh`
 Merges the current build's manifest into the `website` branch: writes

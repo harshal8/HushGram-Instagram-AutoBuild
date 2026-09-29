@@ -226,14 +226,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_TAG: ${{ steps.context.outputs.ARCHIVE_TAG }}
-          # No RELEASE_TITLE / RELEASE_BODY_FILE here on purpose: the uploader writes
-          # only the metadata a step names, so stable/beta keep their hand-written
-          # title and notes while assets are still (re)uploaded with --clobber. The
-          # prerelease flag IS named, and follows the channel -
-          # build_resolve_context.sh emits ARCHIVE_TAG=beta together with
-          # IS_PRERELEASE=true, so the beta archive stays marked pre-release like the
-          # numbered beta builds whose files land in it.
-          IS_PRERELEASE: ${{ steps.context.outputs.IS_PRERELEASE }}
+          # Assets only. The uploader writes the metadata a step names and this one
+          # names none, so stable/beta keep their hand-written title, notes and
+          # pre-release badge while files are still (re)uploaded with --clobber. The
+          # badge is set once by hand (beta is the pre-release pool); if an archive
+          # release is ever deleted, RELEASE_TARGET recreates it as a full release and
+          # `gh release edit beta --prerelease` has to be re-applied with the notes.
           RELEASE_TARGET: main
           UPLOAD_FILES: "./build/*"
           GITHUB_REPOSITORY: ${{ github.repository }}
