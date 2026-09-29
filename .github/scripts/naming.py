@@ -50,11 +50,13 @@ def extract_arch(fname, version=""):
         return match.group(1)
     if version:
         clean_ver = re.escape(version.lstrip("v"))
-        m = re.search(rf"-v?{clean_ver}-([a-zA-Z0-9_-]+?)(?:-(?:apk|module))?\.(?:apk|zip)$", fname, re.IGNORECASE)
+        m = re.search(
+            rf"-v?{clean_ver}-([a-zA-Z0-9_-]+?)(?:-(?:apk|module))?\.(?:apk|zip)$", fname, re.IGNORECASE)
         if m:
             return m.group(1)
     name_no_ext = re.sub(r"\.(?:apk|zip)$", "", fname, flags=re.IGNORECASE)
-    name_no_mode = re.sub(r"-(?:apk|module)$", "", name_no_ext, flags=re.IGNORECASE)
+    name_no_mode = re.sub(r"-(?:apk|module)$", "",
+                          name_no_ext, flags=re.IGNORECASE)
     parts = name_no_mode.split("-")
     if len(parts) > 1:
         return parts[-1]
@@ -79,9 +81,12 @@ def parse_patch_info(patches_source, patches_ref):
     if not primary and patches_ref:
         primary = patches_ref.split()[0].split("/")[0]
 
-    primary_clean = primary.split("/")[-1].replace("-patches", "").replace("patches-", "")
-    primary_clean = primary_clean.split("-")[0] if "-" in primary_clean else primary_clean
-    primary_clean = primary_clean.capitalize() if primary_clean.islower() else primary_clean
+    primary_clean = primary.split(
+        "/")[-1].replace("-patches", "").replace("patches-", "")
+    primary_clean = primary_clean.split(
+        "-")[0] if "-" in primary_clean else primary_clean
+    primary_clean = primary_clean.capitalize(
+    ) if primary_clean.islower() else primary_clean
 
     key = normalize_key(primary_clean) or "patched"
     name = primary_clean or "Patched"
