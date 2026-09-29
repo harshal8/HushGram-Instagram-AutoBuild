@@ -63,7 +63,6 @@ Releases, records build metadata on a Git branch, and feeds a static download si
 | `scripts/build.sh` | CLI entry: parses config, resolves defaults/channel routing, fans out `arch = both`, owns the parallel job pool, calls `merge_build_info` |
 | `scripts/utils.sh` | engine library (~4.7k lines, 124 functions): TOML access, forge release helpers, prebuilt download, version resolution, scrapers, patching, metadata, module packaging |
 | `scripts/cf_get.py`, `apkmirror_search.py`, `uptodown.py` | anti-bot / store access helpers invoked by the engine |
-| `scripts/update-readme.py` | **legacy, unreferenced** — upstream leftover; the live release body comes from `generate_release_notes.py` |
 | `.github/workflows/ci.yml` | the watcher: detects changes, regenerates pool configs, decides per-channel build triggers |
 | `.github/workflows/build.yml` | reusable build job; owns tuning env (`PARALLEL_JOBS`, `UPLOAD_CONCURRENCY`), keystore, caches, uploads, branch merges |
 | `.github/workflows/cleanup.yml` | release/asset pruning + `catalog-updated` dispatch to the site |
@@ -119,7 +118,6 @@ fixed: `cache_repo` → `direct` → `github` → `archive` → `apkmirror` → 
 | `build.md` is copied to `build.tmp` and the changelog step prefers the tmp | so a later append cannot corrupt the recorded changelog |
 | Cleanup keeps 98 numbered releases, 2 archive versions per app+arch, site rebuild retains ≥60% | three different circuit breakers with three different jobs |
 | Module auto-update silently off for local builds | no published `update` branch to point a phone at |
-| `scripts/update-readme.py` is never called | legacy; leave it alone rather than "restoring" it |
 | `configs/stable_build.json` keeps `patches-version: "stable"` rather than a tag | one source of truth (`state/patch_sources.json`) instead of a stamped copy that can go stale |
 
 ## Task → start here
