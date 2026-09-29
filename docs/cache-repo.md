@@ -108,27 +108,28 @@ of how long the project has existed. This is a different, much more forgiving po
 than the archive releases' "2 newest versions per app+arch" — those hold patched
 output for users, this holds stock input for builds.
 
-## Known gap: version-code assets are invisible to usage tracking
+## Usage keys must match the filename-derived version key
 
-`build_rv` records usage as `${pkg_name}-${version_f}` — **without** the
-`vc_infix` that its own cache filename carries. For any asset stored as
-`<pkg>-<version>-<versionCode>-<arch>.apk`, cleanup derives the key
-`<pkg>-<version>-<versionCode>`, which nothing ever refreshes.
+Retention only protects what it can recognise, so the two sides must agree on the
+key. `cleanup-apks.py` derives it by stripping `[-<versionCode>]-<arch>.<ext>` from
+the stored asset name, which means **the version code is part of the key** when the
+artifact carries one — and `build_rv` records usage as
+`${pkg_name}-${version_f}${vc_infix}`, the same infix its cache filename uses.
 
-Observed on 2026-09-29: `usage.json` holds 283 keys, **none** ending in a version
-code, while the cache contains assets like
-`com.facebook.katana-573.0.0.37.74-473623755-arm64-v8a.apk`. Consequences:
+This was not true until 2026-09-29: the tracker wrote the bare `pkg-version`, so for
+assets stored as `<pkg>-<version>-<versionCode>-<arch>.apk` nothing ever refreshed
+the key cleanup derived. Those versions were scored by upload time alone and became
+deletable 30 days after being added, however often CI pulled them — visible in the
+numbers of the day: `usage.json` held 283 keys and not one ended in a version code,
+while the cache contained
+`com.facebook.katana-573.0.0.37.74-473623755-arm64-v8a.apk`. The old bare-version
+keys for those assets are cleaned up automatically as ghost entries by step 5 of the
+retention pass.
 
-- Those versions are scored purely by upload time and become eligible for deletion
-  30 days after being added, **even if every CI run pulls them**.
-- Two assets of the same version that differ only by infix (`…-473623755-arm64…`
-  and `…-arm64…`) are two versions to the cleanup script, so one can be pruned while
-  the other survives.
-
-The one-line fix is to write the same key cleanup derives — append `${vc_infix}`
-where `used_versions.txt` is written in `scripts/utils.sh`. Until that happens, the
-rule of thumb for anyone wondering why a stock APK vanished from the cache: if it
-had a version code in its name, it was never counted as used.
+The invariant to preserve: **any change to the cache asset filename shape must be
+mirrored in the `used_versions.txt` key**, or the renamed assets silently start
+expiring. Two assets of the same version that differ only by infix are two versions
+to the cleanup script, so each is protected or pruned on its own record.
 
 ## Debugging checklist
 

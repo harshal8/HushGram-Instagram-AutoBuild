@@ -4284,8 +4284,13 @@ build_rv() {
 	[ -f "${stock_apk%.apk}.apkm" ] && touch "${stock_apk%.apk}.apkm" 2>/dev/null || true
 	[ -n "${all_apk:-}" ] && [ -f "$all_apk" ] && touch "$all_apk" 2>/dev/null || true
 
-	# Log usage for apks repo cache sync
-	echo "${pkg_name}-${version_f}" >> "$TEMP_DIR/used_versions.txt"
+	# Log usage for the apks repo cache tracker. The key has to be the one
+	# cleanup-apks.py derives from the stored filename - "<pkg>-<version>" plus the
+	# target versionCode whenever the artifact carries one - because that script
+	# scores a version by max(upload time, usage stamp) and drops anything inactive
+	# for 30 days. Recording the bare version left every versionCode-keyed asset
+	# untracked, so it aged out of the cache however often CI pulled it.
+	echo "${pkg_name}-${version_f}${vc_infix:-}" >> "$TEMP_DIR/used_versions.txt"
 
 	local sig_op
 	if _bundle_ext_of "$stock_apk" >/dev/null 2>&1; then
