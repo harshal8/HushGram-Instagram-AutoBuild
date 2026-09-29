@@ -35,6 +35,16 @@ numbered release (build outputs) and the archive releases. Note: `gh` names
 an uploaded asset after the **local file's basename** — always stage files
 under their intended asset name.
 
+`gh release edit` overwrites title *and* body wholesale, so metadata writes are
+controlled by `UPDATE_EXISTING_METADATA` (default `true`). The archive upload
+step in `build.yml` sets it to `false`: `stable`/`beta` always exist, and their
+prose is owner-editable — only `--prerelease` normalisation and the asset
+uploads touch them. Passing `RELEASE_TITLE`/`RELEASE_NOTES` there still matters
+for the create branch (a deleted archive release gets recreated properly).
+
+Regression test: `temp/_metastop/test_metadata_write.sh` (stubbed `gh`, asserts
+which flags reach `release edit`/`create` for each knob value; Git Bash).
+
 ### `merge_archive_branch.sh`
 Merges the current build's manifest into the `website` branch: writes
 `manifests/<tag>.json` and updates the cumulative `archive/<channel>.json`

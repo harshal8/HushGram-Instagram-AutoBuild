@@ -10,6 +10,11 @@ set -euo pipefail
 #   RELEASE_NOTES         : Inline release notes string (used if no body file)
 #   IS_PRERELEASE         : "true" to mark as prerelease (default: "false")
 #   RELEASE_TARGET        : Target branch/commit for new release (optional, e.g. main)
+#   UPDATE_EXISTING_METADATA :
+#                           "false" leaves an EXISTING release's title and notes
+#                           completely alone (prerelease state is still
+#                           normalised); title/notes then only apply when the
+#                           release has to be created. Default: "true"
 #   UPLOAD_FILES          : Space-separated files/glob patterns (default: "./build/*")
 #   GITHUB_REPOSITORY     : owner/repo (required)
 #   GH_TOKEN              : GitHub token (required)
@@ -21,6 +26,7 @@ BODY_FILE="${RELEASE_BODY_FILE:-${BODY_FILE:-}}"
 IS_PRERELEASE="${IS_PRERELEASE:-false}"
 TARGET="${RELEASE_TARGET:-${TARGET:-}}"
 FILES_PATTERN="${UPLOAD_FILES:-${FILES:-./build/*}}"
+UPDATE_EXISTING_METADATA="${UPDATE_EXISTING_METADATA:-true}"
 
 echo "=== Uploading release assets for tag: $TAG ==="
 
@@ -48,8 +54,16 @@ fi
 
 # 2. Ensure release exists or create it
 if gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
-    echo "Release $TAG already exists, updating metadata..."
-    gh release edit "$TAG" -t "$TITLE" "${NOTES_ARG[@]}" "${PRERELEASE_EDIT_ARG[@]}" -R "$REPO" || true
+    # gh release edit replaces the whole body, so an unguarded edit would wipe
+    # hand-written archive notes on every build. The prerelease flag stays
+    # pipeline-owned; the prose is opt-in.
+    if [ "$UPDATE_EXISTING_METADATA" = "true" ]; then
+        echo "Release $TAG already exists, updating metadata..."
+        gh release edit "$TAG" -t "$TITLE" "${NOTES_ARG[@]}" "${PRERELEASE_EDIT_ARG[@]}" -R "$REPO" || true
+    else
+        echo "Release $TAG already exists - title and notes left untouched."
+        gh release edit "$TAG" "${PRERELEASE_EDIT_ARG[@]}" -R "$REPO" || true
+    fi
 else
     echo "Creating release $TAG..."
     gh release create "$TAG" -t "$TITLE" "${NOTES_ARG[@]}" "${PRERELEASE_CREATE_ARG[@]}" "${TARGET_ARG[@]}" -R "$REPO"

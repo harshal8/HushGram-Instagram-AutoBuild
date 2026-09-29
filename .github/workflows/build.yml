@@ -226,8 +226,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_TAG: ${{ steps.context.outputs.ARCHIVE_TAG }}
+          # Title/notes are create-time only: the archive release always exists,
+          # so UPDATE_EXISTING_METADATA=false keeps hand-written notes intact
+          # while assets are still (re)uploaded with --clobber.
           RELEASE_TITLE: ${{ steps.context.outputs.ARCHIVE_TAG }}
           RELEASE_NOTES: "Archive release for ${{ steps.context.outputs.ARCHIVE_TAG }} builds"
+          UPDATE_EXISTING_METADATA: "false"
           RELEASE_TARGET: main
           UPLOAD_FILES: "./build/*"
           GITHUB_REPOSITORY: ${{ github.repository }}
