@@ -36,7 +36,7 @@
   "andrewliang25/morphe-patches": {
     "beta": {},
     "stable": {
-      "com.facebook.katana": "2c5823bfbc1bf4c6838f263f14f824e1",
+      "com.facebook.katana": "b00d9497bacacc62219226e380cb0eb0",
       "shared": "896486938b5de28e83d923a732d3ec47"
     }
   },
@@ -141,7 +141,7 @@
   "fripe070/pixivpatches": {
     "beta": {},
     "stable": {
-      "jp.pxv.android": "acbdf59554542d4c2da6828903c4cf13",
+      "jp.pxv.android": "ff7ebd511784fdb6ec60c3a04d412aa6",
       "shared": "88145df615f85fd9e698657c6942f52f"
     }
   },
@@ -295,7 +295,7 @@
   "morpheapp/morphe-patches": {
     "beta": {
       "com.google.android.apps.youtube.music": "80ba468a432c65075d51a366cca36397",
-      "com.google.android.youtube": "0aa1df7dc4477b3d052f482cb7108040",
+      "com.google.android.youtube": "3054f62da4de873d54ed8c4b579b7469",
       "com.reddit.frontpage": "dda517f2661f179e7c32abaf08a5feb0",
       "shared": "d372456be79b343b1cfd762aa488344f"
     },

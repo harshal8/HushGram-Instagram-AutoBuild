@@ -128,7 +128,7 @@
     "patches-source": "MorpheApp/morphe-patches",
     "build-mode": "both",
     "brand": "Morphe",
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "com.google.android.youtube",
     "app-name": "YouTube",
     "patch-folder": "youtube",
@@ -156,7 +156,7 @@
     "patches-source": "MorpheApp/morphe-patches",
     "build-mode": "both",
     "brand": "Morphe",
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "com.google.android.youtube",
     "app-name": "YouTube",
     "variant": "Experimental",
@@ -212,7 +212,7 @@
     "archive-dlurl": "https://archive.org/download/geologically/apks/com.reddit.frontpage"
   },
   "GooglePhotos-DeVanced": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.google.android.apps.photos",
     "app-name": "Google Photos",
     "brand": "DeVanced",
