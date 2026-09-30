@@ -141,7 +141,7 @@
   "fripe070/pixivpatches": {
     "beta": {},
     "stable": {
-      "jp.pxv.android": "8ee76d63d6317a404d73cf57c00be7e8",
+      "jp.pxv.android": "cb347dcaeb3eca77a0075faaff082188",
       "shared": "88145df615f85fd9e698657c6942f52f"
     }
   },
@@ -180,30 +180,30 @@
       "videoeditor.videorecorder.screenrecorder": "04069957d64231075a2e166bc79b51e9"
     },
     "stable": {
-      "ch.protonvpn.android": "4a425849d22cb694a21259621250d7ca",
-      "cn.ommiao.iconpacker": "27459d36ad3cb55ee565836dba4293da",
-      "cn.wps.moffice_eng": "ec102ff92cca39b2dff086dd24cd4991",
-      "com.adguard.android": "6f230622702eaec6050051efb7b492d8",
-      "com.adobe.lrmobile": "3dace89a5e6a3208f8ce5537ffb3f911",
-      "com.amazon.avod.thirdpartyclient": "ec102ff92cca39b2dff086dd24cd4991",
-      "com.bambuna.podcastaddict": "542e3254ba0a21f9307939f47b21a705",
-      "com.duolingo": "6ba659cfdbf711bc809748472c379f4c",
-      "com.github.android": "3fe843ae411e8e2f437b372586358d63",
-      "com.goodreads": "a0a8c0e87c0803f1bdff2305f42bcff1",
-      "com.hellochinese": "45826e87af789323e1dbbad0efdf5f25",
-      "com.intsig.camscanner": "0bbb72e4937d524ef286dbad4b95bc57",
-      "com.merriamwebster": "cbfef7c4127d791bd53ee0621497ec98",
-      "com.myfitnesspal.android": "5a12d687e3b5f55db8cdc8c6cd0f16f1",
-      "com.pandora.android": "c2a1568fd04a14160321effc7a0db91a",
-      "com.soundcloud.android": "b014343822ce33ff6baede1ec3764203",
-      "com.teslacoilsw.launcher": "b131f0c77a335d7d717d26580f7cdb81",
-      "com.wallpaperscraft.wallpaper": "d2b31b329790ce988a7b55ac030cdc27",
-      "com.xodo.pdf.reader": "062bc1f071f6d3be20e5fdf0a731bea5",
-      "cz.ackee.ventusky": "337238b8e73b392f0287e68fa4df2b21",
-      "ginlemon.flowerfree": "ff44396489c643b3a73cbede4055a4a7",
-      "pl.solidexplorer2": "ec102ff92cca39b2dff086dd24cd4991",
-      "shared": "c505753bedcdff538d9cb87f2a52bdbe",
-      "videoeditor.videorecorder.screenrecorder": "e6c4dd814effc06cfb52815ea7fd21f9"
+      "ch.protonvpn.android": "3bde6342c4e6c5ed9c3863225b59115e",
+      "cn.ommiao.iconpacker": "cfbb7dc4e49f66044b51dfaee3a82c9c",
+      "cn.wps.moffice_eng": "7614c2c49bd328dd8f7e0b04a9ba6a0f",
+      "com.adguard.android": "be77707039a8049f152940f7511d5828",
+      "com.adobe.lrmobile": "fb365879ed89ecfa7f9a1b1cbb4d15c1",
+      "com.amazon.avod.thirdpartyclient": "7614c2c49bd328dd8f7e0b04a9ba6a0f",
+      "com.bambuna.podcastaddict": "44e6352ab7db9cb6c95b498724c9e40c",
+      "com.duolingo": "c518cb5d42f33806e6c1c22e9a651d46",
+      "com.github.android": "44768c1746fea22519c8644bc5cbe289",
+      "com.goodreads": "e1760b56a1321562a6dd34606328ce6a",
+      "com.hellochinese": "b51f1f1033e2efbf71dae6084dd2975a",
+      "com.intsig.camscanner": "b675a981325693379f49ebf134ec9464",
+      "com.merriamwebster": "c8117d27961f482d6fcfd5c20356a84a",
+      "com.myfitnesspal.android": "7300336949e204cee476303f7de134ea",
+      "com.pandora.android": "80d5655e4169d77a88e1cc2026ece379",
+      "com.soundcloud.android": "2b77e9bea18a5e8f2e7cea8ff02a00ef",
+      "com.teslacoilsw.launcher": "3075d39ef40e638ace54f9f54151f5b7",
+      "com.wallpaperscraft.wallpaper": "554bcd7a888df9292842e5b8be3baa8c",
+      "com.xodo.pdf.reader": "86268a214ff0baecbeccc337139fba6c",
+      "cz.ackee.ventusky": "09deaf476cf4950d0127e6211d86803c",
+      "ginlemon.flowerfree": "4226a34f147213738edd6ca102c5cff6",
+      "pl.solidexplorer2": "7614c2c49bd328dd8f7e0b04a9ba6a0f",
+      "shared": "b8e9c2ea552b3ab6be1d146fea1be5e9",
+      "videoeditor.videorecorder.screenrecorder": "0bc775c3ea976d8c1e93fcc1ba82c67c"
     }
   },
   "hxreborn/hxreborn-tiktok-patches": {
@@ -216,10 +216,10 @@
   "hxreborn/morphe-patches": {
     "beta": {},
     "stable": {
-      "ch.protonmail.android": "71986785b73a4ce40d2e13ddba32ad5c",
-      "com.michaldrabik.showly2": "16fd9d90ef87deeb22076db736ed1116",
-      "dev.vodik7.atvtools": "d101b78fc21d4bb961e7be8b134d3f2e",
-      "shared": "9f6acef4b944060104cc533ab1f831d8"
+      "ch.protonmail.android": "78ec99ae0d3d109bc97b29d487b21b3f",
+      "com.michaldrabik.showly2": "0033fbc595836f65bf12174347241127",
+      "dev.vodik7.atvtools": "7d1be4d684d7d02876fd866ff5c728d8",
+      "shared": "01f8393522c467b8ef02c2369ac63cd7"
     }
   },
   "icysymmetra/tiktok-patches-for-morphe": {
