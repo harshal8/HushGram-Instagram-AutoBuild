@@ -50,6 +50,12 @@ patch-folder = "someapp" # explicit patch folder name override. forces the CI to
 enabled = true       # whether to build the app. default: true
 build-mode = "both"  # 'both', 'apk' or 'module'. default: apk
 arch = "both"        # 'both', 'auto', 'all', 'arm64-v8a', 'arm-v7a', 'x86_64', or 'x86'. default: both
+# A requested arch is a hard requirement: a build is produced only when a download
+# actually carries that ABI (or is universal / has no native code at all). A wrong
+# single ABI is rejected and the next source tried; if none supplies the arch, that
+# channel is simply not built - never shipped under another arch's name. So an
+# arm64-only app publishes only its arm64 artifact and no arm-v7a file, and the
+# reverse. Universal bundles serve both channels from one fetch.
 
 # 'auto' option gets the latest possible version supported by all the included patches
 # 'exp' gets the latest experimental version from patches.json. falls back to 'latest' if none found.
