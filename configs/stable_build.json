@@ -450,7 +450,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/medium/com.medium.reader"
   },
   "SwiftBackup-byehi98": {
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "org.swiftapps.swiftbackup",
     "app-name": "Swift Backup",
     "patches-source": "byehi98/okish-morphe-patches",
@@ -1071,6 +1071,16 @@
     "app-name": "atvTools",
     "apkpure-dlurl": "https://apkpure.com/atvtools/dev.vodik7.atvtools",
     "apkcombo-dlurl": "https://apkcombo.com/atvtools/dev.vodik7.atvtools"
+  },
+  "PocketWhip-hxreborn": {
+    "patches-source": "hxreborn/morphe-patches",
+    "brand": "hxreborn",
+    "enabled": false,
+    "pkg-name": "com.greenstone.pocketwhip",
+    "app-name": "Pocket Whip",
+    "uptodown-dlurl": "https://com-greenstone-pocketwhip.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/pocket-whip-original-whip-app/com.greenstone.pocketwhip",
+    "apkcombo-dlurl": "https://apkcombo.com/pocket-whip-original-whip-app/com.greenstone.pocketwhip"
   },
   "Instagram-InstaFel": {
     "patches-source": "instafel/pc-rel",
@@ -1890,7 +1900,7 @@
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/telegram-fz-llc/telegram"
   },
   "Telegram-newuser7171-GooglePlay": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "org.telegram.messenger",
     "app-name": "Telegram",
     "variant": "Google Play",
@@ -1900,7 +1910,7 @@
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/telegram-fz-llc/telegram"
   },
   "Telegram-newuser7171-FOSS": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "org.telegram.messenger.web",
     "app-name": "Telegram",
     "variant": "FOSS",
@@ -1910,7 +1920,7 @@
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/telegram-fz-llc/telegram-web-version"
   },
   "PlusMessenger-newuser7171": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "org.telegram.plus",
     "app-name": "Plus Messenger",
     "patches-source": "newuser7171/telegram-morphe-patches-",
@@ -1921,7 +1931,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/plus-messenger/org.telegram.plus"
   },
   "TikTok-hushfeed": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.zhiliaoapp.musically",
     "app-name": "TikTok",
     "patches-source": "SysAdminDoc/hushfeed",
