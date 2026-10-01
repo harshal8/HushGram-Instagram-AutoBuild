@@ -306,6 +306,15 @@
       "shared": "a2b459ac00d67d9541f7554ceb34cb4e"
     }
   },
+  "newuser7171/telegram-morphe-patches-": {
+    "beta": {},
+    "stable": {
+      "org.telegram.messenger": "ef339c5b3af321490258dc438d7d7939",
+      "org.telegram.messenger.web": "ef339c5b3af321490258dc438d7d7939",
+      "org.telegram.plus": "ef339c5b3af321490258dc438d7d7939",
+      "shared": "28852793c8ee778cf991bca994ae43fc"
+    }
+  },
   "paresh-maheshwari/paresh-patches": {
     "beta": {},
     "stable": {
@@ -427,8 +436,8 @@
   "sysadmindoc/hushfeed": {
     "beta": {},
     "stable": {
-      "com.zhiliaoapp.musically": "9e99149518187505803771aa5c2f8742",
-      "shared": "52b764a4a41894e0d8052f8021e4e680"
+      "com.zhiliaoapp.musically": "f2d6ad4bc04682f76fdb1974b97ac978",
+      "shared": "2770ffb2c9aa265c2a1e557d5062c178"
     }
   }
 }

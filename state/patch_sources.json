@@ -122,8 +122,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SysAdminDoc/hushfeed",
-    "stable": "v0.65.0",
-    "stable_date": "2026-09-30T03:21:31Z"
+    "stable": "v0.66.0",
+    "stable_date": "2026-10-01T07:47:17Z"
   },
   "ajstrick81/morphe-androidtv-patches": {
     "beta": "test-212",
@@ -367,6 +367,15 @@
     "repo": "liongalahad/nuviotv-morphe-patches",
     "stable": "",
     "stable_date": ""
+  },
+  "newuser7171/telegram-morphe-patches-": {
+    "beta": "",
+    "beta_date": "",
+    "blocked": false,
+    "host": "github",
+    "repo": "newuser7171/telegram-morphe-patches-",
+    "stable": "v1.0.0",
+    "stable_date": "2026-09-25T21:48:26Z"
   },
   "quantavil/edge-morphe-patches": {
     "beta": "",

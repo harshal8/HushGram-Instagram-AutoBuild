@@ -1,27 +1,5 @@
 {
   "patches-version": "stable",
-  "Telegram-Aunali321-GooglePlay": {
-    "patches-source": "Aunali321/ReVancedExperiments",
-    "cli-source": "ReVanced/revanced-cli",
-    "brand": "Aunali321",
-    "enabled": false,
-    "pkg-name": "org.telegram.messenger",
-    "app-name": "Telegram",
-    "variant": "Google Play",
-    "uptodown-dlurl": "https://telegram-google-play-version.en.uptodown.com/android",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/telegram-fz-llc/telegram"
-  },
-  "Telegram-Aunali321-FOSS": {
-    "patches-source": "Aunali321/ReVancedExperiments",
-    "cli-source": "ReVanced/revanced-cli",
-    "brand": "Aunali321",
-    "enabled": false,
-    "pkg-name": "org.telegram.messenger.web",
-    "app-name": "Telegram",
-    "variant": "FOSS",
-    "uptodown-dlurl": "https://telegram.en.uptodown.com/android",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/telegram-fz-llc/telegram-web-version"
-  },
   "Instagram-Aunali321": {
     "patches-source": "Aunali321/ReVancedExperiments",
     "cli-source": "ReVanced/revanced-cli",
@@ -558,7 +536,7 @@
   "BraveBrowser-dh6k-Beta": {
     "patches-source": "dh6k/morphe-patches",
     "brand": "dh6k",
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.brave.browser_beta",
     "app-name": "Brave Browser",
     "variant": "Beta",
@@ -572,7 +550,7 @@
   "BraveBrowser-dh6k-Nightly": {
     "patches-source": "dh6k/morphe-patches",
     "brand": "dh6k",
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.brave.browser_nightly",
     "app-name": "Brave Browser",
     "variant": "Nightly",
@@ -586,7 +564,7 @@
   "TitaniumBrowser-dh6k": {
     "patches-source": "dh6k/morphe-patches",
     "brand": "dh6k",
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "io.github.jqssun.helium",
     "app-name": "Titanium Browser",
     "included-patches": "'Keep Titanium Extensions Child Processes Alive' 'Force highest refresh rate'",
@@ -595,7 +573,7 @@
   },
   "Discord-revenge": {
     "cli-source": "7723mod/NPatch",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "revenge-mod/revenge-xposed",
     "brand": "revenge",
     "pkg-name": "com.discord",
@@ -606,7 +584,7 @@
   },
   "Discord-rain": {
     "cli-source": "7723mod/NPatch",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "raincord/rainXposed",
     "patches-source-host": "codeberg",
     "brand": "rain",
@@ -1348,18 +1326,6 @@
     "apkpure-dlurl": "https://apkpure.com/cricbuzz-live-cricket-scores/com.cricbuzz.android",
     "apkcombo-dlurl": "https://apkcombo.com/cricbuzz/com.cricbuzz.android"
   },
-  "PlusMessenger-Paresh": {
-    "patches-source": "Paresh-Maheshwari/paresh-patches",
-    "patches-source-host": "gitlab",
-    "brand": "Paresh",
-    "enabled": false,
-    "pkg-name": "org.telegram.plus",
-    "app-name": "Plus Messenger",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/rafalense/plus-messenger",
-    "uptodown-dlurl": "https://telegram-plus.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/2025-plus-messenger-questions-tool/org.telegram.plus",
-    "apkcombo-dlurl": "https://apkcombo.com/plus-messenger/org.telegram.plus"
-  },
   "LuminaWallpapers-Paresh": {
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
@@ -1440,19 +1406,6 @@
     "app-name": "Fing",
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/fing-limited/fing-network-tools",
     "uptodown-dlurl": "https://fing-network-tools.en.uptodown.com/android"
-  },
-  "Telegram-Paresh-FOSS": {
-    "patches-source": "Paresh-Maheshwari/paresh-patches",
-    "patches-source-host": "gitlab",
-    "brand": "Paresh",
-    "enabled": false,
-    "pkg-name": "org.telegram.messenger.web",
-    "app-name": "Telegram",
-    "variant": "FOSS",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/telegram-fz-llc/telegram-web-version",
-    "uptodown-dlurl": "https://telegram.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/telegram-messenger/org.telegram.messenger.web",
-    "apkcombo-dlurl": "https://apkcombo.com/telegram/org.telegram.messenger.web"
   },
   "MacroDroid-Paresh": {
     "patches-source": "Paresh-Maheshwari/paresh-patches",
@@ -1869,16 +1822,6 @@
     "apkpure-dlurl": "https://apkpure.com/amazon-shopping/com.amazon.mShop.android.shopping",
     "apkcombo-dlurl": "https://apkcombo.com/amazon-shopping/com.amazon.mShop.android.shopping"
   },
-  "Telegram-rushiranpise-GooglePlay": {
-    "patches-source": "rushiranpise/morphe-patches",
-    "brand": "rushiranpise",
-    "enabled": false,
-    "pkg-name": "org.telegram.messenger",
-    "app-name": "Telegram",
-    "variant": "Google Play",
-    "uptodown-dlurl": "https://telegram-google-play-version.en.uptodown.com/android",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/telegram-fz-llc/telegram"
-  },
   "KineStop-ShaunTheSheep": {
     "patches-source": "shaun-the-sheep-patches/morphe-patches",
     "brand": "ShaunTheSheep",
@@ -1889,18 +1832,106 @@
     "apkpure-dlurl": "https://apkpure.com/kinestop-car-sickness-aid/com.urbandroid.kinestop",
     "apkcombo-dlurl": "https://apkcombo.com/kinestop-car-sickness-aid/com.urbandroid.kinestop"
   },
-  "TikTok-hushfeed": {
+  "Telegram-Aunali321-GooglePlay": {
     "enabled": false,
+    "pkg-name": "org.telegram.messenger",
+    "app-name": "Telegram",
+    "variant": "Google Play",
+    "patches-source": "Aunali321/ReVancedExperiments",
+    "cli-source": "ReVanced/revanced-cli",
+    "brand": "Aunali321",
+    "uptodown-dlurl": "https://telegram-google-play-version.en.uptodown.com/android",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/telegram-fz-llc/telegram"
+  },
+  "Telegram-Aunali321-FOSS": {
+    "enabled": false,
+    "pkg-name": "org.telegram.messenger.web",
+    "app-name": "Telegram",
+    "variant": "FOSS",
+    "patches-source": "Aunali321/ReVancedExperiments",
+    "cli-source": "ReVanced/revanced-cli",
+    "brand": "Aunali321",
+    "uptodown-dlurl": "https://telegram.en.uptodown.com/android",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/telegram-fz-llc/telegram-web-version"
+  },
+  "Telegram-Paresh-FOSS": {
+    "enabled": false,
+    "pkg-name": "org.telegram.messenger.web",
+    "app-name": "Telegram",
+    "variant": "FOSS",
+    "patches-source": "Paresh-Maheshwari/paresh-patches",
+    "patches-source-host": "gitlab",
+    "brand": "Paresh",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/telegram-fz-llc/telegram-web-version",
+    "uptodown-dlurl": "https://telegram.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/telegram-messenger/org.telegram.messenger.web",
+    "apkcombo-dlurl": "https://apkcombo.com/telegram/org.telegram.messenger.web"
+  },
+  "PlusMessenger-Paresh": {
+    "enabled": false,
+    "pkg-name": "org.telegram.plus",
+    "app-name": "Plus Messenger",
+    "patches-source": "Paresh-Maheshwari/paresh-patches",
+    "patches-source-host": "gitlab",
+    "brand": "Paresh",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/rafalense/plus-messenger",
+    "uptodown-dlurl": "https://telegram-plus.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/2025-plus-messenger-questions-tool/org.telegram.plus",
+    "apkcombo-dlurl": "https://apkcombo.com/plus-messenger/org.telegram.plus"
+  },
+  "Telegram-rushiranpise-GooglePlay": {
+    "enabled": false,
+    "pkg-name": "org.telegram.messenger",
+    "app-name": "Telegram",
+    "variant": "Google Play",
+    "patches-source": "rushiranpise/morphe-patches",
+    "brand": "rushiranpise",
+    "uptodown-dlurl": "https://telegram-google-play-version.en.uptodown.com/android",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/telegram-fz-llc/telegram"
+  },
+  "Telegram-newuser7171-GooglePlay": {
+    "enabled": true,
+    "pkg-name": "org.telegram.messenger",
+    "app-name": "Telegram",
+    "variant": "Google Play",
+    "patches-source": "newuser7171/telegram-morphe-patches-",
+    "brand": "newuser7171",
+    "uptodown-dlurl": "https://telegram-google-play-version.en.uptodown.com/android",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/telegram-fz-llc/telegram"
+  },
+  "Telegram-newuser7171-FOSS": {
+    "enabled": true,
+    "pkg-name": "org.telegram.messenger.web",
+    "app-name": "Telegram",
+    "variant": "FOSS",
+    "patches-source": "newuser7171/telegram-morphe-patches-",
+    "brand": "newuser7171",
+    "uptodown-dlurl": "https://telegram.en.uptodown.com/android",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/telegram-fz-llc/telegram-web-version"
+  },
+  "PlusMessenger-newuser7171": {
+    "enabled": true,
+    "pkg-name": "org.telegram.plus",
+    "app-name": "Plus Messenger",
+    "patches-source": "newuser7171/telegram-morphe-patches-",
+    "brand": "newuser7171",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/rafalense/plus-messenger",
+    "uptodown-dlurl": "https://telegram-plus.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/2025-plus-messenger-questions-tool/org.telegram.plus",
+    "apkcombo-dlurl": "https://apkcombo.com/plus-messenger/org.telegram.plus"
+  },
+  "TikTok-hushfeed": {
+    "enabled": true,
     "pkg-name": "com.zhiliaoapp.musically",
     "app-name": "TikTok",
     "patches-source": "SysAdminDoc/hushfeed",
     "brand": "hushfeed",
-    "inclusive-patches": true,
-    "excluded-patches": "'Remove unused language packs'",
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly",
     "uptodown-dlurl": "https://tiktok.en.uptodown.com/android",
     "apkpure-dlurl": "https://apkpure.com/tiktok-app/com.zhiliaoapp.musically",
-    "apkcombo-dlurl": "https://apkcombo.com/tiktok-videos-shop-live/com.zhiliaoapp.musically"
+    "apkcombo-dlurl": "https://apkcombo.com/tiktok-videos-shop-live/com.zhiliaoapp.musically",
+    "inclusive-patches": true,
+    "excluded-patches": "'Remove unused language packs'"
   },
   "TikTok-hxreborn": {
     "enabled": false,
