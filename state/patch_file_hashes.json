@@ -279,10 +279,10 @@
   "kveld9/kveld-morphe-patches": {
     "beta": {},
     "stable": {
-      "com.brave.browser": "492beffc598616f3306255f4f8f00d9e",
-      "com.ss.android.ugc.trill": "80205536dc7e04845fca993afb42a5e5",
-      "com.zhiliaoapp.musically": "80205536dc7e04845fca993afb42a5e5",
-      "shared": "950391ec0ddd785a1cc905d90dd754f6"
+      "com.brave.browser": "359559f967b53982000ad2f60b8caeea",
+      "com.ss.android.ugc.trill": "3fd42bbe17fe581eac65e04bdb54d16d",
+      "com.zhiliaoapp.musically": "6f77ed1fae3844b6d08653bc2d0703ec",
+      "shared": "d2fd3ba66afd0a34843b40654def2376"
     }
   },
   "liongalahad/nuviotv-morphe-patches": {

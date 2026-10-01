@@ -198,8 +198,8 @@
     "stable_date": "2026-07-18T18:58:06Z"
   },
   "byehi98/okish-morphe-patches": {
-    "beta": "v1.36.0-dev.1",
-    "beta_date": "2026-09-30T09:04:18Z",
+    "beta": "v1.36.1-dev.2",
+    "beta_date": "2026-10-01T05:01:29Z",
     "blocked": false,
     "host": "github",
     "repo": "byehi98/okish-morphe-patches",
@@ -216,8 +216,8 @@
     "stable_date": "2026-08-31T02:40:04Z"
   },
   "dh6k/morphe-patches": {
-    "beta": "v1.8.0-dev.6",
-    "beta_date": "2026-09-30T17:48:07Z",
+    "beta": "v1.8.0-dev.7",
+    "beta_date": "2026-10-01T04:30:49Z",
     "blocked": false,
     "host": "github",
     "repo": "dh6k/morphe-patches",
@@ -356,8 +356,8 @@
     "blocked": false,
     "host": "github",
     "repo": "kveld9/kveld-morphe-patches",
-    "stable": "v2.2.0",
-    "stable_date": "2026-09-30T01:11:03Z"
+    "stable": "v2.3.0",
+    "stable_date": "2026-10-01T03:29:52Z"
   },
   "liongalahad/nuviotv-morphe-patches": {
     "beta": "v1.0.0-beta.1",
