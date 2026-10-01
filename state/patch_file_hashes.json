@@ -100,10 +100,10 @@
   "dh6k/morphe-patches": {
     "beta": {},
     "stable": {
-      "com.brave.browser_beta": "fd01978b67dbfd1e32119458351a8002",
-      "com.brave.browser_nightly": "fd01978b67dbfd1e32119458351a8002",
-      "io.github.jqssun.helium": "21a0eddc1d4d1b797fd5ba79264d9b20",
-      "shared": "f0e5f4fbc50d53ecd565803fb2e4b958"
+      "com.brave.browser_beta": "3d2dfc1a69fefa9a5107989f38a0dc51",
+      "com.brave.browser_nightly": "3d2dfc1a69fefa9a5107989f38a0dc51",
+      "io.github.jqssun.helium": "979f66bbe1c474fd48ae82036a018e82",
+      "shared": "e8e5b76bb4511041f43aa0f19ece4ab0"
     }
   },
   "dhrubonai/morphe-patches": {
