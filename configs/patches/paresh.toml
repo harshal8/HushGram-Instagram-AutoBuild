@@ -11,15 +11,6 @@ uptodown-dlurl = "https://cricbuzz-cricket-scores-and-news.en.uptodown.com/andro
 apkpure-dlurl = "https://apkpure.com/cricbuzz-live-cricket-scores/com.cricbuzz.android"
 apkcombo-dlurl = "https://apkcombo.com/cricbuzz/com.cricbuzz.android"
 
-[PlusMessenger-Paresh]
-enabled = true
-pkg-name = "org.telegram.plus"
-app-name = "Plus Messenger"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/rafalense/plus-messenger"
-uptodown-dlurl = "https://telegram-plus.en.uptodown.com/android"
-apkpure-dlurl = "https://apkpure.com/2025-plus-messenger-questions-tool/org.telegram.plus"
-apkcombo-dlurl = "https://apkcombo.com/plus-messenger/org.telegram.plus"
-
 [LuminaWallpapers-Paresh]
 enabled = true
 pkg-name = "com.lumina.wallpapers"
@@ -79,16 +70,6 @@ pkg-name = "com.overlook.android.fing"
 app-name = "Fing"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/fing-limited/fing-network-tools"
 uptodown-dlurl = "https://fing-network-tools.en.uptodown.com/android"
-
-[Telegram-Paresh-FOSS]
-enabled = true
-pkg-name = "org.telegram.messenger.web"
-app-name = "Telegram"
-variant = "FOSS"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/telegram-fz-llc/telegram-web-version"
-uptodown-dlurl = "https://telegram.en.uptodown.com/android"
-apkpure-dlurl = "https://apkpure.com/telegram-messenger/org.telegram.messenger.web"
-apkcombo-dlurl = "https://apkcombo.com/telegram/org.telegram.messenger.web"
 
 [MacroDroid-Paresh]
 enabled = true
