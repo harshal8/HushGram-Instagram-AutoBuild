@@ -2,7 +2,18 @@ name: CI
 
 on:
   schedule:
-    - cron: "37 */2 * * *"
+    - cron: "11 0 * * *"
+    - cron: "46 2 * * *"
+    - cron: "08 4 * * *"
+    - cron: "52 6 * * *"
+    - cron: "29 8 * * *"
+    - cron: "03 10 * * *"
+    - cron: "34 12 * * *"
+    - cron: "57 14 * * *"
+    - cron: "19 16 * * *"
+    - cron: "41 18 * * *"
+    - cron: "06 20 * * *"
+    - cron: "26 22 * * *"
   workflow_dispatch:
 
 concurrency:

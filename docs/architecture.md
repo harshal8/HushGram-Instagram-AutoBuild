@@ -102,8 +102,8 @@ independent update channel.
 
 ## One build, end to end
 
-**Watcher** — `ci.yml`, cron `37 */2 * * *` (2 h cadence on an odd minute: GitHub's
-scheduler is best-effort and drops missed ticks — see
+**Watcher** — `ci.yml`, 12 UTC crons on a 2 h window grid with randomized minutes
+(GitHub's scheduler is best-effort and drops missed ticks — see
 [CI pipelines](ci-pipelines.md)), concurrency group `ci`:
 
 1. `fetch_data_branch.sh` materialises `configs/` + `state/` from `data`.
