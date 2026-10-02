@@ -95,8 +95,8 @@
     "blocked": false,
     "host": "github",
     "repo": "RookieEnough/De-Vanced",
-    "stable": "v1.4.4",
-    "stable_date": "2026-09-20T23:42:11Z"
+    "stable": "v1.5.0",
+    "stable_date": "2026-10-02T23:19:45Z"
   },
   "SapitoSucio/FroggoMorphePatches": {
     "beta": "v1.4.0-dev.2",
