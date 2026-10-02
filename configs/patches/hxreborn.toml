@@ -21,6 +21,7 @@ apkcombo-dlurl = "https://apkcombo.com/atvtools/dev.vodik7.atvtools"
 enabled = true
 pkg-name = "com.greenstone.pocketwhip"
 app-name = "Pocket Whip"
+arch = "arm64-v8a"
 uptodown-dlurl = "https://com-greenstone-pocketwhip.en.uptodown.com/android"
 apkpure-dlurl = "https://apkpure.com/pocket-whip-original-whip-app/com.greenstone.pocketwhip"
 apkcombo-dlurl = "https://apkcombo.com/pocket-whip-original-whip-app/com.greenstone.pocketwhip"
