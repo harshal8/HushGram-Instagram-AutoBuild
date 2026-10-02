@@ -423,8 +423,8 @@
   "satanmerde/d-moniakpatches": {
     "beta": {},
     "stable": {
-      "ch.protonmail.android": "a37fe6278568ab573a2ea1dbe7523b39",
-      "shared": "7ca7f5bc3ccc51e574f1de51bdf78304"
+      "ch.protonmail.android": "0bbb58a80acf515a0584b6cbba4087b1",
+      "shared": "95c08cd71f497b49781ceb409d22fe67"
     }
   },
   "sysadmindoc/hushfacebook": {
