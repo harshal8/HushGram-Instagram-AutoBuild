@@ -45,8 +45,8 @@
     "stable_date": "2026-09-30T17:03:44Z"
   },
   "IMXEren/mix-patches": {
-    "beta": "v1.7.2-dev.2",
-    "beta_date": "2026-09-27T07:30:32.290Z",
+    "beta": "v1.8.0-dev.1",
+    "beta_date": "2026-10-02T05:48:14.401Z",
     "blocked": false,
     "host": "gitlab",
     "repo": "IMXEren/mix-patches",
