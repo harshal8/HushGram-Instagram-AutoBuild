@@ -116,6 +116,15 @@
     "stable": "v1.36.0",
     "stable_date": "2026-10-02T20:58:34Z"
   },
+  "SysAdminDoc/HushFacebook": {
+    "beta": "",
+    "beta_date": "",
+    "blocked": false,
+    "host": "github",
+    "repo": "SysAdminDoc/HushFacebook",
+    "stable": "v0.6.0",
+    "stable_date": "2026-10-02T00:53:59Z"
+  },
   "SysAdminDoc/hushfeed": {
     "beta": "",
     "beta_date": "",
