@@ -306,8 +306,8 @@
     "stable_date": "2026-09-29T16:39:00Z"
   },
   "heval99/Heval-Morphe-Patches": {
-    "beta": "v1.6.0-dev.5",
-    "beta_date": "2026-10-03T10:32:07Z",
+    "beta": "v1.7.1-dev.1",
+    "beta_date": "2026-10-03T20:58:18Z",
     "blocked": false,
     "host": "github",
     "repo": "heval99/Heval-Morphe-Patches",
@@ -315,8 +315,8 @@
     "stable_date": "2026-10-03T11:57:49Z"
   },
   "hoo-dles/morphe-patches": {
-    "beta": "v1.46.0-dev.7",
-    "beta_date": "2026-09-30T09:31:05Z",
+    "beta": "v1.47.0-dev.1",
+    "beta_date": "2026-10-03T20:58:29Z",
     "blocked": false,
     "host": "github",
     "repo": "hoo-dles/morphe-patches",
@@ -401,8 +401,8 @@
     "blocked": false,
     "host": "github",
     "repo": "kveld9/kveld-morphe-patches",
-    "stable": "v2.3.0",
-    "stable_date": "2026-10-01T03:29:52Z"
+    "stable": "v2.4.0",
+    "stable_date": "2026-10-03T20:17:11Z"
   },
   "liongalahad/nuviotv-morphe-patches": {
     "beta": "v1.0.0-beta.1",
