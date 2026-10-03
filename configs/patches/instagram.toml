@@ -81,3 +81,15 @@ included-patches = "'Clone'"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
 uptodown-dlurl = "https://instagram.en.uptodown.com/android"
 
+[Instagram-HushGram]
+enabled = true
+pkg-name = "com.instagram.android"
+app-name = "Instagram"
+patches-source = "SysAdminDoc/HushGram"
+brand = "HushGram"
+inclusive-patches = true
+apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
+uptodown-dlurl = "https://instagram.en.uptodown.com/android"
+archive-dlurl = "https://archive.org/download/geologically/apks/com.instagram.android"
+
+
