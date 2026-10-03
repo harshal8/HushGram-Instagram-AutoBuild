@@ -38,3 +38,12 @@ pkg-name = "com.strava"
 app-name = "Strava"
 apkcombo-dlurl = "https://apkcombo.com/it/strava/com.strava"
 
+[Messenger-DeVanced]
+enabled = true
+pkg-name = "com.facebook.orca"
+app-name = "Messenger"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/messenger"
+uptodown-dlurl = "https://facebook-messenger.en.uptodown.com/android"
+apkpure-dlurl = "https://apkpure.com/facebook-messenger/com.facebook.orca"
+apkcombo-dlurl = "https://apkcombo.com/facebook-messenger/com.facebook.orca"
+

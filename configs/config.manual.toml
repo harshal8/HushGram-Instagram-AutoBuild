@@ -1,9 +1,34 @@
-[PocketWhip-hxreborn]
+[Messenger-DeVanced]
 enabled = true
-pkg-name = "com.greenstone.pocketwhip"
-app-name = "Pocket Whip"
-patches-source = "hxreborn/morphe-patches"
-brand = "hxreborn"
-uptodown-dlurl = "https://com-greenstone-pocketwhip.en.uptodown.com/android"
-apkpure-dlurl = "https://apkpure.com/pocket-whip-original-whip-app/com.greenstone.pocketwhip"
-apkcombo-dlurl = "https://apkcombo.com/pocket-whip-original-whip-app/com.greenstone.pocketwhip"
+pkg-name = "com.facebook.orca"
+app-name = "Messenger"
+patches-source = "RookieEnough/De-Vanced"
+brand = "DeVanced"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/messenger"
+uptodown-dlurl = "https://facebook-messenger.en.uptodown.com/android"
+apkpure-dlurl = "https://apkpure.com/facebook-messenger/com.facebook.orca"
+apkcombo-dlurl = "https://apkcombo.com/facebook-messenger/com.facebook.orca"
+
+[Facebook-HushFacebook]
+enabled = true
+pkg-name = "com.facebook.katana"
+app-name = "Facebook"
+patches-source = "SysAdminDoc/HushFacebook"
+brand = "HushFacebook"
+arch = "arm64-v8a"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/facebook"
+uptodown-dlurl = "https://facebook.en.uptodown.com/android"
+apkpure-dlurl = "https://apkpure.com/facebook-app/com.facebook.katana"
+apkcombo-dlurl = "https://apkcombo.com/facebook/com.facebook.katana"
+
+[Facebook-DeVanced]
+enabled = true
+pkg-name = "com.facebook.katana"
+app-name = "Facebook"
+patches-source = "RookieEnough/De-Vanced"
+brand = "DeVanced"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/facebook"
+uptodown-dlurl = "https://facebook.en.uptodown.com/android"
+apkpure-dlurl = "https://apkpure.com/facebook-app/com.facebook.katana"
+apkcombo-dlurl = "https://apkcombo.com/facebook/com.facebook.katana"
+
