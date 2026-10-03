@@ -430,15 +430,15 @@
   "sysadmindoc/hushfacebook": {
     "beta": {},
     "stable": {
-      "com.facebook.katana": "7d989eb074f88c938a2ce979e4425adb",
-      "shared": "62576af1a2b51150eee239e34d9f278b"
+      "com.facebook.katana": "d016b44a7f2ea5e935809ecb842013a6",
+      "shared": "8792ce3ab0308b1a5dfd276af9e06dea"
     }
   },
   "sysadmindoc/hushfeed": {
     "beta": {},
     "stable": {
-      "com.zhiliaoapp.musically": "f2d6ad4bc04682f76fdb1974b97ac978",
-      "shared": "2770ffb2c9aa265c2a1e557d5062c178"
+      "com.zhiliaoapp.musically": "e604b1338ee102163427ba6984fd91fa",
+      "shared": "46d8882e3e2552c9319178d27875fbae"
     }
   }
 }

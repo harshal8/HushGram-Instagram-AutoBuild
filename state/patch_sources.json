@@ -122,8 +122,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SysAdminDoc/HushFacebook",
-    "stable": "v0.6.0",
-    "stable_date": "2026-10-02T00:53:59Z"
+    "stable": "v0.7.0",
+    "stable_date": "2026-10-03T03:58:07Z"
   },
   "SysAdminDoc/hushfeed": {
     "beta": "",
@@ -131,8 +131,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SysAdminDoc/hushfeed",
-    "stable": "v0.66.0",
-    "stable_date": "2026-10-01T07:47:17Z"
+    "stable": "v0.67.0",
+    "stable_date": "2026-10-03T02:44:23Z"
   },
   "ajstrick81/morphe-androidtv-patches": {
     "beta": "test-212",
