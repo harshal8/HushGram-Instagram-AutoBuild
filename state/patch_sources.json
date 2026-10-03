@@ -54,8 +54,8 @@
     "stable_date": "2026-09-27T07:34:41.179Z"
   },
   "MorpheApp/morphe-patches": {
-    "beta": "v1.45.0-dev.23",
-    "beta_date": "2026-10-01T16:14:30Z",
+    "beta": "v1.46.0-dev.1",
+    "beta_date": "2026-10-03T09:22:23Z",
     "blocked": false,
     "host": "github",
     "repo": "MorpheApp/morphe-patches",
@@ -113,8 +113,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SatanMerde/D-moniakPatches",
-    "stable": "v1.36.0",
-    "stable_date": "2026-10-02T20:58:34Z"
+    "stable": "v1.36.3",
+    "stable_date": "2026-10-03T08:04:16Z"
   },
   "SysAdminDoc/HushFacebook": {
     "beta": "",
@@ -153,8 +153,8 @@
     "stable_date": "2026-09-28T12:26:39Z"
   },
   "andrewliang25/morphe-patches": {
-    "beta": "v3.3.2-dev.1",
-    "beta_date": "2026-09-29T03:33:42Z",
+    "beta": "v3.4.0-dev.1",
+    "beta_date": "2026-10-03T09:01:07Z",
     "blocked": false,
     "host": "github",
     "repo": "andrewliang25/morphe-patches",
