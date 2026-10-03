@@ -1,0 +1,34 @@
+[Instagram-Aunali321]
+enabled = true
+pkg-name = "com.instagram.android"
+app-name = "Instagram"
+patches-source = "Aunali321/ReVancedExperiments"
+cli-source = "ReVanced/revanced-cli"
+brand = "Aunali321"
+uptodown-dlurl = "https://instagram.en.uptodown.com/android"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
+
+[Instagram-brosssh]
+enabled = true
+pkg-name = "com.instagram.android"
+app-name = "Instagram"
+patches-version = "both"
+patches-source = "brosssh/morphe-patches"
+brand = "brosssh"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
+uptodown-dlurl = "https://instagram.en.uptodown.com/android"
+archive-dlurl = "https://archive.org/download/geologically/apks/com.instagram.android"
+
+[Instagram-brosssh-Clone]
+enabled = true
+pkg-name = "com.instagram.android"
+app-name = "Instagram"
+variant = "Clone"
+patches-version = "both"
+included-patches = "'Clone'"
+patches-source = "brosssh/morphe-patches"
+brand = "brosssh"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
+uptodown-dlurl = "https://instagram.en.uptodown.com/android"
+archive-dlurl = "https://archive.org/download/geologically/apks/com.instagram.android"
+
