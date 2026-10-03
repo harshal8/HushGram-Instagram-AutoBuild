@@ -6,7 +6,7 @@
    patch sources (github/gitlab/codeberg)         app sources (stores & mirrors)
    MorpheApp, ReVanced, anddea, Piko, devanced…   APKMirror, Uptodown, APKPure,
         │                                         APKCombo, archive.org, GitHub,
-        │ watcher lists releases, every 2 h       direct URL, shared APK cache
+        │ watcher lists releases, every 4 h       direct URL, shared APK cache
         ▼                                              │
  ┌──────────────────────────────────────┐              ▼
  │ nullcpy/rvb  (this repo)             │      ┌──────────────────┐
@@ -102,7 +102,7 @@ independent update channel.
 
 ## One build, end to end
 
-**Watcher** — `ci.yml`, 12 UTC crons on a 2 h window grid with randomized minutes
+**Watcher** — `ci.yml`, 6 UTC crons on a 4 h window grid with randomized minutes
 (GitHub's scheduler is best-effort and drops missed ticks — see
 [CI pipelines](ci-pipelines.md)), concurrency group `ci`:
 

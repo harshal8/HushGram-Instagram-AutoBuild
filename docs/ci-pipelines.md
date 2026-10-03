@@ -6,7 +6,7 @@ GitHub's limits; notify reports failures.
 
 | File | Name | Triggered by | Concurrency group |
 |---|---|---|---|
-| [ci.yml](../.github/workflows/ci.yml) | CI | `schedule` (12 UTC crons: ~2 h windows with randomized minutes), `workflow_dispatch` | `ci` |
+| [ci.yml](../.github/workflows/ci.yml) | CI | `schedule` (6 UTC crons: ~4 h windows with randomized minutes), `workflow_dispatch` | `ci` |
 | [build.yml](../.github/workflows/build.yml) | Build | `workflow_call` only — from `ci.yml` (per pool) or `manual-ci.yml` | `build` |
 | [cleanup.yml](../.github/workflows/cleanup.yml) | Cleanup | `workflow_call`, `workflow_dispatch` | `clean` |
 | [manual-ci.yml](../.github/workflows/manual-ci.yml) | Manual CI | `workflow_dispatch` (config choice + optional `remove_apks`) | `ci` |
@@ -16,15 +16,15 @@ GitHub's limits; notify reports failures.
 Nothing here runs on `push` to `main` except Trace Verify: a push changes
 behaviour for the *next* scheduled run, it does not start a build.
 
-The watcher's schedule is a set of 12 UTC crons, one per 2 h window (`0,2,…,22`),
-each with its own randomized minute. The window grid is deliberate: GitHub's
-`schedule` trigger is best-effort — under load a due run is enqueued late, and a
-tick that was missed is dropped rather than back-filled (measured here at 3-4 runs
-a day against a 4 h cron, each 40 min to 3.5 h late). Keeping 12 windows is the
-redundancy: a dropped tick then leaves a 2 h gap instead of a 4-6 h one, and
-because the watcher is idempotent an extra tick costs only the check steps unless
-something actually moved. Spreading the minutes across each window takes ticks off
-the contended :00 and keeps every run off the website's `23 */6` rebuild (no window
+The watcher's schedule is a set of 6 UTC crons, one per 4 h window (`0,4,8,12,16,20`),
+each with its own randomized minute. GitHub's `schedule` trigger is best-effort —
+under load a due run is enqueued late, and a tick that was missed is dropped rather
+than back-filled (measured here at 3-4 runs a day against a 4 h cron, each 40 min to
+3.5 h late) — so widening the window to 4 h trades redundancy away: a dropped tick
+can now leave a gap of up to ~4 h instead of the ~2 h the earlier grid tolerated. The
+watcher is idempotent, so an extra tick costs only the check steps unless something
+actually moved. Spreading the minutes across each window takes ticks off the
+contended :00 and keeps every run off the website's `23 */6` rebuild (no window
 shares minute 23). Cadence is still not a guarantee — when a check must happen now,
 `manual-ci.yml` is the path.
 
