@@ -32,3 +32,27 @@ apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
 uptodown-dlurl = "https://instagram.en.uptodown.com/android"
 archive-dlurl = "https://archive.org/download/geologically/apks/com.instagram.android"
 
+[Instagram-InstaFel]
+enabled = true
+pkg-name = "com.instagram.android"
+app-name = "Instagram"
+patches-source = "instafel/pc-rel"
+cli-source = "instafel/p-rel"
+brand = "Instafel"
+included-patches = "'unlock_developer_options' 'remove_snooze_warning' 'remove_ads' 'amoled_theme' 'instafel'"
+dpi = "480dpi nodpi anydpi auto"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
+
+[Instagram-InstaFel-Clone]
+enabled = true
+pkg-name = "com.instagram.android"
+app-name = "Instagram"
+patches-source = "instafel/pc-rel"
+cli-source = "instafel/p-rel"
+brand = "Instafel"
+variant = "Clone"
+included-patches = "'unlock_developer_options' 'remove_snooze_warning' 'remove_ads' 'amoled_theme' 'instafel' 'clone'"
+dpi = "480dpi nodpi anydpi auto"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
+
+
