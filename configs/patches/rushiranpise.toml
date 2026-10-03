@@ -69,16 +69,6 @@ app-name = "Beta Maniac"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/mirko-dimartino/beta-maniac-life-of-a-beta-tester-2"
 uptodown-dlurl = "https://beta-maniac.en.uptodown.com/android"
 
-[Messenger-rushiranpise]
-enabled = true
-pkg-name = "com.facebook.orca"
-app-name = "Messenger"
-excluded-patches = "'Remove Meta AI' 'Hide inbox stories and notes tray' 'Hide inbox subtabs' 'Hide Facebook buttons'"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/messenger"
-uptodown-dlurl = "https://facebook-messenger.en.uptodown.com/android"
-apkpure-dlurl = "https://apkpure.com/facebook-messenger/com.facebook.orca"
-apkcombo-dlurl = "https://apkcombo.com/facebook-messenger/com.facebook.orca"
-
 [PocketCasts-rushiranpise]
 enabled = true
 pkg-name = "au.com.shiftyjelly.pocketcasts"
