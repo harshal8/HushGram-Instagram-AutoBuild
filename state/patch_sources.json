@@ -113,8 +113,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SatanMerde/D-moniakPatches",
-    "stable": "v1.44.2",
-    "stable_date": "2026-10-03T16:41:18Z"
+    "stable": "v1.46.1",
+    "stable_date": "2026-10-03T19:18:25Z"
   },
   "SysAdminDoc/HushFacebook": {
     "beta": "",
