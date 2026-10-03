@@ -148,7 +148,7 @@
   "heval99/heval-morphe-patches": {
     "beta": {},
     "stable": {
-      "eu.faircode.email": "1d0a9bdef277289b602a089ecff4c3b9",
+      "eu.faircode.email": "cc53c3dc808d2496d658c5b0b1e7ecab",
       "shared": "f58f43ff836e0762fe9f9d84376b1567"
     }
   },
@@ -423,7 +423,7 @@
   "satanmerde/d-moniakpatches": {
     "beta": {},
     "stable": {
-      "ch.protonmail.android": "4baa1cb7134e7702295a354aea5c4ff7",
+      "ch.protonmail.android": "cc513595fa58a4b93d6189cc9b1e3212",
       "shared": "95c08cd71f497b49781ceb409d22fe67"
     }
   },

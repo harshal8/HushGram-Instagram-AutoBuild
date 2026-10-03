@@ -113,8 +113,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SatanMerde/D-moniakPatches",
-    "stable": "v1.36.3",
-    "stable_date": "2026-10-03T08:04:16Z"
+    "stable": "v1.44.1",
+    "stable_date": "2026-10-03T12:59:58Z"
   },
   "SysAdminDoc/HushFacebook": {
     "beta": "",
@@ -270,13 +270,13 @@
     "stable_date": "2026-09-29T16:39:00Z"
   },
   "heval99/Heval-Morphe-Patches": {
-    "beta": "v1.6.0-dev.4",
-    "beta_date": "2026-09-30T20:16:59Z",
+    "beta": "v1.6.0-dev.5",
+    "beta_date": "2026-10-03T10:32:07Z",
     "blocked": false,
     "host": "github",
     "repo": "heval99/Heval-Morphe-Patches",
-    "stable": "v1.6.0",
-    "stable_date": "2026-10-03T10:09:25Z"
+    "stable": "v1.7.0",
+    "stable_date": "2026-10-03T11:57:49Z"
   },
   "hoo-dles/morphe-patches": {
     "beta": "v1.46.0-dev.7",
