@@ -86,16 +86,6 @@ uptodown-dlurl = "https://telegram-plus.en.uptodown.com/android"
 apkpure-dlurl = "https://apkpure.com/2025-plus-messenger-questions-tool/org.telegram.plus"
 apkcombo-dlurl = "https://apkcombo.com/plus-messenger/org.telegram.plus"
 
-[Telegram-HushTelegram-GooglePlay]
-enabled = true
-pkg-name = "org.telegram.messenger"
-app-name = "Telegram"
-variant = "Google Play"
-patches-source = "SysAdminDoc/HushTelegram"
-brand = "HushTelegram"
-uptodown-dlurl = "https://telegram-google-play-version.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/telegram-fz-llc/telegram"
-
 [Telegram-HushTelegram-FOSS]
 enabled = true
 pkg-name = "org.telegram.messenger.web"
