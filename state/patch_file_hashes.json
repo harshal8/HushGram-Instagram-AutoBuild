@@ -440,5 +440,34 @@
       "com.zhiliaoapp.musically": "e604b1338ee102163427ba6984fd91fa",
       "shared": "46d8882e3e2552c9319178d27875fbae"
     }
+  },
+  "sysadmindoc/hushgram": {
+    "beta": {},
+    "stable": {
+      "com.instagram.android": "0081bbb43f07fc6fb6f4b62ff54c305a",
+      "shared": "01ed19ad503fe5e61d74fd40897591f7"
+    }
+  },
+  "sysadmindoc/hushmessenger": {
+    "beta": {},
+    "stable": {
+      "com.facebook.orca": "ab20a31f11e01188005e1b690b2747c8",
+      "shared": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+  },
+  "sysadmindoc/hushtelegram": {
+    "beta": {},
+    "stable": {
+      "org.telegram.messenger": "8e8feec9a3c13ff73a6eee948affb943",
+      "org.telegram.messenger.web": "8e8feec9a3c13ff73a6eee948affb943",
+      "shared": "be204f7fca364af3a088696b1c73650c"
+    }
+  },
+  "sysadmindoc/hushthreads": {
+    "beta": {},
+    "stable": {
+      "com.instagram.barcelona": "a9e9d0fe50a18c0ffd91b6b2608fcfce",
+      "shared": "345c314fa9c178c50da8cceb7570382b"
+    }
   }
 }

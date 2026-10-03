@@ -125,6 +125,42 @@
     "stable": "v0.7.0",
     "stable_date": "2026-10-03T03:58:07Z"
   },
+  "SysAdminDoc/HushGram": {
+    "beta": "",
+    "beta_date": "",
+    "blocked": false,
+    "host": "github",
+    "repo": "SysAdminDoc/HushGram",
+    "stable": "v0.0.4",
+    "stable_date": "2026-10-03T02:25:26Z"
+  },
+  "SysAdminDoc/HushMessenger": {
+    "beta": "v0.0.8",
+    "beta_date": "2026-09-27T17:32:43Z",
+    "blocked": false,
+    "host": "github",
+    "repo": "SysAdminDoc/HushMessenger",
+    "stable": "v0.14.0",
+    "stable_date": "2026-10-02T23:16:18Z"
+  },
+  "SysAdminDoc/HushTelegram": {
+    "beta": "",
+    "beta_date": "",
+    "blocked": false,
+    "host": "github",
+    "repo": "SysAdminDoc/HushTelegram",
+    "stable": "v0.0.6",
+    "stable_date": "2026-10-03T02:45:35Z"
+  },
+  "SysAdminDoc/HushThreads": {
+    "beta": "",
+    "beta_date": "",
+    "blocked": false,
+    "host": "github",
+    "repo": "SysAdminDoc/HushThreads",
+    "stable": "v0.0.4",
+    "stable_date": "2026-10-03T03:19:02Z"
+  },
   "SysAdminDoc/hushfeed": {
     "beta": "",
     "beta_date": "",
