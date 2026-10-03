@@ -17,7 +17,7 @@
   "akash-sriram/morphe-google-photos": {
     "beta": {},
     "stable": {
-      "com.google.android.apps.photos": "08dda254dd37663fdabf17a97321609f",
+      "com.google.android.apps.photos": "50e1dbce0688921daef93f7eece5bbf7",
       "shared": "f17b82e93a1074d085da8a31ec75fd84"
     }
   },
@@ -36,7 +36,7 @@
   "andrewliang25/morphe-patches": {
     "beta": {},
     "stable": {
-      "com.facebook.katana": "b00d9497bacacc62219226e380cb0eb0",
+      "com.facebook.katana": "9ad42aca54d19cb3a0a1ec54446252a0",
       "shared": "896486938b5de28e83d923a732d3ec47"
     }
   },
