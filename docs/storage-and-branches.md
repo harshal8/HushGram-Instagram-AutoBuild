@@ -168,7 +168,7 @@ never consulted for version listing, so it cannot become a rival source of truth
 about upstream releases. The engine writes back anything it fetched freshly (never
 a copy that came from the cache itself or from `archive`), and
 `update_usage_tracker.py` stamps the versions a run consumed into the repo's
-`usage.json`, which is what its weekly retention pass keys on.
+`usage.json`, which is what its monthly retention pass keys on.
 
 This repo's Actions cache (`temp/apks`) is a fast local copy of the same
 population; both are caches, neither is authoritative. Layout, read/write rules,
