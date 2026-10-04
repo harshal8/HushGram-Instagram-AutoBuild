@@ -113,8 +113,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SatanMerde/D-moniakPatches",
-    "stable": "v1.47.1",
-    "stable_date": "2026-10-04T11:54:53Z"
+    "stable": "v1.48.0",
+    "stable_date": "2026-10-04T14:37:58Z"
   },
   "SysAdminDoc/HushFacebook": {
     "beta": "",
@@ -243,8 +243,8 @@
     "stable_date": "2026-07-18T18:58:06Z"
   },
   "byehi98/okish-morphe-patches": {
-    "beta": "v1.37.1-dev.1",
-    "beta_date": "2026-10-04T05:23:57Z",
+    "beta": "v1.38.0-dev.2",
+    "beta_date": "2026-10-04T16:28:02Z",
     "blocked": false,
     "host": "github",
     "repo": "byehi98/okish-morphe-patches",
@@ -365,8 +365,8 @@
     "blocked": false,
     "host": "github",
     "repo": "jasonwu1994/Gboard-patches",
-    "stable": "v3.11.0",
-    "stable_date": "2026-09-22T06:59:02Z"
+    "stable": "v3.12.0",
+    "stable_date": "2026-10-04T16:37:59Z"
   },
   "jkennethcarino/adobo": {
     "beta": "v1.6.0-dev.4",
@@ -450,13 +450,13 @@
     "stable_date": "2026-09-09T16:26:35Z"
   },
   "riky-dev/morphe-patches": {
-    "beta": "v2.0.0-dev.2",
-    "beta_date": "2026-09-23T15:32:34Z",
+    "beta": "v2.2.0-dev.1",
+    "beta_date": "2026-10-04T14:54:19Z",
     "blocked": false,
     "host": "github",
     "repo": "riky-dev/morphe-patches",
-    "stable": "v2.0.0",
-    "stable_date": "2026-09-25T16:47:30Z"
+    "stable": "v2.2.0",
+    "stable_date": "2026-10-04T14:54:14Z"
   },
   "rushiranpise/morphe-patches": {
     "beta": "v1.23.0-dev.1",
