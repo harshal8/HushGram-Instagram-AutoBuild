@@ -5,11 +5,11 @@
       "com.amazon.amazonvideo.livingroom": "35e92aaeb9db7e90edae0c8e4ccf081c",
       "com.disney.disneyplus": "fb4055dcbe6c0270ddec57215ed10bd4",
       "com.netflix.ninja": "1d5a8970336c0c9bfd4daa688e218684",
-      "com.peacocktv.peacockandroid": "254cd32d52e6b65eee977eff84044184",
+      "com.peacocktv.peacockandroid": "fd369c36ba65c72d7297980fb92ebb83",
       "com.tubitv": "496e5b5e41c0ecf996a25790ae9fea89",
       "com.univision.prendetv": "5ae85ad4e573b75a3d4c55dc5de3469f",
       "com.wbd.hbomax": "04db80a6460c84ff5bb97c71ef770cdf",
-      "shared": "9aa593edf43538490ce27b8aba74075d",
+      "shared": "2022e1396b16d600f1d505a7bf2ce92e",
       "tv.pluto.android": "661b0cff26c5ddd8ffd53d2d271663ab",
       "tv.twitch.android.app": "dcc3c62ee2cb5ba1793d74172bcf61fb"
     }
@@ -17,7 +17,7 @@
   "akash-sriram/morphe-google-photos": {
     "beta": {},
     "stable": {
-      "com.google.android.apps.photos": "50e1dbce0688921daef93f7eece5bbf7",
+      "com.google.android.apps.photos": "414cd288bd41e1fb415707692beadbe1",
       "shared": "f17b82e93a1074d085da8a31ec75fd84"
     }
   },
@@ -82,7 +82,7 @@
     "beta": {},
     "stable": {
       "org.swiftapps.swiftbackup": "19f8e7d3f7903d93d21919ae4e0b5bc2",
-      "shared": "1dd59d95e1eeec790484bb22047b36ed"
+      "shared": "5ca8268c58574db04149cf9cd25275f2"
     }
   },
   "crimera/piko": {
@@ -430,22 +430,22 @@
   "sysadmindoc/hushfacebook": {
     "beta": {},
     "stable": {
-      "com.facebook.katana": "d016b44a7f2ea5e935809ecb842013a6",
-      "shared": "8792ce3ab0308b1a5dfd276af9e06dea"
+      "com.facebook.katana": "0a1af4cf2eae1480005425987cedc5e1",
+      "shared": "2a8de1ee14b9bd4f098a63294cb74d4f"
     }
   },
   "sysadmindoc/hushfeed": {
     "beta": {},
     "stable": {
-      "com.zhiliaoapp.musically": "e604b1338ee102163427ba6984fd91fa",
+      "com.zhiliaoapp.musically": "308397d197ad945d38553c99f578aa37",
       "shared": "46d8882e3e2552c9319178d27875fbae"
     }
   },
   "sysadmindoc/hushgram": {
     "beta": {},
     "stable": {
-      "com.instagram.android": "0081bbb43f07fc6fb6f4b62ff54c305a",
-      "shared": "01ed19ad503fe5e61d74fd40897591f7"
+      "com.instagram.android": "1e4c93bba6f25d5bfdb2d130d52f1e02",
+      "shared": "cc8e14634cd283868c34baa25c952acc"
     }
   },
   "sysadmindoc/hushmessenger": {
@@ -458,16 +458,15 @@
   "sysadmindoc/hushtelegram": {
     "beta": {},
     "stable": {
-      "org.telegram.messenger": "8e8feec9a3c13ff73a6eee948affb943",
-      "org.telegram.messenger.web": "8e8feec9a3c13ff73a6eee948affb943",
-      "shared": "be204f7fca364af3a088696b1c73650c"
+      "org.telegram.messenger.web": "c7298367626e4a30ebf88f01e462ac8d",
+      "shared": "909b5b3918b6841cd9a9d07dbc1ac961"
     }
   },
   "sysadmindoc/hushthreads": {
     "beta": {},
     "stable": {
-      "com.instagram.barcelona": "a9e9d0fe50a18c0ffd91b6b2608fcfce",
-      "shared": "345c314fa9c178c50da8cceb7570382b"
+      "com.instagram.barcelona": "9d521c94e2f904914e05304de7b197e3",
+      "shared": "1f9ad77bbfae8a6ced91df42c29000d3"
     }
   }
 }
