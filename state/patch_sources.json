@@ -54,8 +54,8 @@
     "stable_date": "2026-09-27T07:34:41.179Z"
   },
   "MorpheApp/morphe-patches": {
-    "beta": "v1.46.0-dev.1",
-    "beta_date": "2026-10-03T09:22:23Z",
+    "beta": "v1.46.0-dev.2",
+    "beta_date": "2026-10-04T08:18:57Z",
     "blocked": false,
     "host": "github",
     "repo": "MorpheApp/morphe-patches",
@@ -90,13 +90,13 @@
     "stable_date": "2026-06-02T20:22:14Z"
   },
   "RookieEnough/De-Vanced": {
-    "beta": "v1.5.0-dev.4",
-    "beta_date": "2026-09-29T19:47:24Z",
+    "beta": "v1.5.1-dev.1",
+    "beta_date": "2026-10-04T09:36:11Z",
     "blocked": false,
     "host": "github",
     "repo": "RookieEnough/De-Vanced",
-    "stable": "v1.5.0",
-    "stable_date": "2026-10-02T23:19:45Z"
+    "stable": "v1.5.1",
+    "stable_date": "2026-10-04T10:21:11Z"
   },
   "SapitoSucio/FroggoMorphePatches": {
     "beta": "v1.4.0-dev.2",
@@ -113,8 +113,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SatanMerde/D-moniakPatches",
-    "stable": "v1.46.1",
-    "stable_date": "2026-10-03T19:18:25Z"
+    "stable": "v1.47.0",
+    "stable_date": "2026-10-04T09:32:23Z"
   },
   "SysAdminDoc/HushFacebook": {
     "beta": "",
@@ -248,8 +248,8 @@
     "blocked": false,
     "host": "github",
     "repo": "byehi98/okish-morphe-patches",
-    "stable": "v1.37.0",
-    "stable_date": "2026-10-04T02:13:24Z"
+    "stable": "v1.37.1",
+    "stable_date": "2026-10-04T07:33:48Z"
   },
   "crimera/piko": {
     "beta": "v3.10.0-dev.9",

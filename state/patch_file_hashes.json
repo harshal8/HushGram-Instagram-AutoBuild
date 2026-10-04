@@ -82,7 +82,7 @@
     "beta": {},
     "stable": {
       "org.swiftapps.swiftbackup": "19f8e7d3f7903d93d21919ae4e0b5bc2",
-      "shared": "5ca8268c58574db04149cf9cd25275f2"
+      "shared": "493461e22c5a738af6d580fefa76dd84"
     }
   },
   "crimera/piko": {
@@ -295,10 +295,10 @@
   },
   "morpheapp/morphe-patches": {
     "beta": {
-      "com.google.android.apps.youtube.music": "203f70c3d0e73804875c951c88ac4fbe",
-      "com.google.android.youtube": "6ac7e435766e094dcf0ae4007e781fd5",
-      "com.reddit.frontpage": "6e2326a680fae25c1a8c836e848567a3",
-      "shared": "b3107d2812accb0de4a9ece755172e69"
+      "com.google.android.apps.youtube.music": "491dfa4e93bb7c2a131865d4a6469944",
+      "com.google.android.youtube": "f9cd991fa273b2582d79556bfb26f32d",
+      "com.reddit.frontpage": "b3a12bb81e4c553efafc3cd5d811f014",
+      "shared": "432af54919dffbc7ad13cdcfc4510224"
     },
     "stable": {
       "com.google.android.apps.youtube.music": "d913b50d8f4a9ce0734ef1d1b3764a9f",
@@ -374,17 +374,19 @@
   "rookieenough/de-vanced": {
     "beta": {
       "com.google.android.apps.photos": "af2e73af0995a512d84ea8d150c75cb5",
-      "shared": "47aeb6555648cdf0a98d5bbc5d216fd3"
+      "shared": "53bc29bd97211283f3f3a9270f0e64bb"
     },
     "stable": {
+      "com.facebook.katana": "80d0338531b4091c36b2037d24327da8",
+      "com.facebook.orca": "646f80f932d2dc6ef74ec55b84417b30",
       "com.google.android.apps.photos": "af2e73af0995a512d84ea8d150c75cb5",
       "com.google.android.apps.recorder": "5f3ea6719c4c620dea68bb1bae6f7f42",
-      "com.microblink.photomath": "aa058c73c74e6518c75b45991983219d",
-      "com.microsoft.office.officelens": "1bd729f1a8e6b4cd05412c5d43c0e0d8",
-      "com.strava": "6edd33fa1cf10f9cf7db757b45caf425",
-      "com.viber.voip": "e45a14137e2467cc36f8d788c1230bc4",
+      "com.microblink.photomath": "b62799511f4d25c1c3bd2201f85cb13a",
+      "com.microsoft.office.officelens": "90067d5936e23e8fcd709bb46bc35e31",
+      "com.strava": "974d1e0248eb9c5f4692f625c0171cf1",
+      "com.viber.voip": "71ef7768470c02730c59cda93bf157c2",
       "jp.pxv.android": "3b802125208bc875cd66ea9b7da6e004",
-      "shared": "47aeb6555648cdf0a98d5bbc5d216fd3"
+      "shared": "53bc29bd97211283f3f3a9270f0e64bb"
     }
   },
   "rushiranpise/morphe-patches": {
