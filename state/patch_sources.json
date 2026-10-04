@@ -54,8 +54,8 @@
     "stable_date": "2026-09-27T07:34:41.179Z"
   },
   "MorpheApp/morphe-patches": {
-    "beta": "v1.46.0-dev.2",
-    "beta_date": "2026-10-04T08:18:57Z",
+    "beta": "v1.46.0-dev.3",
+    "beta_date": "2026-10-04T20:00:42Z",
     "blocked": false,
     "host": "github",
     "repo": "MorpheApp/morphe-patches",
