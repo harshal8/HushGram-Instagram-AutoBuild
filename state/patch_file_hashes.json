@@ -62,7 +62,7 @@
   },
   "brosssh/morphe-patches": {
     "beta": {
-      "com.instagram.android": "efab2a964a11129ee3e218a482255ae3",
+      "com.instagram.android": "3583333810bccc750e7af04dd2f488d1",
       "shared": "e8477a3349f8bb6238d3bdfde82b803b"
     },
     "stable": {
@@ -216,11 +216,11 @@
   "hxreborn/morphe-patches": {
     "beta": {},
     "stable": {
-      "ch.protonmail.android": "321b3d3c238d2186162c8ba26fcca567",
-      "com.greenstone.pocketwhip": "0fb155a1137cdd9310b8ac9b8c404a7b",
-      "com.michaldrabik.showly2": "18fa20522f82e149c9fd5e9075192682",
-      "dev.vodik7.atvtools": "55fe1a9f5815eb91d8180da1f5cfe04a",
-      "shared": "de684fca2a6c08fb47d37832aea2cbdb"
+      "ch.protonmail.android": "3641a8732913dadf8b670585ff8a8676",
+      "com.greenstone.pocketwhip": "3213e1afe9dc97dda387d01acb569d19",
+      "com.michaldrabik.showly2": "9c6550126f5fd816f32af8d618f8e44c",
+      "dev.vodik7.atvtools": "02758595efef71b5cf3b7d7837f14a97",
+      "shared": "7816c6daf4d320a24deeadd617dd44a1"
     }
   },
   "icysymmetra/tiktok-patches-for-morphe": {
@@ -296,7 +296,7 @@
   "morpheapp/morphe-patches": {
     "beta": {
       "com.google.android.apps.youtube.music": "7437f248f35820164e1bd4e6c7109039",
-      "com.google.android.youtube": "1282b62ef9b849baa7a3dfa5e71f7dab",
+      "com.google.android.youtube": "6563c3a80ebeca5bca3f4447111f2ff3",
       "com.reddit.frontpage": "b3a12bb81e4c553efafc3cd5d811f014",
       "shared": "85bbf05e05d3f5ce8aed0d8076c5da82"
     },
@@ -453,15 +453,15 @@
   "sysadmindoc/hushmessenger": {
     "beta": {},
     "stable": {
-      "com.facebook.orca": "ab20a31f11e01188005e1b690b2747c8",
+      "com.facebook.orca": "14a63f10e601946cf70436a9bb8b3273",
       "shared": "d41d8cd98f00b204e9800998ecf8427e"
     }
   },
   "sysadmindoc/hushtelegram": {
     "beta": {},
     "stable": {
-      "org.telegram.messenger.web": "c7298367626e4a30ebf88f01e462ac8d",
-      "shared": "909b5b3918b6841cd9a9d07dbc1ac961"
+      "org.telegram.messenger.web": "b7aec858c20e8622111aa71ac249dc95",
+      "shared": "3d22a76c86e859e84a3d57b4fa6903d5"
     }
   },
   "sysadmindoc/hushthreads": {

@@ -54,8 +54,8 @@
     "stable_date": "2026-09-27T07:34:41.179Z"
   },
   "MorpheApp/morphe-patches": {
-    "beta": "v1.46.0-dev.6",
-    "beta_date": "2026-10-05T11:41:47Z",
+    "beta": "v1.46.0-dev.7",
+    "beta_date": "2026-10-05T14:49:58Z",
     "blocked": false,
     "host": "github",
     "repo": "MorpheApp/morphe-patches",
@@ -135,13 +135,13 @@
     "stable_date": "2026-10-04T00:59:33Z"
   },
   "SysAdminDoc/HushMessenger": {
-    "beta": "v0.0.8",
-    "beta_date": "2026-09-27T17:32:43Z",
+    "beta": "",
+    "beta_date": "",
     "blocked": false,
     "host": "github",
     "repo": "SysAdminDoc/HushMessenger",
-    "stable": "v0.14.0",
-    "stable_date": "2026-10-02T23:16:18Z"
+    "stable": "v0.21.0",
+    "stable_date": "2026-10-05T14:44:28Z"
   },
   "SysAdminDoc/HushTelegram": {
     "beta": "",
@@ -149,8 +149,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SysAdminDoc/HushTelegram",
-    "stable": "v0.0.8",
-    "stable_date": "2026-10-04T01:36:32Z"
+    "stable": "v0.0.9",
+    "stable_date": "2026-10-05T15:08:19Z"
   },
   "SysAdminDoc/HushThreads": {
     "beta": "",
@@ -216,8 +216,8 @@
     "stable_date": "2026-04-27T12:49:57Z"
   },
   "brosssh/morphe-patches": {
-    "beta": "v2.8.2-dev.2",
-    "beta_date": "2026-08-27T08:01:23Z",
+    "beta": "v2.8.3-dev.1",
+    "beta_date": "2026-10-05T14:01:40Z",
     "blocked": false,
     "host": "github",
     "repo": "brosssh/morphe-patches",
@@ -261,8 +261,8 @@
     "stable_date": "2026-08-31T02:40:04Z"
   },
   "dh6k/morphe-patches": {
-    "beta": "v1.9.0-dev.2",
-    "beta_date": "2026-10-02T04:46:42Z",
+    "beta": "v1.9.0-dev.3",
+    "beta_date": "2026-10-05T16:38:23Z",
     "blocked": false,
     "host": "github",
     "repo": "dh6k/morphe-patches",
@@ -338,8 +338,8 @@
     "blocked": false,
     "host": "github",
     "repo": "hxreborn/morphe-patches",
-    "stable": "v1.40.0",
-    "stable_date": "2026-10-04T17:14:51Z"
+    "stable": "v1.41.0",
+    "stable_date": "2026-10-05T12:09:41Z"
   },
   "icysymmetra/tiktok-patches-for-morphe": {
     "beta": "v0.8.0-dev.12",
