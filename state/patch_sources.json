@@ -158,8 +158,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SysAdminDoc/HushThreads",
-    "stable": "v0.0.10",
-    "stable_date": "2026-10-04T00:25:48Z"
+    "stable": "v0.0.11",
+    "stable_date": "2026-10-05T18:38:07Z"
   },
   "SysAdminDoc/hushfeed": {
     "beta": "",
@@ -261,8 +261,8 @@
     "stable_date": "2026-08-31T02:40:04Z"
   },
   "dh6k/morphe-patches": {
-    "beta": "v1.9.0-dev.3",
-    "beta_date": "2026-10-05T16:38:23Z",
+    "beta": "v1.9.0-dev.4",
+    "beta_date": "2026-10-05T19:15:22Z",
     "blocked": false,
     "host": "github",
     "repo": "dh6k/morphe-patches",
@@ -306,13 +306,13 @@
     "stable_date": "2026-09-29T16:39:00Z"
   },
   "heval99/Heval-Morphe-Patches": {
-    "beta": "v1.7.1-dev.1",
-    "beta_date": "2026-10-03T20:58:18Z",
+    "beta": "v1.8.0-dev.1",
+    "beta_date": "2026-10-05T17:56:02Z",
     "blocked": false,
     "host": "github",
     "repo": "heval99/Heval-Morphe-Patches",
-    "stable": "v1.7.0",
-    "stable_date": "2026-10-03T11:57:49Z"
+    "stable": "v1.8.0",
+    "stable_date": "2026-10-05T18:03:18Z"
   },
   "hoo-dles/morphe-patches": {
     "beta": "v1.47.0-dev.3",

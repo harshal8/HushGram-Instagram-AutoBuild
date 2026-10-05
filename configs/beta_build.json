@@ -50,7 +50,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/discord/com.discord"
   },
   "Instagram-brosssh": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.instagram.android",
     "app-name": "Instagram",
     "patches-source": "brosssh/morphe-patches",
@@ -60,7 +60,7 @@
     "archive-dlurl": "https://archive.org/download/geologically/apks/com.instagram.android"
   },
   "Instagram-brosssh-Clone": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.instagram.android",
     "app-name": "Instagram",
     "variant": "Clone",
@@ -152,7 +152,7 @@
     "patches-source": "MorpheApp/morphe-patches",
     "build-mode": "both",
     "brand": "Morphe",
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.google.android.youtube",
     "app-name": "YouTube",
     "patch-folder": "youtube",
@@ -180,7 +180,7 @@
     "patches-source": "MorpheApp/morphe-patches",
     "build-mode": "both",
     "brand": "Morphe",
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.google.android.youtube",
     "app-name": "YouTube",
     "variant": "Experimental",

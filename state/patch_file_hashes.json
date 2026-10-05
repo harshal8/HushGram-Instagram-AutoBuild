@@ -148,7 +148,7 @@
   "heval99/heval-morphe-patches": {
     "beta": {},
     "stable": {
-      "eu.faircode.email": "cc53c3dc808d2496d658c5b0b1e7ecab",
+      "eu.faircode.email": "8a8c5b8978c483ff6d11f929ca4449e8",
       "shared": "f58f43ff836e0762fe9f9d84376b1567"
     }
   },
@@ -467,8 +467,8 @@
   "sysadmindoc/hushthreads": {
     "beta": {},
     "stable": {
-      "com.instagram.barcelona": "9d521c94e2f904914e05304de7b197e3",
-      "shared": "1f9ad77bbfae8a6ced91df42c29000d3"
+      "com.instagram.barcelona": "df2abf4cfc22d1f2b04fc2390d10c124",
+      "shared": "35ba632e72cff783b459e984cabb14c2"
     }
   }
 }
