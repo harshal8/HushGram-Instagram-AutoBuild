@@ -82,7 +82,7 @@
     "beta": {},
     "stable": {
       "org.swiftapps.swiftbackup": "19f8e7d3f7903d93d21919ae4e0b5bc2",
-      "shared": "493461e22c5a738af6d580fefa76dd84"
+      "shared": "fb2793d07a8ff630dc366941f35c14b2"
     }
   },
   "crimera/piko": {
@@ -295,10 +295,10 @@
   },
   "morpheapp/morphe-patches": {
     "beta": {
-      "com.google.android.apps.youtube.music": "491dfa4e93bb7c2a131865d4a6469944",
-      "com.google.android.youtube": "354168e71493af2090ead8f5d360f3fe",
+      "com.google.android.apps.youtube.music": "7437f248f35820164e1bd4e6c7109039",
+      "com.google.android.youtube": "1282b62ef9b849baa7a3dfa5e71f7dab",
       "com.reddit.frontpage": "b3a12bb81e4c553efafc3cd5d811f014",
-      "shared": "1706e9419987502f3a9a0b8163f8a97a"
+      "shared": "85bbf05e05d3f5ce8aed0d8076c5da82"
     },
     "stable": {
       "com.google.android.apps.youtube.music": "d913b50d8f4a9ce0734ef1d1b3764a9f",
