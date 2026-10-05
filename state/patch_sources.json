@@ -243,8 +243,8 @@
     "stable_date": "2026-07-18T18:58:06Z"
   },
   "byehi98/okish-morphe-patches": {
-    "beta": "v1.38.0-dev.2",
-    "beta_date": "2026-10-04T16:28:02Z",
+    "beta": "v1.38.0-dev.3",
+    "beta_date": "2026-10-05T02:12:04Z",
     "blocked": false,
     "host": "github",
     "repo": "byehi98/okish-morphe-patches",
@@ -252,8 +252,8 @@
     "stable_date": "2026-10-04T07:33:48Z"
   },
   "crimera/piko": {
-    "beta": "v3.10.0-dev.10",
-    "beta_date": "2026-10-04T17:29:18Z",
+    "beta": "v3.10.0-dev.11",
+    "beta_date": "2026-10-05T01:59:24Z",
     "blocked": false,
     "host": "github",
     "repo": "crimera/piko",
