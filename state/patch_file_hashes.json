@@ -82,7 +82,7 @@
     "beta": {},
     "stable": {
       "org.swiftapps.swiftbackup": "19f8e7d3f7903d93d21919ae4e0b5bc2",
-      "shared": "fb2793d07a8ff630dc366941f35c14b2"
+      "shared": "ffb128180e413e1f839e9520acaf1113"
     }
   },
   "crimera/piko": {
@@ -280,10 +280,10 @@
   "kveld9/kveld-morphe-patches": {
     "beta": {},
     "stable": {
-      "com.brave.browser": "90dcc6e9c635e251ccc00f479e28e5ff",
-      "com.ss.android.ugc.trill": "dc46ac5a483e5c0c1e495bcbbe489ccf",
-      "com.zhiliaoapp.musically": "8f638913e06ae43b1bf918b8e621d8de",
-      "shared": "88362a78639b4cf9eeb42c6d2e528bbb"
+      "com.brave.browser": "853b07208ca5f3d1871e42f005e2da77",
+      "com.ss.android.ugc.trill": "6dc1e1b6e67524094e3942afbf84f92b",
+      "com.zhiliaoapp.musically": "709d137cb8b46230a6e787cf84745bab",
+      "shared": "e80e2531b2c1c55d20235c56888f77d5"
     }
   },
   "liongalahad/nuviotv-morphe-patches": {
@@ -305,6 +305,13 @@
       "com.google.android.youtube": "38377eb0dabbc7e76c99a7f6c5db3d6a",
       "com.reddit.frontpage": "dda517f2661f179e7c32abaf08a5feb0",
       "shared": "6b3283a4343d72c188e45942f3192a76"
+    }
+  },
+  "mvaishak/letterboxd-morphe-patches": {
+    "beta": {},
+    "stable": {
+      "com.letterboxd.letterboxd": "95cad15b75cf095c493d843810751622",
+      "shared": "b22f3155118dab77140fbfea0934dde6"
     }
   },
   "newuser7171/telegram-morphe-patches-": {

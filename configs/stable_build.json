@@ -33,7 +33,7 @@
     "patches-source": "BholeyKaBhakt/revanced-patches-xtra",
     "brand": "BholeyKaBhakt",
     "enabled": false,
-    "pkg-name": "com.camerasideas.instashot",
+    "pkg-name": "com.nis.app",
     "app-name": "Inshorts",
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/inshorts-formerly-news-in-shorts/inshorts-news-in-60-words-2",
     "uptodown-dlurl": "https://inshorts.en.uptodown.com/android"
@@ -94,17 +94,27 @@
     "apkpure-dlurl": "https://apkpure.com/trakt-tv-time-to-watch/tv.trakt.trakt",
     "apkcombo-dlurl": "https://apkcombo.com/trakt-tv-series-et-films/tv.trakt.trakt"
   },
-  "Reddit-adobo": {
-    "patches-source": "jkennethcarino/adobo",
-    "brand": "adobo",
+  "AdGuard-hoodles": {
     "enabled": false,
-    "pkg-name": "com.reddit.frontpage",
-    "app-name": "Reddit",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/redditinc/reddit",
-    "uptodown-dlurl": "https://reddit-official-app.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/reddit-app/com.reddit.frontpage",
-    "apkcombo-dlurl": "https://apkcombo.com/reddit/com.reddit.frontpage",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.reddit.frontpage"
+    "pkg-name": "com.adguard.android",
+    "app-name": "AdGuard",
+    "patches-source": "hoo-dles/morphe-patches",
+    "brand": "hoodles",
+    "build-mode": "both",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/adguard-software-limited/adguard",
+    "uptodown-dlurl": "https://adguard-for-android.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/adguard/com.adguard.android"
+  },
+  "AdGuard-rushiranpise-Nightly": {
+    "enabled": false,
+    "pkg-name": "com.adguard.android",
+    "app-name": "AdGuard",
+    "patches-source": "rushiranpise/morphe-patches",
+    "brand": "rushiranpise",
+    "variant": "Nightly",
+    "build-mode": "both",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/adguard-software-limited/adguard",
+    "uptodown-dlurl": "https://adguard-for-android.en.uptodown.com/android"
   },
   "IMDb-adobo": {
     "patches-source": "jkennethcarino/adobo",
@@ -230,112 +240,6 @@
     "apkpure-dlurl": "https://apkpure.com/netflix-android-tv-app/com.netflix.ninja",
     "apkcombo-dlurl": "https://apkcombo.com/netflix-tv/com.netflix.ninja"
   },
-  "Twitch-ajstrick81-AndroidTV": {
-    "patches-source": "ajstrick81/morphe-androidtv-patches",
-    "brand": "ajstrick81",
-    "variant": "Android TV",
-    "arch": "all",
-    "enabled": false,
-    "pkg-name": "tv.twitch.android.app",
-    "app-name": "Twitch",
-    "patch-folder": "twitchatv",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/twitch-interactive-inc/twitch-android-tv/",
-    "apkpure-dlurl": "https://apkpure.com/twitch-livestream-multiplayer-games-esports-app/tv.twitch.android.app",
-    "apkcombo-dlurl": "https://apkcombo.com/twitch/tv.twitch.android.app"
-  },
-  "youtube-anddea-nord": {
-    "patches-source": "anddea/revanced-patches",
-    "build-mode": "both",
-    "brand": "anddea",
-    "enabled": false,
-    "pkg-name": "com.google.android.youtube",
-    "app-name": "YouTube",
-    "patch-folder": "youtube",
-    "variant": "Nord Theme",
-    "included-patches": "'MaterialYou'",
-    "patcher-args": "-e 'Theme' -OdarkThemeBackgroundColor=#2E3440 -OlightThemeBackgroundColor=#E5E9F0",
-    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
-  },
-  "youtube-music-anddea-nord": {
-    "patches-source": "anddea/revanced-patches",
-    "build-mode": "both",
-    "brand": "anddea",
-    "enabled": false,
-    "pkg-name": "com.google.android.apps.youtube.music",
-    "app-name": "YouTube Music",
-    "patch-folder": "music",
-    "variant": "Nord Theme",
-    "patcher-args": "-e 'Dark theme' -OdarkThemeBackgroundColor=#2E3440 -OmaterialYou=#5E81AC",
-    "uptodown-dlurl": "https://youtube-music.en.uptodown.com/android",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube-music",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.apps.youtube.music"
-  },
-  "youtube-anddea-mocha": {
-    "patches-source": "anddea/revanced-patches",
-    "build-mode": "both",
-    "brand": "anddea",
-    "enabled": false,
-    "pkg-name": "com.google.android.youtube",
-    "app-name": "YouTube",
-    "patch-folder": "youtube",
-    "variant": "Mocha Theme",
-    "included-patches": "'MaterialYou'",
-    "patcher-args": "-e 'Theme' -OdarkThemeBackgroundColor=#FF181825 -OlightThemeBackgroundColor=#E6E9EF",
-    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
-  },
-  "youtube-music-anddea-mocha": {
-    "patches-source": "anddea/revanced-patches",
-    "build-mode": "both",
-    "brand": "anddea",
-    "enabled": false,
-    "pkg-name": "com.google.android.apps.youtube.music",
-    "app-name": "YouTube Music",
-    "patch-folder": "music",
-    "variant": "Mocha Theme",
-    "patcher-args": "-e 'Dark theme' -OdarkThemeBackgroundColor=#FF181825 -OmaterialYou=#89B4FA",
-    "uptodown-dlurl": "https://youtube-music.en.uptodown.com/android",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube-music",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.apps.youtube.music"
-  },
-  "youtube-anddea": {
-    "patches-source": "anddea/revanced-patches",
-    "build-mode": "both",
-    "brand": "anddea",
-    "enabled": false,
-    "pkg-name": "com.google.android.youtube",
-    "app-name": "YouTube",
-    "patch-folder": "youtube",
-    "patcher-args": "-e 'Theme' -OdarkThemeBackgroundColor=@android:color/black",
-    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
-  },
-  "youtube-music-anddea": {
-    "patches-source": "anddea/revanced-patches",
-    "build-mode": "both",
-    "brand": "anddea",
-    "enabled": false,
-    "pkg-name": "com.google.android.apps.youtube.music",
-    "app-name": "YouTube Music",
-    "patch-folder": "music",
-    "patcher-args": "-e 'Dark theme' -OdarkThemeBackgroundColor=@android:color/black",
-    "uptodown-dlurl": "https://youtube-music.en.uptodown.com/android",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube-music",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.apps.youtube.music"
-  },
-  "Pinterest-binarymend": {
-    "patches-source": "binarymend/morphe-patches",
-    "brand": "binarymend",
-    "enabled": false,
-    "pkg-name": "com.pinterest",
-    "app-name": "Pinterest",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/pinterest/pinterest-one-destination-for-a-world-of-inspiration",
-    "uptodown-dlurl": "https://pinterest.en.uptodown.com/android"
-  },
   "MoonPlusReader-binarymend": {
     "patches-source": "binarymend/morphe-patches",
     "brand": "binarymend",
@@ -383,29 +287,6 @@
     "uptodown-dlurl": "https://komoot.en.uptodown.com/android",
     "apkpure-dlurl": "https://apkpure.com/komoot-hike-bike-run/de.komoot.android"
   },
-  "Pinterest-browzomje": {
-    "patches-source": "browzomje/browzomje-patches",
-    "brand": "browzomje",
-    "enabled": false,
-    "pkg-name": "com.pinterest",
-    "app-name": "Pinterest",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/pinterest/pinterest-one-destination-for-a-world-of-inspiration",
-    "uptodown-dlurl": "https://pinterest.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/pinterest/com.pinterest",
-    "apkcombo-dlurl": "https://apkcombo.com/pinterest/com.pinterest"
-  },
-  "Truecaller-bufferk": {
-    "patches-source": "bufferk/morphe-patches",
-    "brand": "bufferk",
-    "enabled": false,
-    "pkg-name": "com.truecaller",
-    "app-name": "Truecaller",
-    "build-mode": "both",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/true-software-scandinavia-ab/truecaller-caller-id-block",
-    "uptodown-dlurl": "https://truecaller.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/truecaller-caller-id-block-for-android-2024/com.truecaller",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.truecaller"
-  },
   "Medium-bufferk": {
     "patches-source": "bufferk/morphe-patches",
     "brand": "bufferk",
@@ -418,7 +299,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/medium/com.medium.reader"
   },
   "SwiftBackup-byehi98": {
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "org.swiftapps.swiftbackup",
     "app-name": "Swift Backup",
     "patches-source": "byehi98/okish-morphe-patches",
@@ -605,7 +486,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/byair-flight-tracker-status/com.byairapp.android"
   },
   "FairEmail-heval99": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "eu.faircode.email",
     "app-name": "FairEmail",
     "brand": "heval99",
@@ -614,18 +495,6 @@
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/marcel-bokhorst/fairemail-open-source-privacy-oriented-email",
     "apkpure-dlurl": "https://apkpure.com/fairemail-privacy-aware-email/eu.faircode.email",
     "apkcombo-dlurl": "https://apkcombo.com/fairemail-privacy-aware-email/eu.faircode.email"
-  },
-  "SoundCloud-hoodles": {
-    "patches-source": "hoo-dles/morphe-patches",
-    "brand": "hoodles",
-    "enabled": false,
-    "pkg-name": "com.soundcloud.android",
-    "app-name": "SoundCloud",
-    "included-patches": "'AMOLED dark theme'",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/soundcloud/soundcloud-soundcloud",
-    "uptodown-dlurl": "https://soundcloud.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/sound-cloud-android-app/com.soundcloud.android",
-    "apkcombo-dlurl": "https://apkcombo.com/soundcloud/com.soundcloud.android"
   },
   "Duolingo-hoodles": {
     "patches-source": "hoo-dles/morphe-patches",
@@ -742,17 +611,6 @@
     "apkcombo-dlurl": "https://apkcombo.com/xrecorder/videoeditor.videorecorder.screenrecorder",
     "uptodown-dlurl": "https://videoeditor-videorecorder-screenrecorder.en.uptodown.com/android"
   },
-  "AdGuard-hoodles": {
-    "patches-source": "hoo-dles/morphe-patches",
-    "brand": "hoodles",
-    "enabled": false,
-    "pkg-name": "com.adguard.android",
-    "app-name": "AdGuard",
-    "build-mode": "both",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/adguard-software-limited/adguard",
-    "uptodown-dlurl": "https://adguard-for-android.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/adguard/com.adguard.android"
-  },
   "NovaLauncher-hoodles": {
     "patches-source": "hoo-dles/morphe-patches",
     "brand": "hoodles",
@@ -799,16 +657,6 @@
     "included-patches": "'AMOLED dark theme'",
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/github/github-2",
     "uptodown-dlurl": "https://github-android.en.uptodown.com/android"
-  },
-  "ProtonVPN-hoodles": {
-    "patches-source": "hoo-dles/morphe-patches",
-    "brand": "hoodles",
-    "enabled": false,
-    "pkg-name": "ch.protonvpn.android",
-    "app-name": "Proton VPN",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/proton-technologies-ag/protonvpn-secure-and-free-vpn",
-    "uptodown-dlurl": "https://protonvpn.en.uptodown.com/android",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/ch.protonvpn.android"
   },
   "HelloChinese-hoodles": {
     "patches-source": "hoo-dles/morphe-patches",
@@ -880,15 +728,6 @@
     "app-name": "Rumble",
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/rumble-inc/rumble",
     "uptodown-dlurl": "https://rumble.en.uptodown.com/android"
-  },
-  "Twitch-hooman": {
-    "patches-source": "arandomhooman/hoomans-morphe-patches",
-    "brand": "hooman",
-    "enabled": false,
-    "pkg-name": "tv.twitch.android.app",
-    "app-name": "Twitch",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/twitch-interactive-inc/twitch",
-    "uptodown-dlurl": "https://twitch.en.uptodown.com/android"
   },
   "BatteryGuru-hooman": {
     "patches-source": "arandomhooman/hoomans-morphe-patches",
@@ -1047,6 +886,16 @@
     "apkpure-dlurl": "https://apkpure.com/pocket-whip-original-whip-app/com.greenstone.pocketwhip",
     "apkcombo-dlurl": "https://apkcombo.com/pocket-whip-original-whip-app/com.greenstone.pocketwhip"
   },
+  "Terabox-hxreborn": {
+    "patches-source": "hxreborn/morphe-patches",
+    "brand": "hxreborn",
+    "enabled": false,
+    "pkg-name": "com.dubox.drive",
+    "app-name": "Terabox",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/flextech-inc/terabox-cloud-storage-cloud-backup-data-backup",
+    "apkpure-dlurl": "https://apkpure.com/terabox-1tb-cloud-ai-space-app/com.dubox.drive",
+    "apkcombo-dlurl": "https://apkcombo.com/terabox/com.dubox.drive"
+  },
   "Instagram-Aunali321": {
     "enabled": false,
     "pkg-name": "com.instagram.android",
@@ -1080,7 +929,7 @@
     "archive-dlurl": "https://archive.org/download/geologically/apks/com.instagram.android"
   },
   "Instagram-InstaFel": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.instagram.android",
     "app-name": "Instagram",
     "patches-source": "instafel/pc-rel",
@@ -1091,7 +940,7 @@
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/instagram/instagram-instagram"
   },
   "Instagram-InstaFel-Clone": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.instagram.android",
     "app-name": "Instagram",
     "patches-source": "instafel/pc-rel",
@@ -1178,21 +1027,10 @@
     "apkpure-dlurl": "https://apkpure.com/calorie-counter-by-fatsecret/com.fatsecret.android",
     "apkcombo-dlurl": "https://apkcombo.com/fatsecret/com.fatsecret.android"
   },
-  "SoundCloud-kondratjev": {
-    "patches-source": "kondratjev/morphe-patches",
-    "brand": "kondratjev",
-    "enabled": false,
-    "pkg-name": "com.soundcloud.android",
-    "app-name": "SoundCloud",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/soundcloud/soundcloud-soundcloud",
-    "uptodown-dlurl": "https://soundcloud.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/sound-cloud-android-app/com.soundcloud.android",
-    "apkcombo-dlurl": "https://apkcombo.com/soundcloud/com.soundcloud.android"
-  },
   "BraveBrowser-kveld9": {
     "patches-source": "kveld9/kveld-morphe-patches",
     "brand": "kveld9",
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "com.brave.browser",
     "app-name": "Brave Browser",
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/brave-software/brave-browser",
@@ -1213,6 +1051,32 @@
     "uptodown-dlurl": "https://hermit.en.uptodown.com/android",
     "apkpure-dlurl": "https://apkpure.com/hermit-%E2%80%94-lite-apps-browser/com.chimbori.hermitcrab",
     "apkcombo-dlurl": "https://apkcombo.com/hermit-lite-apps-browser/com.chimbori.hermitcrab"
+  },
+  "Letterboxd-mvaishak": {
+    "enabled": true,
+    "pkg-name": "com.letterboxd.letterboxd",
+    "app-name": "Letterboxd",
+    "brand": "mvaishak",
+    "patches-source": "mvaishak/letterboxd-morphe-patches",
+    "included-patches": "'Appearance' 'Brighter Watched-by stars' 'Denser poster grid' 'Hide ads' 'Mod settings'",
+    "excluded-patches": "'Material You theme'",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/letterboxd-limited/letterboxd",
+    "uptodown-dlurl": "https://letterboxd.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/letterboxd/com.letterboxd.letterboxd",
+    "apkcombo-dlurl": "https://apkcombo.com/letterboxd/com.letterboxd.letterboxd"
+  },
+  "Letterboxd-mvaishak-MaterialYou": {
+    "enabled": true,
+    "pkg-name": "com.letterboxd.letterboxd",
+    "app-name": "Letterboxd",
+    "brand": "mvaishak",
+    "variant": "Material You",
+    "patches-source": "mvaishak/letterboxd-morphe-patches",
+    "included-patches": "'Material You theme'",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/letterboxd-limited/letterboxd",
+    "uptodown-dlurl": "https://letterboxd.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/letterboxd/com.letterboxd.letterboxd",
+    "apkcombo-dlurl": "https://apkcombo.com/letterboxd/com.letterboxd.letterboxd"
   },
   "Nuvio-liongalahad-AndroidTV": {
     "patches-source": "liongalahad/nuviotv-morphe-patches",
@@ -1237,6 +1101,28 @@
     "included-patches": "'Allow Importing Subs from Local Storage' 'Library Mode Focus Fix' 'Local Downloads' 'Local Media' 'Mark SDH Subtitles' 'Random Episode' 'Remove SDH Annotations' 'Restore Source Selection'",
     "github-dlurl": "https://github.com/NuvioMedia/NuvioTV",
     "github-regex": "app-full-universal-release\\.apk"
+  },
+  "MacroDroid-Paresh": {
+    "enabled": false,
+    "pkg-name": "com.arlosoft.macrodroid",
+    "app-name": "MacroDroid",
+    "patches-source": "Paresh-Maheshwari/paresh-patches",
+    "patches-source-host": "gitlab",
+    "brand": "Paresh",
+    "build-mode": "both",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/arlosoft/macrodroid-device-automation-2",
+    "uptodown-dlurl": "https://macrodroid.en.uptodown.com/android"
+  },
+  "MacroDroid-rushiranpise": {
+    "enabled": false,
+    "pkg-name": "com.arlosoft.macrodroid",
+    "app-name": "MacroDroid",
+    "patches-source": "rushiranpise/morphe-patches",
+    "brand": "rushiranpise",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/arlosoft/macrodroid-device-automation-2",
+    "uptodown-dlurl": "https://macrodroid.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/macrodroid-device-automation-app/com.arlosoft.macrodroid",
+    "apkcombo-dlurl": "https://apkcombo.com/macrodroid/com.arlosoft.macrodroid"
   },
   "Messenger-DeVanced": {
     "enabled": false,
@@ -1286,125 +1172,6 @@
     "uptodown-dlurl": "https://facebook-messenger.en.uptodown.com/android",
     "apkpure-dlurl": "https://apkpure.com/facebook-messenger/com.facebook.orca",
     "apkcombo-dlurl": "https://apkcombo.com/facebook-messenger/com.facebook.orca"
-  },
-  "YouTube-Morphe": {
-    "patches-source": "MorpheApp/morphe-patches",
-    "build-mode": "both",
-    "brand": "Morphe",
-    "enabled": false,
-    "pkg-name": "com.google.android.youtube",
-    "app-name": "YouTube",
-    "patch-folder": "youtube",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
-    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/youtube-app/com.google.android.youtube",
-    "apkcombo-dlurl": "https://apkcombo.com/youtube/com.google.android.youtube",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
-  },
-  "YouTubeMusic-Morphe": {
-    "patches-source": "MorpheApp/morphe-patches",
-    "build-mode": "both",
-    "brand": "Morphe",
-    "enabled": false,
-    "pkg-name": "com.google.android.apps.youtube.music",
-    "app-name": "YouTube Music",
-    "patch-folder": "music",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube-music",
-    "uptodown-dlurl": "https://youtube-music.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/youtube-music/com.google.android.apps.youtube.music",
-    "apkcombo-dlurl": "https://apkcombo.com/youtube-music/com.google.android.apps.youtube.music",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.apps.youtube.music"
-  },
-  "YouTube-Morphe-NordTheme": {
-    "patches-source": "MorpheApp/morphe-patches",
-    "build-mode": "both",
-    "brand": "Morphe",
-    "enabled": false,
-    "pkg-name": "com.google.android.youtube",
-    "app-name": "YouTube",
-    "variant": "Nord Theme",
-    "patch-folder": "youtube",
-    "patcher-args": "-e 'Theme' -OdarkThemeBackgroundColor=#2E3440 -OlightThemeBackgroundColor=#E5E9F0",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
-    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/youtube-app/com.google.android.youtube",
-    "apkcombo-dlurl": "https://apkcombo.com/youtube/com.google.android.youtube",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
-  },
-  "YouTube-Morphe-MochaTheme": {
-    "patches-source": "MorpheApp/morphe-patches",
-    "build-mode": "both",
-    "brand": "Morphe",
-    "enabled": false,
-    "pkg-name": "com.google.android.youtube",
-    "app-name": "YouTube",
-    "variant": "Mocha Theme",
-    "patch-folder": "youtube",
-    "patcher-args": "-e 'Theme' -OdarkThemeBackgroundColor=#FF181825 -OlightThemeBackgroundColor=#E6E9EF",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
-    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/youtube-app/com.google.android.youtube",
-    "apkcombo-dlurl": "https://apkcombo.com/youtube/com.google.android.youtube",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
-  },
-  "YouTube-Morphe-Experimental": {
-    "patches-source": "MorpheApp/morphe-patches",
-    "build-mode": "both",
-    "brand": "Morphe",
-    "enabled": false,
-    "pkg-name": "com.google.android.youtube",
-    "app-name": "YouTube",
-    "variant": "Experimental",
-    "patch-folder": "youtube",
-    "version": "exp",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
-    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/youtube-app/com.google.android.youtube",
-    "apkcombo-dlurl": "https://apkcombo.com/youtube/com.google.android.youtube",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
-  },
-  "YouTubeMusic-Morphe-Experimental": {
-    "patches-source": "MorpheApp/morphe-patches",
-    "build-mode": "both",
-    "brand": "Morphe",
-    "enabled": false,
-    "pkg-name": "com.google.android.apps.youtube.music",
-    "app-name": "YouTube Music",
-    "variant": "Experimental",
-    "patch-folder": "music",
-    "version": "exp",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube-music",
-    "uptodown-dlurl": "https://youtube-music.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/youtube-music/com.google.android.apps.youtube.music",
-    "apkcombo-dlurl": "https://apkcombo.com/youtube-music/com.google.android.apps.youtube.music",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.apps.youtube.music"
-  },
-  "Reddit-Morphe-Experimental": {
-    "patches-source": "MorpheApp/morphe-patches",
-    "build-mode": "both",
-    "brand": "Morphe",
-    "enabled": false,
-    "pkg-name": "com.reddit.frontpage",
-    "app-name": "Reddit",
-    "variant": "Experimental",
-    "version": "exp",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/redditinc/reddit",
-    "uptodown-dlurl": "https://reddit-official-app.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/reddit-app/com.reddit.frontpage",
-    "apkcombo-dlurl": "https://apkcombo.com/reddit/com.reddit.frontpage"
-  },
-  "Reddit-Morphe": {
-    "patches-source": "MorpheApp/morphe-patches",
-    "build-mode": "both",
-    "brand": "Morphe",
-    "enabled": false,
-    "pkg-name": "com.reddit.frontpage",
-    "app-name": "Reddit",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/redditinc/reddit",
-    "uptodown-dlurl": "https://reddit-official-app.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/reddit-app/com.reddit.frontpage",
-    "apkcombo-dlurl": "https://apkcombo.com/reddit/com.reddit.frontpage",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.reddit.frontpage"
   },
   "Cricbuzz-Paresh": {
     "patches-source": "Paresh-Maheshwari/paresh-patches",
@@ -1466,29 +1233,6 @@
     "apkpure-dlurl": "https://apkpure.com/sd-maid-2-se-system-cleaner/eu.darken.sdmse",
     "apkcombo-dlurl": "https://apkcombo.com/sd-maid-2-se-system-cleaner/eu.darken.sdmse"
   },
-  "ProtonVPN-Paresh": {
-    "patches-source": "Paresh-Maheshwari/paresh-patches",
-    "patches-source-host": "gitlab",
-    "brand": "Paresh",
-    "enabled": false,
-    "pkg-name": "ch.protonvpn.android",
-    "app-name": "Proton VPN",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/proton-technologies-ag/protonvpn-secure-and-free-vpn",
-    "uptodown-dlurl": "https://protonvpn.en.uptodown.com/android",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/ch.protonvpn.android"
-  },
-  "Truecaller-Paresh": {
-    "patches-source": "Paresh-Maheshwari/paresh-patches",
-    "patches-source-host": "gitlab",
-    "brand": "Paresh",
-    "enabled": false,
-    "pkg-name": "com.truecaller",
-    "app-name": "Truecaller",
-    "build-mode": "both",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/true-software-scandinavia-ab/truecaller-caller-id-block",
-    "uptodown-dlurl": "https://truecaller.en.uptodown.com/android",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/com.truecaller"
-  },
   "Fing-Paresh": {
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
@@ -1498,17 +1242,6 @@
     "app-name": "Fing",
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/fing-limited/fing-network-tools",
     "uptodown-dlurl": "https://fing-network-tools.en.uptodown.com/android"
-  },
-  "MacroDroid-Paresh": {
-    "patches-source": "Paresh-Maheshwari/paresh-patches",
-    "patches-source-host": "gitlab",
-    "brand": "Paresh",
-    "enabled": false,
-    "pkg-name": "com.arlosoft.macrodroid",
-    "app-name": "MacroDroid",
-    "build-mode": "both",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/arlosoft/macrodroid-device-automation-2",
-    "uptodown-dlurl": "https://macrodroid.en.uptodown.com/android"
   },
   "GooglePhotos-DeVanced": {
     "enabled": false,
@@ -1538,6 +1271,26 @@
     "patches-source": "Akash-Sriram/morphe-google-photos",
     "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/photos",
     "uptodown-dlurl": "https://google-photos.en.uptodown.com/android"
+  },
+  "Pinterest-binarymend": {
+    "enabled": false,
+    "pkg-name": "com.pinterest",
+    "app-name": "Pinterest",
+    "patches-source": "binarymend/morphe-patches",
+    "brand": "binarymend",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/pinterest/pinterest-one-destination-for-a-world-of-inspiration",
+    "uptodown-dlurl": "https://pinterest.en.uptodown.com/android"
+  },
+  "Pinterest-browzomje": {
+    "enabled": false,
+    "pkg-name": "com.pinterest",
+    "app-name": "Pinterest",
+    "patches-source": "browzomje/browzomje-patches",
+    "brand": "browzomje",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/pinterest/pinterest-one-destination-for-a-world-of-inspiration",
+    "uptodown-dlurl": "https://pinterest.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/pinterest/com.pinterest",
+    "apkcombo-dlurl": "https://apkcombo.com/pinterest/com.pinterest"
   },
   "pixiv-DeVanced": {
     "enabled": false,
@@ -1608,6 +1361,49 @@
     "apkcombo-dlurl": "https://apkcombo.com/proton-mail/ch.protonmail.android",
     "archive-dlurl": "https://archive.org/download/geologically/apks/ch.protonmail.android"
   },
+  "ProtonMail-rushiranpise": {
+    "enabled": false,
+    "pkg-name": "ch.protonmail.android",
+    "app-name": "Proton Mail",
+    "patches-source": "rushiranpise/morphe-patches",
+    "brand": "rushiranpise",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/proton-technologies-ag/protonmail-encrypted-email",
+    "uptodown-dlurl": "https://protonmail.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/proton-mail-encrypted-email/ch.protonmail.android",
+    "apkcombo-dlurl": "https://apkcombo.com/proton-mail/ch.protonmail.android",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/ch.protonmail.android"
+  },
+  "ProtonVPN-hoodles": {
+    "enabled": false,
+    "pkg-name": "ch.protonvpn.android",
+    "app-name": "Proton VPN",
+    "patches-source": "hoo-dles/morphe-patches",
+    "brand": "hoodles",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/proton-technologies-ag/protonvpn-secure-and-free-vpn",
+    "uptodown-dlurl": "https://protonvpn.en.uptodown.com/android",
+    "apkcombo-dlurl": "https://apkcombo.com/proton-vpn/ch.protonvpn.android"
+  },
+  "ProtonVPN-hxreborn": {
+    "enabled": false,
+    "pkg-name": "ch.protonvpn.android",
+    "app-name": "Proton VPN",
+    "patches-source": "hxreborn/morphe-patches",
+    "brand": "hxreborn",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/proton-technologies-ag/protonvpn-secure-and-free-vpn",
+    "uptodown-dlurl": "https://protonvpn.en.uptodown.com/android",
+    "apkcombo-dlurl": "https://apkcombo.com/proton-vpn/ch.protonvpn.android"
+  },
+  "ProtonVPN-Paresh": {
+    "enabled": false,
+    "pkg-name": "ch.protonvpn.android",
+    "app-name": "Proton VPN",
+    "patches-source": "Paresh-Maheshwari/paresh-patches",
+    "patches-source-host": "gitlab",
+    "brand": "Paresh",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/proton-technologies-ag/protonvpn-secure-and-free-vpn",
+    "uptodown-dlurl": "https://protonvpn.en.uptodown.com/android",
+    "apkcombo-dlurl": "https://apkcombo.com/proton-vpn/ch.protonvpn.android"
+  },
   "MicrosoftEdge-quantavil": {
     "patches-source": "quantavil/edge-morphe-patches",
     "brand": "quantavil",
@@ -1629,6 +1425,45 @@
     "apkpure-dlurl": "https://apkpure.com/aliexpress/com.alibaba.aliexpresshd",
     "apkcombo-dlurl": "https://apkcombo.com/aliexpress-shopping-app/com.alibaba.aliexpresshd"
   },
+  "Reddit-Morphe": {
+    "enabled": false,
+    "pkg-name": "com.reddit.frontpage",
+    "app-name": "Reddit",
+    "patches-source": "MorpheApp/morphe-patches",
+    "brand": "Morphe",
+    "build-mode": "both",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/redditinc/reddit",
+    "uptodown-dlurl": "https://reddit-official-app.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/reddit-app/com.reddit.frontpage",
+    "apkcombo-dlurl": "https://apkcombo.com/reddit/com.reddit.frontpage",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.reddit.frontpage"
+  },
+  "Reddit-Morphe-Experimental": {
+    "enabled": false,
+    "pkg-name": "com.reddit.frontpage",
+    "app-name": "Reddit",
+    "patches-source": "MorpheApp/morphe-patches",
+    "brand": "Morphe",
+    "build-mode": "both",
+    "variant": "Experimental",
+    "version": "exp",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/redditinc/reddit",
+    "uptodown-dlurl": "https://reddit-official-app.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/reddit-app/com.reddit.frontpage",
+    "apkcombo-dlurl": "https://apkcombo.com/reddit/com.reddit.frontpage"
+  },
+  "Reddit-adobo": {
+    "enabled": false,
+    "pkg-name": "com.reddit.frontpage",
+    "app-name": "Reddit",
+    "patches-source": "jkennethcarino/adobo",
+    "brand": "adobo",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/redditinc/reddit",
+    "uptodown-dlurl": "https://reddit-official-app.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/reddit-app/com.reddit.frontpage",
+    "apkcombo-dlurl": "https://apkcombo.com/reddit/com.reddit.frontpage",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.reddit.frontpage"
+  },
   "CapCut-riky": {
     "patches-source": "riky-dev/morphe-patches",
     "brand": "riky",
@@ -1638,17 +1473,6 @@
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/bytedance-pte-ltd/capcut",
     "uptodown-dlurl": "https://viamaker.en.uptodown.com/android",
     "apkpure-dlurl": "https://apkpure.com/capcut-video-editor/com.lemon.lvoverseas"
-  },
-  "AdGuard-rushiranpise-Nightly": {
-    "patches-source": "rushiranpise/morphe-patches",
-    "brand": "rushiranpise",
-    "enabled": false,
-    "pkg-name": "com.adguard.android",
-    "app-name": "AdGuard",
-    "variant": "Nightly",
-    "build-mode": "both",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/adguard-software-limited/adguard",
-    "uptodown-dlurl": "https://adguard-for-android.en.uptodown.com/android"
   },
   "Cloudflare-WARP-rushiranpise": {
     "patches-source": "rushiranpise/morphe-patches",
@@ -1777,17 +1601,6 @@
     "apkpure-dlurl": "https://apkpure.com/bluetooth-keyboard-mouse/io.appground.blek",
     "apkcombo-dlurl": "https://apkcombo.com/bluetooth-keyboard-mouse/io.appground.blek"
   },
-  "MacroDroid-rushiranpise": {
-    "patches-source": "rushiranpise/morphe-patches",
-    "brand": "rushiranpise",
-    "enabled": false,
-    "pkg-name": "com.arlosoft.macrodroid",
-    "app-name": "MacroDroid",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/arlosoft/macrodroid-device-automation-2",
-    "uptodown-dlurl": "https://macrodroid.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/macrodroid-device-automation-app/com.arlosoft.macrodroid",
-    "apkcombo-dlurl": "https://apkcombo.com/macrodroid/com.arlosoft.macrodroid"
-  },
   "SendFilesToTV-rushiranpise": {
     "patches-source": "rushiranpise/morphe-patches",
     "brand": "rushiranpise",
@@ -1808,18 +1621,6 @@
     "arch": "all",
     "uptodown-dlurl": "https://picsart-estudio.en.uptodown.com/android",
     "apkcombo-dlurl": "https://apkcombo.com/picsart/com.picsart.studio"
-  },
-  "ProtonMail-rushiranpise": {
-    "patches-source": "rushiranpise/morphe-patches",
-    "brand": "rushiranpise",
-    "enabled": false,
-    "pkg-name": "ch.protonmail.android",
-    "app-name": "Proton Mail",
-    "apkmirror-dlurl": "https://apkmirror.com/apk/proton-technologies-ag/protonmail-encrypted-email",
-    "uptodown-dlurl": "https://protonmail.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/proton-mail-encrypted-email/ch.protonmail.android",
-    "apkcombo-dlurl": "https://apkcombo.com/proton-mail/ch.protonmail.android",
-    "archive-dlurl": "https://archive.org/download/geologically/apks/ch.protonmail.android"
   },
   "AdobeScan-rushiranpise": {
     "patches-source": "rushiranpise/morphe-patches",
@@ -1854,6 +1655,17 @@
     "apkpure-dlurl": "https://apkpure.com/amazon-shopping/com.amazon.mShop.android.shopping",
     "apkcombo-dlurl": "https://apkcombo.com/amazon-shopping/com.amazon.mShop.android.shopping"
   },
+  "Termius-rushiranpise": {
+    "patches-source": "rushiranpise/morphe-patches",
+    "brand": "rushiranpise",
+    "enabled": false,
+    "pkg-name": "com.server.auditor.ssh.client",
+    "app-name": "Termius",
+    "patch-folder": "serverauditor",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/termius-corporation/termius-ssh-telnet-client",
+    "uptodown-dlurl": "https://serverauditor.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/termius-modern-ssh-client/com.server.auditor.ssh.client"
+  },
   "KineStop-ShaunTheSheep": {
     "patches-source": "shaun-the-sheep-patches/morphe-patches",
     "brand": "ShaunTheSheep",
@@ -1863,6 +1675,29 @@
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/urbandroid-team/kinestop-car-sickness-aid",
     "apkpure-dlurl": "https://apkpure.com/kinestop-car-sickness-aid/com.urbandroid.kinestop",
     "apkcombo-dlurl": "https://apkcombo.com/kinestop-car-sickness-aid/com.urbandroid.kinestop"
+  },
+  "SoundCloud-hoodles": {
+    "enabled": false,
+    "pkg-name": "com.soundcloud.android",
+    "app-name": "SoundCloud",
+    "patches-source": "hoo-dles/morphe-patches",
+    "brand": "hoodles",
+    "included-patches": "'AMOLED dark theme'",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/soundcloud/soundcloud-soundcloud",
+    "uptodown-dlurl": "https://soundcloud.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/sound-cloud-android-app/com.soundcloud.android",
+    "apkcombo-dlurl": "https://apkcombo.com/soundcloud/com.soundcloud.android"
+  },
+  "SoundCloud-kondratjev": {
+    "enabled": false,
+    "pkg-name": "com.soundcloud.android",
+    "app-name": "SoundCloud",
+    "patches-source": "kondratjev/morphe-patches",
+    "brand": "kondratjev",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/soundcloud/soundcloud-soundcloud",
+    "uptodown-dlurl": "https://soundcloud.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/sound-cloud-android-app/com.soundcloud.android",
+    "apkcombo-dlurl": "https://apkcombo.com/soundcloud/com.soundcloud.android"
   },
   "Telegram-Aunali321-GooglePlay": {
     "enabled": false,
@@ -1989,7 +1824,7 @@
     "apkpure-dlurl": "https://apkpure.com/threads-app/com.instagram.barcelona"
   },
   "Threads-HushThreads": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.instagram.barcelona",
     "app-name": "Threads",
     "patch-folder": "threads",
@@ -2037,7 +1872,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/tiktok-videos-shop-live/com.zhiliaoapp.musically"
   },
   "TikTok-kveld9": {
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "com.zhiliaoapp.musically",
     "app-name": "TikTok",
     "patches-source": "kveld9/kveld-morphe-patches",
@@ -2048,7 +1883,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/tiktok-videos-shop-live/com.zhiliaoapp.musically"
   },
   "TikTok-kveld9-Asia": {
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "com.ss.android.ugc.trill",
     "app-name": "TikTok",
     "variant": "Asia",
@@ -2058,6 +1893,52 @@
     "uptodown-dlurl": "https://tik-tok.en.uptodown.com/android",
     "apkpure-dlurl": "https://apkpure.com/tiktok-asia-app/com.ss.android.ugc.trill",
     "apkcombo-dlurl": "https://apkcombo.com/tiktok-asia/com.ss.android.ugc.trill"
+  },
+  "Truecaller-Paresh": {
+    "enabled": false,
+    "pkg-name": "com.truecaller",
+    "app-name": "Truecaller",
+    "patches-source": "Paresh-Maheshwari/paresh-patches",
+    "patches-source-host": "gitlab",
+    "brand": "Paresh",
+    "build-mode": "both",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/true-software-scandinavia-ab/truecaller-caller-id-block",
+    "uptodown-dlurl": "https://truecaller.en.uptodown.com/android",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.truecaller"
+  },
+  "Truecaller-bufferk": {
+    "enabled": false,
+    "pkg-name": "com.truecaller",
+    "app-name": "Truecaller",
+    "patches-source": "bufferk/morphe-patches",
+    "brand": "bufferk",
+    "build-mode": "both",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/true-software-scandinavia-ab/truecaller-caller-id-block",
+    "uptodown-dlurl": "https://truecaller.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/truecaller-caller-id-block-for-android-2024/com.truecaller",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.truecaller"
+  },
+  "Twitch-hooman": {
+    "enabled": false,
+    "pkg-name": "tv.twitch.android.app",
+    "app-name": "Twitch",
+    "patches-source": "arandomhooman/hoomans-morphe-patches",
+    "brand": "hooman",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/twitch-interactive-inc/twitch",
+    "uptodown-dlurl": "https://twitch.en.uptodown.com/android"
+  },
+  "Twitch-ajstrick81-AndroidTV": {
+    "enabled": false,
+    "pkg-name": "tv.twitch.android.app",
+    "app-name": "Twitch",
+    "variant": "Android TV",
+    "patches-source": "ajstrick81/morphe-androidtv-patches",
+    "brand": "ajstrick81",
+    "arch": "all",
+    "patch-folder": "twitchatv",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/twitch-interactive-inc/twitch-android-tv/",
+    "apkpure-dlurl": "https://apkpure.com/twitch-livestream-multiplayer-games-esports-app/tv.twitch.android.app",
+    "apkcombo-dlurl": "https://apkcombo.com/twitch/tv.twitch.android.app"
   },
   "Twitter-Piko": {
     "enabled": false,
@@ -2082,5 +1963,181 @@
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/x-corp/twitter/",
     "uptodown-dlurl": "https://twitter.en.uptodown.com/android",
     "apkpure-dlurl": "https://apkpure.com/x-formerly-twitter/com.twitter.android"
+  },
+  "YouTubeMusic-Morphe": {
+    "enabled": false,
+    "pkg-name": "com.google.android.apps.youtube.music",
+    "app-name": "YouTube Music",
+    "patches-source": "MorpheApp/morphe-patches",
+    "brand": "Morphe",
+    "build-mode": "both",
+    "patch-folder": "music",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube-music",
+    "uptodown-dlurl": "https://youtube-music.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/youtube-music/com.google.android.apps.youtube.music",
+    "apkcombo-dlurl": "https://apkcombo.com/youtube-music/com.google.android.apps.youtube.music",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.apps.youtube.music"
+  },
+  "YouTubeMusic-Morphe-Experimental": {
+    "enabled": false,
+    "pkg-name": "com.google.android.apps.youtube.music",
+    "app-name": "YouTube Music",
+    "patches-source": "MorpheApp/morphe-patches",
+    "brand": "Morphe",
+    "build-mode": "both",
+    "variant": "Experimental",
+    "patch-folder": "music",
+    "version": "exp",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube-music",
+    "uptodown-dlurl": "https://youtube-music.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/youtube-music/com.google.android.apps.youtube.music",
+    "apkcombo-dlurl": "https://apkcombo.com/youtube-music/com.google.android.apps.youtube.music",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.apps.youtube.music"
+  },
+  "youtube-music-anddea": {
+    "enabled": false,
+    "pkg-name": "com.google.android.apps.youtube.music",
+    "app-name": "YouTube Music",
+    "patches-source": "anddea/revanced-patches",
+    "brand": "anddea",
+    "build-mode": "both",
+    "patch-folder": "music",
+    "patcher-args": "-e 'Dark theme' -OdarkThemeBackgroundColor=@android:color/black",
+    "uptodown-dlurl": "https://youtube-music.en.uptodown.com/android",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube-music",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.apps.youtube.music"
+  },
+  "youtube-music-anddea-nord": {
+    "enabled": false,
+    "pkg-name": "com.google.android.apps.youtube.music",
+    "app-name": "YouTube Music",
+    "patches-source": "anddea/revanced-patches",
+    "brand": "anddea",
+    "build-mode": "both",
+    "patch-folder": "music",
+    "variant": "Nord Theme",
+    "patcher-args": "-e 'Dark theme' -OdarkThemeBackgroundColor=#2E3440 -OmaterialYou=#5E81AC",
+    "uptodown-dlurl": "https://youtube-music.en.uptodown.com/android",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube-music",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.apps.youtube.music"
+  },
+  "youtube-music-anddea-mocha": {
+    "enabled": false,
+    "pkg-name": "com.google.android.apps.youtube.music",
+    "app-name": "YouTube Music",
+    "patches-source": "anddea/revanced-patches",
+    "brand": "anddea",
+    "build-mode": "both",
+    "patch-folder": "music",
+    "variant": "Mocha Theme",
+    "patcher-args": "-e 'Dark theme' -OdarkThemeBackgroundColor=#FF181825 -OmaterialYou=#89B4FA",
+    "uptodown-dlurl": "https://youtube-music.en.uptodown.com/android",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube-music",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.apps.youtube.music"
+  },
+  "YouTube-Morphe": {
+    "enabled": false,
+    "pkg-name": "com.google.android.youtube",
+    "app-name": "YouTube",
+    "patches-source": "MorpheApp/morphe-patches",
+    "brand": "Morphe",
+    "build-mode": "both",
+    "patch-folder": "youtube",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
+    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/youtube-app/com.google.android.youtube",
+    "apkcombo-dlurl": "https://apkcombo.com/youtube/com.google.android.youtube",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
+  },
+  "YouTube-Morphe-NordTheme": {
+    "enabled": false,
+    "pkg-name": "com.google.android.youtube",
+    "app-name": "YouTube",
+    "patches-source": "MorpheApp/morphe-patches",
+    "brand": "Morphe",
+    "build-mode": "both",
+    "variant": "Nord Theme",
+    "patch-folder": "youtube",
+    "patcher-args": "-e 'Theme' -OdarkThemeBackgroundColor=#2E3440 -OlightThemeBackgroundColor=#E5E9F0",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
+    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/youtube-app/com.google.android.youtube",
+    "apkcombo-dlurl": "https://apkcombo.com/youtube/com.google.android.youtube",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
+  },
+  "YouTube-Morphe-MochaTheme": {
+    "enabled": false,
+    "pkg-name": "com.google.android.youtube",
+    "app-name": "YouTube",
+    "patches-source": "MorpheApp/morphe-patches",
+    "brand": "Morphe",
+    "build-mode": "both",
+    "variant": "Mocha Theme",
+    "patch-folder": "youtube",
+    "patcher-args": "-e 'Theme' -OdarkThemeBackgroundColor=#FF181825 -OlightThemeBackgroundColor=#E6E9EF",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
+    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/youtube-app/com.google.android.youtube",
+    "apkcombo-dlurl": "https://apkcombo.com/youtube/com.google.android.youtube",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
+  },
+  "YouTube-Morphe-Experimental": {
+    "enabled": false,
+    "pkg-name": "com.google.android.youtube",
+    "app-name": "YouTube",
+    "patches-source": "MorpheApp/morphe-patches",
+    "brand": "Morphe",
+    "build-mode": "both",
+    "variant": "Experimental",
+    "patch-folder": "youtube",
+    "version": "exp",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
+    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
+    "apkpure-dlurl": "https://apkpure.com/youtube-app/com.google.android.youtube",
+    "apkcombo-dlurl": "https://apkcombo.com/youtube/com.google.android.youtube",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
+  },
+  "youtube-anddea": {
+    "enabled": false,
+    "pkg-name": "com.google.android.youtube",
+    "app-name": "YouTube",
+    "patches-source": "anddea/revanced-patches",
+    "brand": "anddea",
+    "build-mode": "both",
+    "patch-folder": "youtube",
+    "patcher-args": "-e 'Theme' -OdarkThemeBackgroundColor=@android:color/black",
+    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
+  },
+  "youtube-anddea-nord": {
+    "enabled": false,
+    "pkg-name": "com.google.android.youtube",
+    "app-name": "YouTube",
+    "patches-source": "anddea/revanced-patches",
+    "brand": "anddea",
+    "build-mode": "both",
+    "patch-folder": "youtube",
+    "variant": "Nord Theme",
+    "included-patches": "'MaterialYou'",
+    "patcher-args": "-e 'Theme' -OdarkThemeBackgroundColor=#2E3440 -OlightThemeBackgroundColor=#E5E9F0",
+    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
+  },
+  "youtube-anddea-mocha": {
+    "enabled": false,
+    "pkg-name": "com.google.android.youtube",
+    "app-name": "YouTube",
+    "patches-source": "anddea/revanced-patches",
+    "brand": "anddea",
+    "build-mode": "both",
+    "patch-folder": "youtube",
+    "variant": "Mocha Theme",
+    "included-patches": "'MaterialYou'",
+    "patcher-args": "-e 'Theme' -OdarkThemeBackgroundColor=#FF181825 -OlightThemeBackgroundColor=#E6E9EF",
+    "uptodown-dlurl": "https://youtube.en.uptodown.com/android",
+    "apkmirror-dlurl": "https://apkmirror.com/apk/google-inc/youtube",
+    "archive-dlurl": "https://archive.org/download/geologically/apks/com.google.android.youtube"
   }
 }
