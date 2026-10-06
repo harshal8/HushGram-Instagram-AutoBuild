@@ -129,9 +129,12 @@ for adding surface without a measured gain
    the fold keeps the first-wins scalars (`version`, `applied_patches`) for
    backward compatibility **and** records an additive `archVersion` / `archApplied`
    map keyed by the filename arch token, so a mixed-version build retains each
-   arch's real version and patch set. `build_make_manifest.py` and
-   `generate_release_notes.py` read those maps (falling back to the filename / the
-   scalar), so a fallback arch is never reported under the other arch's version.
+   arch's real version and patch set. `build_make_manifest.py` resolves each file's
+   version from the filename first, then the `archVersion` map, then the scalar (and
+   its patches from `archApplied` then the scalar). `generate_release_notes.py`
+   derives each file's version straight from its filename and splits an app into one
+   release-note bullet per distinct version, so a fallback arch is never reported
+   under the other arch's version.
 
 ## Download sources, in priority order
 
