@@ -8,6 +8,16 @@ apkmirror-dlurl = "https://www.apkmirror.com/apk/proton-technologies-ag/protonvp
 uptodown-dlurl = "https://protonvpn.en.uptodown.com/android"
 archive-dlurl = "https://archive.org/download/geologically/apks/ch.protonvpn.android"
 
+[ProtonVPN-hxreborn]
+enabled = true
+pkg-name = "ch.protonvpn.android"
+app-name = "Proton VPN"
+patches-source = "hxreborn/morphe-patches"
+brand = "hxreborn"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/proton-technologies-ag/protonvpn-secure-and-free-vpn"
+uptodown-dlurl = "https://protonvpn.en.uptodown.com/android"
+archive-dlurl = "https://archive.org/download/geologically/apks/ch.protonvpn.android"
+
 [ProtonVPN-Paresh]
 enabled = true
 pkg-name = "ch.protonvpn.android"

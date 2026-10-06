@@ -147,3 +147,12 @@ apkmirror-dlurl = "https://www.apkmirror.com/apk/amazon-mobile-llc/amazon-shoppi
 uptodown-dlurl = "https://amazon-shopping.en.uptodown.com/android"
 apkpure-dlurl = "https://apkpure.com/amazon-shopping/com.amazon.mShop.android.shopping"
 apkcombo-dlurl = "https://apkcombo.com/amazon-shopping/com.amazon.mShop.android.shopping"
+
+[Termius-rushiranpise]
+enabled = true
+pkg-name = "com.server.auditor.ssh.client"
+app-name = "Termius"
+patch-folder = "serverauditor"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/termius-corporation/termius-ssh-telnet-client"
+uptodown-dlurl = "https://serverauditor.en.uptodown.com/android"
+apkpure-dlurl = "https://apkpure.com/termius-modern-ssh-client/com.server.auditor.ssh.client"
