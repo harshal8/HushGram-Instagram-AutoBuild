@@ -122,8 +122,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SysAdminDoc/HushFacebook",
-    "stable": "v0.7.1",
-    "stable_date": "2026-10-04T02:21:44Z"
+    "stable": "v0.7.2",
+    "stable_date": "2026-10-06T15:21:16Z"
   },
   "SysAdminDoc/HushGram": {
     "beta": "",
@@ -167,8 +167,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SysAdminDoc/hushfeed",
-    "stable": "v0.67.1",
-    "stable_date": "2026-10-04T01:18:12Z"
+    "stable": "v0.68.0",
+    "stable_date": "2026-10-06T17:03:42Z"
   },
   "ajstrick81/morphe-androidtv-patches": {
     "beta": "test-212",
@@ -205,6 +205,15 @@
     "repo": "arandomhooman/hoomans-morphe-patches",
     "stable": "v1.53.0",
     "stable_date": "2026-09-21T00:23:19Z"
+  },
+  "bearinmindcat/morphe-patches": {
+    "beta": "",
+    "beta_date": "",
+    "blocked": false,
+    "host": "github",
+    "repo": "bearinmindcat/morphe-patches",
+    "stable": "v1.4.4",
+    "stable_date": "2026-10-06T17:37:12Z"
   },
   "binarymend/morphe-patches": {
     "beta": "v1.3.1-dev.1",

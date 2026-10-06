@@ -60,6 +60,13 @@
       "tv.twitch.android.app": "ae990bd92ef0f6fb56cab8da0398e711"
     }
   },
+  "bearinmindcat/morphe-patches": {
+    "beta": {},
+    "stable": {
+      "com.google.android.apps.maps": "68ac081cdcfc48e8cdbd3c158ba3a466",
+      "shared": "ccad433d728a8fca2434563b046d8fc7"
+    }
+  },
   "brosssh/morphe-patches": {
     "beta": {
       "com.instagram.android": "c964a1c3f7d643bebcb3c27e4b86487c",
@@ -441,14 +448,14 @@
   "sysadmindoc/hushfacebook": {
     "beta": {},
     "stable": {
-      "com.facebook.katana": "0a1af4cf2eae1480005425987cedc5e1",
-      "shared": "2a8de1ee14b9bd4f098a63294cb74d4f"
+      "com.facebook.katana": "82e29bd5148887ea95fb7b302d0ec9c9",
+      "shared": "f0ba10df1cdef3fb32df554c0dd5e9ef"
     }
   },
   "sysadmindoc/hushfeed": {
     "beta": {},
     "stable": {
-      "com.zhiliaoapp.musically": "308397d197ad945d38553c99f578aa37",
+      "com.zhiliaoapp.musically": "fcf315d84de4624eaefbb0b0780c7434",
       "shared": "46d8882e3e2552c9319178d27875fbae"
     }
   },
