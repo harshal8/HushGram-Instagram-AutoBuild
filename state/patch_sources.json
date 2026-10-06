@@ -216,8 +216,8 @@
     "stable_date": "2026-04-27T12:49:57Z"
   },
   "brosssh/morphe-patches": {
-    "beta": "v2.8.3-dev.1",
-    "beta_date": "2026-10-05T14:01:40Z",
+    "beta": "v2.8.3-dev.2",
+    "beta_date": "2026-10-06T13:23:16Z",
     "blocked": false,
     "host": "github",
     "repo": "brosssh/morphe-patches",
@@ -306,8 +306,8 @@
     "stable_date": "2026-09-29T16:39:00Z"
   },
   "heval99/Heval-Morphe-Patches": {
-    "beta": "v1.8.0-dev.1",
-    "beta_date": "2026-10-05T17:56:02Z",
+    "beta": "v1.9.0-dev.2",
+    "beta_date": "2026-10-06T13:32:25Z",
     "blocked": false,
     "host": "github",
     "repo": "heval99/Heval-Morphe-Patches",
@@ -338,8 +338,8 @@
     "blocked": false,
     "host": "github",
     "repo": "hxreborn/morphe-patches",
-    "stable": "v1.42.0",
-    "stable_date": "2026-10-06T06:38:51Z"
+    "stable": "v1.43.0",
+    "stable_date": "2026-10-06T11:53:00Z"
   },
   "icysymmetra/tiktok-patches-for-morphe": {
     "beta": "v0.8.0-dev.12",
