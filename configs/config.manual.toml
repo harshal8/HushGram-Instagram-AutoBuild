@@ -1,34 +1,31 @@
-[Messenger-DeVanced]
+[ProtonVPN-hxreborn]
 enabled = true
-pkg-name = "com.facebook.orca"
-app-name = "Messenger"
-patches-source = "RookieEnough/De-Vanced"
-brand = "DeVanced"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/messenger"
-uptodown-dlurl = "https://facebook-messenger.en.uptodown.com/android"
-apkpure-dlurl = "https://apkpure.com/facebook-messenger/com.facebook.orca"
-apkcombo-dlurl = "https://apkcombo.com/facebook-messenger/com.facebook.orca"
+pkg-name = "ch.protonvpn.android"
+app-name = "Proton VPN"
+patches-source = "hxreborn/morphe-patches"
+brand = "hxreborn"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/proton-technologies-ag/protonvpn-secure-and-free-vpn"
+uptodown-dlurl = "https://protonvpn.en.uptodown.com/android"
+apkcombo-dlurl = "https://apkcombo.com/proton-vpn/ch.protonvpn.android"
 
-[Facebook-HushFacebook]
+[Terabox-hxreborn]
 enabled = true
-pkg-name = "com.facebook.katana"
-app-name = "Facebook"
-patches-source = "SysAdminDoc/HushFacebook"
-brand = "HushFacebook"
-arch = "arm64-v8a"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/facebook"
-uptodown-dlurl = "https://facebook.en.uptodown.com/android"
-apkpure-dlurl = "https://apkpure.com/facebook-app/com.facebook.katana"
-apkcombo-dlurl = "https://apkcombo.com/facebook/com.facebook.katana"
+pkg-name = "com.dubox.drive"
+app-name = "Terabox"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/flextech-inc/terabox-cloud-storage-cloud-backup-data-backup"
+apkpure-dlurl = "https://apkpure.com/terabox-1tb-cloud-ai-space-app/com.dubox.drive"
+apkcombo-dlurl = "https://apkcombo.com/terabox/com.dubox.drive"
 
-[Facebook-DeVanced]
+[Termius-rushiranpise]
 enabled = true
-pkg-name = "com.facebook.katana"
-app-name = "Facebook"
-patches-source = "RookieEnough/De-Vanced"
-brand = "DeVanced"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/facebook"
-uptodown-dlurl = "https://facebook.en.uptodown.com/android"
-apkpure-dlurl = "https://apkpure.com/facebook-app/com.facebook.katana"
-apkcombo-dlurl = "https://apkcombo.com/facebook/com.facebook.katana"
+pkg-name = "com.server.auditor.ssh.client"
+app-name = "Termius"
+patch-folder = "serverauditor"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/termius-corporation/termius-ssh-telnet-client"
+uptodown-dlurl = "https://serverauditor.en.uptodown.com/android"
+apkpure-dlurl = "https://apkpure.com/termius-modern-ssh-client/com.server.auditor.ssh.client"
+
+
+
+
 
