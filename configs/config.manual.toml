@@ -1,25 +1,24 @@
-[Terabox-hxreborn]
+[GoogleMaps-bearinmindcat]
 enabled = true
-pkg-name = "com.dubox.drive"
-app-name = "TeraBox"
-patches-source = "hxreborn/morphe-patches"
+pkg-name = "com.google.android.apps.maps"
+app-name = "Google Maps"
+patches-source = "bearinmindcat/morphe-patches"
+brand = "bearinmindcat"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/maps"
+uptodown-dlurl = "https://google-maps.en.uptodown.com/android/download"
+apkpure-dlurl = "https://apkpure.com/google-maps-app/com.google.android.apps.maps"
+apkcombo-dlurl = "https://apkcombo.com/google-maps/com.google.android.apps.maps"
+
+[ProtonMail-hxreborn]
+enabled = true
+pkg-name = "ch.protonmail.android"
+app-name = "Proton Mail"
 brand = "hxreborn"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/flextech-inc/terabox-cloud-storage-cloud-backup-data-backup"
-apkpure-dlurl = "https://apkpure.com/terabox-1tb-cloud-ai-space-app/com.dubox.drive"
-apkcombo-dlurl = "https://apkcombo.com/terabox/com.dubox.drive"
-
-[Termius-rushiranpise]
-enabled = true
-pkg-name = "com.server.auditor.ssh.client"
-app-name = "Termius"
-patch-folder = "serverauditor"
-patches-source = "rushiranpise/morphe-patches"
-brand = "rushiranpise"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/termius-corporation/termius-ssh-telnet-client"
-uptodown-dlurl = "https://serverauditor.en.uptodown.com/android"
-apkpure-dlurl = "https://apkpure.com/termius-modern-ssh-client/com.server.auditor.ssh.client"
-
-
-
-
+patches-source = "hxreborn/morphe-patches"
+excluded-patches = "'AMOLED dark theme'"
+apkmirror-dlurl = "https://apkmirror.com/apk/proton-technologies-ag/protonmail-encrypted-email"
+uptodown-dlurl = "https://protonmail.en.uptodown.com/android"
+apkpure-dlurl = "https://apkpure.com/proton-mail-encrypted-email/ch.protonmail.android"
+apkcombo-dlurl = "https://apkcombo.com/proton-mail/ch.protonmail.android"
+archive-dlurl = "https://archive.org/download/geologically/apks/ch.protonmail.android"
 
