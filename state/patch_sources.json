@@ -54,8 +54,8 @@
     "stable_date": "2026-09-27T07:34:41.179Z"
   },
   "MorpheApp/morphe-patches": {
-    "beta": "v1.46.0-dev.8",
-    "beta_date": "2026-10-05T21:36:17Z",
+    "beta": "v1.46.0-dev.10",
+    "beta_date": "2026-10-06T10:49:00Z",
     "blocked": false,
     "host": "github",
     "repo": "MorpheApp/morphe-patches",
@@ -338,8 +338,8 @@
     "blocked": false,
     "host": "github",
     "repo": "hxreborn/morphe-patches",
-    "stable": "v1.41.0",
-    "stable_date": "2026-10-05T12:09:41Z"
+    "stable": "v1.42.0",
+    "stable_date": "2026-10-06T06:38:51Z"
   },
   "icysymmetra/tiktok-patches-for-morphe": {
     "beta": "v0.8.0-dev.12",

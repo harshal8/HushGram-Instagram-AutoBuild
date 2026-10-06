@@ -299,7 +299,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/medium/com.medium.reader"
   },
   "SwiftBackup-byehi98": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "org.swiftapps.swiftbackup",
     "app-name": "Swift Backup",
     "patches-source": "byehi98/okish-morphe-patches",
@@ -859,7 +859,7 @@
   "Showly-hxreborn": {
     "patches-source": "hxreborn/morphe-patches",
     "brand": "hxreborn",
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "com.michaldrabik.showly2",
     "app-name": "Showly",
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/trakt/showly",
@@ -870,7 +870,7 @@
   "AtvTools-hxreborn": {
     "patches-source": "hxreborn/morphe-patches",
     "brand": "hxreborn",
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "dev.vodik7.atvtools",
     "app-name": "atvTools",
     "apkpure-dlurl": "https://apkpure.com/atvtools/dev.vodik7.atvtools",
@@ -879,7 +879,7 @@
   "PocketWhip-hxreborn": {
     "patches-source": "hxreborn/morphe-patches",
     "brand": "hxreborn",
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "com.greenstone.pocketwhip",
     "app-name": "Pocket Whip",
     "uptodown-dlurl": "https://com-greenstone-pocketwhip.en.uptodown.com/android",
@@ -889,9 +889,9 @@
   "Terabox-hxreborn": {
     "patches-source": "hxreborn/morphe-patches",
     "brand": "hxreborn",
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "com.dubox.drive",
-    "app-name": "Terabox",
+    "app-name": "TeraBox",
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/flextech-inc/terabox-cloud-storage-cloud-backup-data-backup",
     "apkpure-dlurl": "https://apkpure.com/terabox-1tb-cloud-ai-space-app/com.dubox.drive",
     "apkcombo-dlurl": "https://apkcombo.com/terabox/com.dubox.drive"
@@ -1030,7 +1030,7 @@
   "BraveBrowser-kveld9": {
     "patches-source": "kveld9/kveld-morphe-patches",
     "brand": "kveld9",
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.brave.browser",
     "app-name": "Brave Browser",
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/brave-software/brave-browser",
@@ -1053,12 +1053,11 @@
     "apkcombo-dlurl": "https://apkcombo.com/hermit-lite-apps-browser/com.chimbori.hermitcrab"
   },
   "Letterboxd-mvaishak": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.letterboxd.letterboxd",
     "app-name": "Letterboxd",
     "brand": "mvaishak",
     "patches-source": "mvaishak/letterboxd-morphe-patches",
-    "included-patches": "'Appearance' 'Brighter Watched-by stars' 'Denser poster grid' 'Hide ads' 'Mod settings'",
     "excluded-patches": "'Material You theme'",
     "apkmirror-dlurl": "https://www.apkmirror.com/apk/letterboxd-limited/letterboxd",
     "uptodown-dlurl": "https://letterboxd.en.uptodown.com/android",
@@ -1066,7 +1065,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/letterboxd/com.letterboxd.letterboxd"
   },
   "Letterboxd-mvaishak-MaterialYou": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.letterboxd.letterboxd",
     "app-name": "Letterboxd",
     "brand": "mvaishak",
@@ -1326,7 +1325,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/chess/com.chess"
   },
   "ProtonMail-hxreborn": {
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "ch.protonmail.android",
     "app-name": "Proton Mail",
     "patches-source": "hxreborn/morphe-patches",
@@ -1384,7 +1383,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/proton-vpn/ch.protonvpn.android"
   },
   "ProtonVPN-hxreborn": {
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "ch.protonvpn.android",
     "app-name": "Proton VPN",
     "patches-source": "hxreborn/morphe-patches",
@@ -1872,7 +1871,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/tiktok-videos-shop-live/com.zhiliaoapp.musically"
   },
   "TikTok-kveld9": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.zhiliaoapp.musically",
     "app-name": "TikTok",
     "patches-source": "kveld9/kveld-morphe-patches",
@@ -1881,18 +1880,6 @@
     "uptodown-dlurl": "https://tiktok.en.uptodown.com/android",
     "apkpure-dlurl": "https://apkpure.com/tiktok-app/com.zhiliaoapp.musically",
     "apkcombo-dlurl": "https://apkcombo.com/tiktok-videos-shop-live/com.zhiliaoapp.musically"
-  },
-  "TikTok-kveld9-Asia": {
-    "enabled": true,
-    "pkg-name": "com.ss.android.ugc.trill",
-    "app-name": "TikTok",
-    "variant": "Asia",
-    "patches-source": "kveld9/kveld-morphe-patches",
-    "brand": "kveld9",
-    "apkmirror-dlurl": "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok",
-    "uptodown-dlurl": "https://tik-tok.en.uptodown.com/android",
-    "apkpure-dlurl": "https://apkpure.com/tiktok-asia-app/com.ss.android.ugc.trill",
-    "apkcombo-dlurl": "https://apkcombo.com/tiktok-asia/com.ss.android.ugc.trill"
   },
   "Truecaller-Paresh": {
     "enabled": false,
