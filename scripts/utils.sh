@@ -169,6 +169,48 @@ abort() {
 	trap - SIGTERM SIGINT EXIT
 	exit 1
 }
+# -- Per-app failure records (temp/failures) ---------------------------------
+# build.sh's post-build CI step reads these to report per-app failures once the
+# engine finishes. Each record is one jq-built JSON file; the engine writes them,
+# the CI step consumes them. Kept notification-free on purpose (no Telegram/curl
+# here) so the engine stays pure. A build failure leaves <slug>.json (descriptor)
+# plus <slug>.log (attached by build.sh's parent); a download-exhaustion leaves
+# only <slug>_dl.json. All fail-soft: a write error never aborts a build.
+#
+# The slug is derived from the display label "$table" (which already carries the
+# arch, e.g. "Foo (arm64-v8a)"), lowercased with every non-alphanumeric run
+# collapsed to a single '-'. build.sh and build_rv compute it identically so the
+# descriptor and the parent-attached log share a basename.
+failure_slug() { # $1=label ($table)
+	printf '%s' "${1:-}" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//; s/-$//'
+}
+
+# write_build_failure_descriptor — record an intended build for the current app so
+# that if any later step aborts, the parent can attach the log and report it.
+# Deleted by the parent on a clean build_rv return. Called from build_rv once the
+# version, version-code and patches-source are all resolved.
+write_build_failure_descriptor() { # $1=slug $2=app $3=version $4=vc $5=arch $6=patches_src
+	[ -n "${TEMP_DIR:-}" ] || return 0
+	local dir="$TEMP_DIR/failures"
+	mkdir -p "$dir" 2> /dev/null || return 0
+	jq -n --arg type "build_failed" --arg app "$2" --arg version "$3" \
+		--arg vc "$4" --arg arch "$5" --arg patches_src "$6" \
+		'{type:$type, app:$app, version:$version, vc:$vc, arch:$arch, patches_src:$patches_src}' \
+		> "$dir/$1.json" 2> /dev/null || true
+}
+
+# write_dl_failure_descriptor — record that every configured download source was
+# exhausted for this app. Emitted and build_rv returns 0 (skip), so the parent
+# never sees a non-zero rc for it and does not touch it.
+write_dl_failure_descriptor() { # $1=slug $2=app $3=version $4=vc $5=arch $6=pkg
+	[ -n "${TEMP_DIR:-}" ] || return 0
+	local dir="$TEMP_DIR/failures"
+	mkdir -p "$dir" 2> /dev/null || return 0
+	jq -n --arg type "dl_exhausted" --arg app "$2" --arg version "$3" \
+		--arg vc "$4" --arg arch "$5" --arg pkg "$6" \
+		'{type:$type, app:$app, version:$version, vc:$vc, arch:$arch, pkg:$pkg}' \
+		> "$dir/$1_dl.json" 2> /dev/null || true
+}
 # env -i keeps JVM runs hermetic; XDG_DATA_HOME is forwarded so callers can
 # relocate an app's per-user state dir out of the shared HOME (see the
 # instafel flows) — without it, parallel builds race on $HOME state.
@@ -4053,6 +4095,12 @@ build_rv() {
 
 			if [ -z "$dl_from" ]; then
 				epr "ERROR: No valid download source found for ${table}."
+				# Record so the CI step can ask for a manual cache-repo upload. version is
+				# the config value here (resolution hasn't run); show "unknown" when unpinned.
+				write_dl_failure_descriptor "$(failure_slug "$table")" "$table" \
+					"${resolved_version:-$version_mode}" \
+					"$(parse_arch_mapping "${args[version_code]:-}" "${arch_f:-}")" \
+					"$arch_f" "$pkg_name"
 				return 0
 			fi
 
@@ -4105,6 +4153,13 @@ build_rv() {
 			wpr "No compatible patches found in '${args[patches_src]:-${args[cli_source]:-}}' for '$pkg_name' v${version_f}. Skipping ${table}."
 			continue
 		fi
+
+		# Version, VC and patches-source are final here; anything that aborts from the
+		# build loop below leaves this descriptor for the CI step to report. The parent
+		# deletes it when build_rv returns clean. Written once with the requested arch.
+		write_build_failure_descriptor "$(failure_slug "$table")" "$table" "$version_f" \
+			"$(parse_arch_mapping "${args[version_code]:-}" "$arch_f")" \
+			"$arch_f" "${args[patches_src]:-${args[cli_source]:-}}"
 
 		for arch in "${arch_list[@]}"; do
 			arch_f="${arch// /}"

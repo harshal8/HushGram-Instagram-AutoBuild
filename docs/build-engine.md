@@ -19,7 +19,28 @@ bash scripts/build.sh clean                       # remove temp/, build/, build.
 - Everything transient goes under `temp/` (gitignored); everything shippable goes
   to `build/`. `build.json` is the machine record, `build.md` the human one.
 - The engine never fails the whole run for one app: per-app failures log and
-  continue; only "no output at all" aborts (`All builds failed.`).
+  continue; only "no output at all" aborts (`All builds failed.`). It stays
+  notification-free — but every failure leaves a machine-readable record under
+  `temp/failures/` for the CI report step to pick up (see below).
+
+## Per-app failure records (`temp/failures/`)
+
+Once `build_rv` has a resolved version it writes `temp/failures/<slug>.json`
+(app, version, `vc`, arch, `patches_src`); the requested arch is already part of
+the display label, so `<slug>` (= label lowercased, non-alphanumerics collapsed
+to `-`) is identical in the pooled child, the serial parent and the CI step.
+- **Build failure** — if the app then aborts, the parent copies that child's log
+  to `temp/failures/<slug>.log` alongside the descriptor. A clean return deletes
+  both. Serial mode `tee`s the build output to the same path so a single job also
+  yields an uploadable log.
+- **Download exhaustion** — writing `temp/failures/<slug>_dl.json` and returning 0
+  (a skip, not a failure), so it never gets a `.log`; it only asks for a manual
+  cache-repo upload.
+
+`temp/failures/` is wiped at the START of `build.sh` and deliberately survives the
+end-of-run sweep, so the `build.yml` "Report build failures" step can read it.
+The engine itself makes no network calls for this — see
+[ci-pipelines.md](ci-pipelines.md#the-build-job-buildyml).
 
 ## From config to a build request
 
