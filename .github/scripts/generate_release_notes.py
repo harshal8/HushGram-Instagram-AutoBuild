@@ -179,34 +179,32 @@ def main():
         lines.append(f"### 🧩 {src}{tag_str}")
         lines.append("")
 
-        # List apps in this patch group
+        # List apps in this patch group. A single build can publish one arch at a
+        # newer version and another at a fallback, so emit one bullet per distinct
+        # version, each listing only the arches actually built at that version
+        # (newest first) rather than cramming mixed versions into one line.
         for app_name in sorted(apps.keys()):
             app = apps[app_name]
-            vers = app.get("versions") or ([app["version"]] if app["version"] else [])
-            multi = len(vers) > 1
-            if multi:
-                ver_str = " `" + " · ".join(f"v{v}" for v in vers) + "`"
-            elif vers:
-                ver_str = f" `v{vers[0]}`"
-            else:
-                ver_str = ""
-            lines.append(f"* **{app['display_name']}**{ver_str}")
+            by_ver = {}
+            for arch, url, fv in app["apks"]:
+                by_ver.setdefault(fv or app["version"], {"apks": [], "modules": []})["apks"].append((arch, url))
+            for arch, url, fv in app["modules"]:
+                by_ver.setdefault(fv or app["version"], {"apks": [], "modules": []})["modules"].append((arch, url))
 
-            def _label(entry, _multi=multi):
-                arch, url, fv = entry
-                if _multi and fv:
-                    return f"[{arch} · v{fv}]({url})"
-                return f"[{arch}]({url})"
+            for ver in sorted(by_ver.keys(), key=_version_sort_key, reverse=True):
+                grp = by_ver[ver]
+                ver_str = f" `v{ver}`" if ver else ""
+                lines.append(f"* **{app['display_name']}**{ver_str}")
 
-            if app["apks"]:
-                apk_links = " • ".join(_label(e) for e in app["apks"])
-                lines.append(f"  * APK: {apk_links}")
+                if grp["apks"]:
+                    apk_links = " • ".join(f"[{arch}]({url})" for arch, url in grp["apks"])
+                    lines.append(f"  * APK: {apk_links}")
 
-            if app["modules"]:
-                mod_links = " • ".join(_label(e) for e in app["modules"])
-                lines.append(f"  * Module: {mod_links}")
+                if grp["modules"]:
+                    mod_links = " • ".join(f"[{arch}]({url})" for arch, url in grp["modules"])
+                    lines.append(f"  * Module: {mod_links}")
 
-            lines.append("")
+                lines.append("")
 
     # Notes section
     lines.append("---")
