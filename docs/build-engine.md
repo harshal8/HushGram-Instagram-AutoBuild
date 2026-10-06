@@ -114,7 +114,10 @@ for adding surface without a measured gain
 7. **Naming and metadata** — `aapt2`/`aapt` re-reads the patched manifest, so a
    patcher that rewrote the package id is recorded honestly; output is
    `<file-prefix>-v<version>-<arch>.apk`; `write_build_info` appends the record
-   that becomes the release manifest.
+   that becomes the release manifest. One record is written **per arch**, each with
+   its own resolved version and applied-patch set — a single build can publish
+   arm64 at the newest version and fall back to an older one for an arch a source
+   could not serve, so the per-arch values must not be lost downstream.
 8. **Module mode** (`build-mode` `module`/`both`) — the `module/` template is
    copied to a scratch dir, `module_config` writes `config`
    (`PKG_NAME`/`PKG_VER`/`MODULE_ARCH`), `module_prop` writes `module.prop` and —
@@ -122,7 +125,13 @@ for adding surface without a measured gain
    `update_json_path()`. Output: `<file-prefix>-module-v<version>-<arch>.zip`.
 9. **Finalisation** — `merge_build_info` folds per-job fragments into
    `build.json`, scratch state is swept, `generate_release_notes.py` writes
-   `build.md` for the release body.
+   `build.md` for the release body. Because fragments share one key across arches,
+   the fold keeps the first-wins scalars (`version`, `applied_patches`) for
+   backward compatibility **and** records an additive `archVersion` / `archApplied`
+   map keyed by the filename arch token, so a mixed-version build retains each
+   arch's real version and patch set. `build_make_manifest.py` and
+   `generate_release_notes.py` read those maps (falling back to the filename / the
+   scalar), so a fallback arch is never reported under the other arch's version.
 
 ## Download sources, in priority order
 

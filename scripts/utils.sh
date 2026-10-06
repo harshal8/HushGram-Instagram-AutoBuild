@@ -3349,6 +3349,10 @@ write_build_info() {
 	local brand=${11:-${args[brand]:-}}
 	local variant=${12:-${args[variant]:-}}
 	local sub_variant=${13:-${args[sub_variant]:-}}
+	# Raw filename arch token (e.g. arm64-v8a) — captured before `arch` is folded
+	# into `ext` below. The merge keys its per-arch version/applied-patch maps by
+	# it, matching what build_make_manifest.py re-derives from the built filename.
+	local arch_token="$arch"
 	local arch_orig="${args[arch]// /}"
 	if [ "$arch_orig" != "auto" ]; then ext="${arch}${ext}"; arch=""; fi
 	# Applied patches: morphe's -r summary when we have one (it lists every patch
@@ -3415,6 +3419,7 @@ write_build_info() {
 	jq -n --arg key "$key" \
 		--arg ext "$ext" \
 		--arg arch "$arch" \
+		--arg arch_token "$arch_token" \
 		--arg name "$name" \
 		--arg version "$version" \
 		--arg patches "$patches" \
@@ -3430,6 +3435,7 @@ write_build_info() {
 			exts: [$ext],
 			name: $name,
 			arch: $arch,
+			arch_token: $arch_token,
 			version: $version,
 			patches: $patches,
 			changelog: $changelog,
@@ -3460,7 +3466,7 @@ merge_build_info() {
 	jq -s '
 		reduce .[] as $f ({};
 			($f | to_entries[0]) as $e |
-			if .[$e.key] == null then .[$e.key] = $e.value
+			(if .[$e.key] == null then .[$e.key] = $e.value
 			else
 				.[$e.key].exts = ((.[$e.key].exts + $e.value.exts) | unique) |
 				reduce (["name","arch","version","patches","changelog","package_name","display_name","patches_source","brand","variant","sub_variant"][]) as $k (.;
@@ -3469,6 +3475,15 @@ merge_build_info() {
 				if ((.[$e.key].applied_patches | length) == 0) and (($e.value.applied_patches | length) > 0)
 				then .[$e.key].applied_patches = $e.value.applied_patches else . end
 			end)
+			# Per-arch truth (additive): a single build can resolve different
+			# versions/patch-sets per arch (an arch falling back to an older build),
+			# which the first-wins scalars above lose. Key the concrete arch token to
+			# the version and applied patches of this fragment so downstream readers
+			# use the values of each file. The scalar version/applied_patches stay
+			# unchanged for backward compatibility.
+			| .[$e.key].archVersion = ((.[$e.key].archVersion // {}) + {($e.value.arch_token // "all"): ($e.value.version // "")})
+			| .[$e.key].archApplied  = ((.[$e.key].archApplied  // {}) + {($e.value.arch_token // "all"): ($e.value.applied_patches // [])})
+		)
 	' "${files[@]}" >"${BUILD_JSON_FILE}.merge-tmp" && mv -f "${BUILD_JSON_FILE}.merge-tmp" "$BUILD_JSON_FILE"
 	rm -rf "$frag_dir"
 }
