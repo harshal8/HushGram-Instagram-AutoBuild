@@ -176,8 +176,8 @@
     "blocked": false,
     "host": "github",
     "repo": "ajstrick81/morphe-androidtv-patches",
-    "stable": "v1.40.4",
-    "stable_date": "2026-10-04T00:13:28Z"
+    "stable": "v1.40.5",
+    "stable_date": "2026-10-06T20:32:19Z"
   },
   "anddea/revanced-patches": {
     "beta": "v4.3.1-dev.1",
@@ -315,8 +315,8 @@
     "stable_date": "2026-09-29T16:39:00Z"
   },
   "heval99/Heval-Morphe-Patches": {
-    "beta": "v1.9.0-dev.2",
-    "beta_date": "2026-10-06T13:32:25Z",
+    "beta": "v1.9.0-dev.3",
+    "beta_date": "2026-10-06T18:49:28Z",
     "blocked": false,
     "host": "github",
     "repo": "heval99/Heval-Morphe-Patches",
@@ -324,8 +324,8 @@
     "stable_date": "2026-10-05T18:03:18Z"
   },
   "hoo-dles/morphe-patches": {
-    "beta": "v1.47.0-dev.3",
-    "beta_date": "2026-10-04T02:11:21Z",
+    "beta": "v1.47.1-dev.1",
+    "beta_date": "2026-10-06T20:40:33Z",
     "blocked": false,
     "host": "github",
     "repo": "hoo-dles/morphe-patches",
