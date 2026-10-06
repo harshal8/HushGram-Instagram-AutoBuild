@@ -10,7 +10,7 @@ GitHub's limits; notify reports failures.
 | [build.yml](../.github/workflows/build.yml) | Build | `workflow_call` only — from `ci.yml` (per pool) or `manual-ci.yml` | `build` |
 | [cleanup.yml](../.github/workflows/cleanup.yml) | Cleanup | `workflow_call`, `workflow_dispatch` | `clean` |
 | [manual-ci.yml](../.github/workflows/manual-ci.yml) | Manual CI | `workflow_dispatch` (config choice + optional `remove_apks`) | `ci` |
-| [notify.yml](../.github/workflows/notify.yml) | Notify | `workflow_call`, on `failure()` of the caller | — |
+| [notify.yml](../.github/workflows/notify.yml) | Notify | `issues`/`pull_request` (debounced batch), `workflow_call` (immediate, on `failure()` of the caller) | drain: `notify-debounce` |
 | [trace-verify.yml](../.github/workflows/trace-verify.yml) | Trace Verify | `push` touching `scripts/build.sh`, `scripts/utils.sh` or `.github/traces/**` | `trace-verify` |
 
 Nothing here runs on `push` to `main` except Trace Verify: a push changes
@@ -117,6 +117,18 @@ Step order, with the reason each is where it is:
 7. `scripts/build.sh <config>` — the engine ([build-engine.md](build-engine.md)).
    `UPLOAD_APKS_REPO` + `APKS_REPO_TOKEN` turn on the shared cache repo;
    `RVB_MORPHE_PASSTHROUGH` and the `RELEASE_NOTES_*_LINK` vars are passed here.
+   On any per-app failure the engine writes a record to `temp/failures/` (kept
+   across the run's end, wiped at start), which the next step consumes.
+7b. **Report build failures** (`build_report_failures.sh`, `if: always()`,
+   `continue-on-error`): reads `temp/failures/`, uploads each build log to
+   `xi.pe`, and posts ONE batched Markdown message to the failure topic
+   (`TG_THREAD_NOTIFY`, 3031) — apps that failed to **build** (with the log link
+   and patch source) and apps whose **download sources were all exhausted** (a
+   request to upload the APK to the cache repo manually), plus a link to the run.
+   When it sends, it sets the job output `reported_failures=true`, which
+   `trigger_notify_failure` forwards as `already_reported` so
+   `notify_send_telegram.sh` skips the generic "🔴 CI #N failed" alert for that
+   run (Route B) — non-build failures still notify normally.
 8. `update_usage_tracker.py` (`|| true`), `build_cache_cleanup.sh`, then the cache
    manifest (`size name` pairs) is hashed into the save key so a run that changed
    nothing does not re-upload 8 GB.
@@ -158,6 +170,31 @@ Step order, with the reason each is where it is:
    because the site also rebuilds on its own schedule — a lost dispatch delays the
    catalogue, it does not break it.
 
+## Notify (`notify.yml`)
+
+Two delivery models sharing one renderer (`notify_render.sh`):
+
+- **`workflow_call` — immediate.** A caller (`ci.yml`/`manual-ci.yml`) invokes it on
+  `failure()`; the `notify` job renders the generic "🔴 CI #N failed" alert via
+  `notify_send_telegram.sh` and posts it at once. When the caller passes
+  `already_reported=true` (Route B — the build's own Report-build-failures step
+  already sent a per-app report) the script exits without posting, so a build
+  failure is never double-messaged. Non-build failures (checkout, `check_patch`)
+  never set the flag and still alert.
+- **`issues` / `pull_request` — debounced batch.** GitHub fires one run per event and
+  runs cannot share memory, so a burst (several issues closing at once) would
+  otherwise post one message each. The `enqueue` job instead renders the event and
+  appends it to `queue.jsonl` on the orphan `notify-queue` branch (self-created on
+  the first append; the push-retry loop merges concurrent appends and never
+  force-pushes), and the `drain` job — under concurrency `notify-debounce`,
+  `cancel-in-progress: false` — sleeps `NOTIFY_DEBOUNCE_SECONDS` (60) then posts
+  ONE batched message and prunes exactly the drained prefix. Later queued drains
+  find the queue empty and no-op.
+
+The queue is append-only and every plumbing call pins `core.autocrlf=false` /
+`core.eol=lf`, so the JSONL bytes (and the drain's prefix prune) do not depend on
+the runner's git config.
+
 ## Required secrets and variables
 
 | Kind | Name | Used by | Notes |
@@ -168,7 +205,7 @@ Step order, with the reason each is where it is:
 | secret | `CODEBERG_TOKEN` | watcher | raises Codeberg/Forgejo rate limits |
 | secret | `TG_TOKEN`, `WEBSITE_DISPATCH_TOKEN` (optional) | notify steps | |
 | var | `APKS_REPO`, `WEBSITE_REPO` | build, cleanup | alternate cache/site repos for forks |
-| var | `TG_CHAT_ID`, `TG_CHAT_ID_BROADCAST`, `TG_THREAD_CI`, `TG_THREAD_STABLE`, `TG_THREAD_BETA` | notifications | Telegram topic routing |
+| var | `TG_CHAT_ID`, `TG_CHAT_ID_BROADCAST`, `TG_THREAD_CI`, `TG_THREAD_STABLE`, `TG_THREAD_BETA`, `TG_THREAD_NOTIFY` (3031) | notifications | Telegram topic routing; `TG_THREAD_NOTIFY` receives the per-app build/download failure report |
 | var | `RELEASE_NOTES_TG_LINK`, `RELEASE_NOTES_DONATE_LINK`, `RELEASE_NOTES_WEBSITE_LINK` | build | footer links in the generated release body |
 | var | `RVB_MORPHE_PASSTHROUGH` | build | bundle handling escape hatch |
 
