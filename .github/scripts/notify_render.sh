@@ -3,7 +3,9 @@
 # event (workflow failure, issue, or PR). Sourced, never executed: callers get
 # one canonical rendering whether they send immediately (workflow_call) or queue
 # it for a debounced batch (issues/PR). The shape matches the build/patch
-# notifications: a linked header plus "╰" sub-lines.
+# notifications: a linked header followed by emoji-led sub-lines. Telegram's
+# legacy Markdown cannot bold a link (`*[..](..)*` renders literally), so the
+# header link stays unbolded and each sub-line stands on its own.
 #
 # Reads env describing the event and echoes the composed Markdown. The caller
 # supplies everything except what is optional per branch.
@@ -23,9 +25,8 @@ render_message() {
 
 	if [ -n "${WF_NAME:-}" ]; then
 		local wf_url="${GITHUB_SERVER_URL:-https://github.com}/${REPO}/actions/runs/${GITHUB_RUN_ID}"
-		MSG="🔴 *[$(md "${WF_NAME}") #${GITHUB_RUN_NUMBER} failed](${wf_url})* in ${REPO_MD}${NL}${NL}"
-		MSG+="  ╰ 🌿 \`$(md "${REF_NAME}")\` • by ${ACTOR_MD}${NL}"
-		MSG+="  ╰ ⚙️ [View run](${wf_url})"
+		MSG="🔴 [$(md "${WF_NAME}") #${GITHUB_RUN_NUMBER} failed](${wf_url}) in ${REPO_MD}${NL}${NL}"
+		MSG+="🌿 \`$(md "${REF_NAME}")\` • by ${ACTOR_MD}"
 
 	elif [ "${EVENT_NAME:-}" = "pull_request" ]; then
 		TITLE="$(md "${PR_TITLE}")"
@@ -35,11 +36,10 @@ render_message() {
 		*) ICON="🟡" ;;
 		esac
 		[ "${PR_COMMITS:-}" = "1" ] && CSTR="commit" || CSTR="commits"
-		MSG="${ICON} *[Pull request #${PR_NUM} ${ACTION}](${PR_URL})* in ${REPO_MD}${NL}${NL}"
-		MSG+="  ╰ 📝 ${TITLE}${NL}"
-		MSG+="  ╰ 👤 ${ACTOR_MD}${NL}"
-		MSG+="  ╰ 📑 \`$(md "${PR_HEAD_REF}")\` → \`$(md "${PR_BASE_REF}")\` • ${PR_COMMITS} ${CSTR} • ${PR_FILES} files • +${PR_ADD}/-${PR_DEL}${NL}"
-		MSG+="  ╰ 🔗 [View pull request](${PR_URL})"
+		MSG="${ICON} [Pull request #${PR_NUM} ${ACTION}](${PR_URL}) in ${REPO_MD}${NL}${NL}"
+		MSG+="📝 ${TITLE}${NL}"
+		MSG+="👤 ${ACTOR_MD}${NL}"
+		MSG+="📑 \`$(md "${PR_HEAD_REF}")\` → \`$(md "${PR_BASE_REF}")\` • ${PR_COMMITS} ${CSTR} • ${PR_FILES} files • +${PR_ADD}/-${PR_DEL}"
 
 	else
 		TITLE="$(md "${ISSUE_TITLE}")"
@@ -48,10 +48,9 @@ render_message() {
 		reopened) ICON="🔄" ;;
 		*) ICON="🐛" ;;
 		esac
-		MSG="${ICON} *[Issue #${ISSUE_NUM} ${ACTION}](${ISSUE_URL})* in ${REPO_MD}${NL}${NL}"
-		MSG+="  ╰ 📝 ${TITLE}${NL}"
-		MSG+="  ╰ 👤 ${ACTOR_MD}${NL}"
-		MSG+="  ╰ 🔗 [View issue](${ISSUE_URL})"
+		MSG="${ICON} [Issue #${ISSUE_NUM} ${ACTION}](${ISSUE_URL}) in ${REPO_MD}${NL}${NL}"
+		MSG+="📝 ${TITLE}${NL}"
+		MSG+="👤 ${ACTOR_MD}"
 	fi
 
 	printf '%s' "$MSG"
