@@ -407,7 +407,7 @@
   },
   "Discord-revenge": {
     "cli-source": "7723mod/NPatch",
-    "enabled": false,
+    "enabled": true,
     "patches-source": "revenge-mod/revenge-xposed",
     "brand": "revenge",
     "pkg-name": "com.discord",
@@ -497,7 +497,7 @@
     "apkcombo-dlurl": "https://apkcombo.com/byair-flight-tracker-status/com.byairapp.android"
   },
   "FairEmail-heval99": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "eu.faircode.email",
     "app-name": "FairEmail",
     "brand": "heval99",
@@ -987,7 +987,7 @@
     "uptodown-dlurl": "https://instagram.en.uptodown.com/android"
   },
   "Instagram-HushGram": {
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "com.instagram.android",
     "app-name": "Instagram",
     "patches-source": "SysAdminDoc/HushGram",

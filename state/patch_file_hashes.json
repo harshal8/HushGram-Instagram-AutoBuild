@@ -63,7 +63,7 @@
   "bearinmindcat/morphe-patches": {
     "beta": {},
     "stable": {
-      "com.google.android.apps.maps": "5189213b19c1713693c5ce2641d5c725",
+      "com.google.android.apps.maps": "b18aa223cdb6ef5c8ed4e47a005c95e4",
       "shared": "ccad433d728a8fca2434563b046d8fc7"
     }
   },
@@ -469,8 +469,8 @@
   "sysadmindoc/hushgram": {
     "beta": {},
     "stable": {
-      "com.instagram.android": "1e4c93bba6f25d5bfdb2d130d52f1e02",
-      "shared": "cc8e14634cd283868c34baa25c952acc"
+      "com.instagram.android": "fa8144178f2b5a8e8b29ecc65a3b8a31",
+      "shared": "a347fc67f913ea646f06a396c2f8bc32"
     }
   },
   "sysadmindoc/hushmessenger": {
