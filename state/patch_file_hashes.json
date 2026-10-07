@@ -85,6 +85,13 @@
       "shared": "ec5f048a8a5ad03aa9307ed5590d13e8"
     }
   },
+  "bufferk/morphe-patches": {
+    "beta": {
+      "com.truecaller": "489986318f92ef172605b81e181fc5e4",
+      "shared": "6162a6fd363e6dd0b9320fd151ad11df"
+    },
+    "stable": {}
+  },
   "byehi98/okish-morphe-patches": {
     "beta": {},
     "stable": {
@@ -245,7 +252,7 @@
   "imxeren/mix-patches": {
     "beta": {},
     "stable": {
-      "shared": "45b38cffc5cbe2f9f24e24a56fe9acea",
+      "shared": "f75b120b0240483b0b207c2c0e88c096",
       "tv.trakt.trakt": "96070b6b79998c52b1785f831bfb27b9"
     }
   },

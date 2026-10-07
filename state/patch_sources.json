@@ -50,8 +50,8 @@
     "blocked": false,
     "host": "gitlab",
     "repo": "IMXEren/mix-patches",
-    "stable": "v1.7.2",
-    "stable_date": "2026-09-27T07:34:41.179Z"
+    "stable": "v1.8.0",
+    "stable_date": "2026-10-07T04:17:11.999Z"
   },
   "MorpheApp/morphe-patches": {
     "beta": "v1.47.0-dev.1",
@@ -243,8 +243,8 @@
     "stable_date": "2026-09-03T09:17:16Z"
   },
   "bufferk/morphe-patches": {
-    "beta": "v1.8.0-dev.1",
-    "beta_date": "2026-07-18T11:46:49Z",
+    "beta": "v1.9.0-dev.1",
+    "beta_date": "2026-10-07T04:52:47Z",
     "blocked": false,
     "host": "github",
     "repo": "bufferk/morphe-patches",
@@ -252,8 +252,8 @@
     "stable_date": "2026-07-18T18:58:06Z"
   },
   "byehi98/okish-morphe-patches": {
-    "beta": "v1.40.0-dev.1",
-    "beta_date": "2026-10-06T04:27:47Z",
+    "beta": "v1.40.0-dev.2",
+    "beta_date": "2026-10-07T05:40:59Z",
     "blocked": false,
     "host": "github",
     "repo": "byehi98/okish-morphe-patches",
@@ -302,8 +302,8 @@
     "blocked": false,
     "host": "github",
     "repo": "durgesh0505/chiggi_morphe_patches",
-    "stable": "v1.23.1",
-    "stable_date": "2026-09-22T01:01:04Z"
+    "stable": "",
+    "stable_date": ""
   },
   "franticg33k/morphe-patches": {
     "beta": "v1.4.2-dev.3",
