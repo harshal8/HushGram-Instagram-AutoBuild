@@ -63,7 +63,7 @@
   "bearinmindcat/morphe-patches": {
     "beta": {},
     "stable": {
-      "com.google.android.apps.maps": "b18aa223cdb6ef5c8ed4e47a005c95e4",
+      "com.google.android.apps.maps": "43b74eced2edaf075bb5c53c6c9a192f",
       "shared": "ccad433d728a8fca2434563b046d8fc7"
     }
   },

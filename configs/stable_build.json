@@ -407,7 +407,7 @@
   },
   "Discord-revenge": {
     "cli-source": "7723mod/NPatch",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "revenge-mod/revenge-xposed",
     "brand": "revenge",
     "pkg-name": "com.discord",
@@ -987,7 +987,7 @@
     "uptodown-dlurl": "https://instagram.en.uptodown.com/android"
   },
   "Instagram-HushGram": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.instagram.android",
     "app-name": "Instagram",
     "patches-source": "SysAdminDoc/HushGram",
