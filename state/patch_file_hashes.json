@@ -63,7 +63,7 @@
   "bearinmindcat/morphe-patches": {
     "beta": {},
     "stable": {
-      "com.google.android.apps.maps": "68ac081cdcfc48e8cdbd3c158ba3a466",
+      "com.google.android.apps.maps": "f386f41bb5714eba65de51291f14272d",
       "shared": "ccad433d728a8fca2434563b046d8fc7"
     }
   },
@@ -101,8 +101,8 @@
   },
   "crimera/piko": {
     "beta": {
-      "com.instagram.android": "5490effee679aeddb0f5f58e8530d3bc",
-      "com.twitter.android": "2a9e1cdbc62518a30b3d4158b67528a7",
+      "com.instagram.android": "864481d6a43baa7ef44aca6798025f53",
+      "com.twitter.android": "610bb74eea6ec8846eea9fab39ee0f39",
       "shared": "af8e6b25a156bf0a8dd0cc8a238f9f09"
     },
     "stable": {
@@ -162,8 +162,8 @@
   "heval99/heval-morphe-patches": {
     "beta": {},
     "stable": {
-      "eu.faircode.email": "8a8c5b8978c483ff6d11f929ca4449e8",
-      "shared": "f58f43ff836e0762fe9f9d84376b1567"
+      "eu.faircode.email": "e5f10c6b9830d01fe3b2654bf52a25bb",
+      "shared": "14efd9f2f66e672e8424a19e6e749180"
     }
   },
   "hoo-dles/morphe-patches": {
@@ -230,13 +230,13 @@
   "hxreborn/morphe-patches": {
     "beta": {},
     "stable": {
-      "ch.protonmail.android": "95033608e6055978dc65512e1945bd81",
-      "ch.protonvpn.android": "0883c9e954da7514de194b15d42311a2",
-      "com.dubox.drive": "8f6819a4d4d657db029791ef66b286c5",
-      "com.greenstone.pocketwhip": "125d7b9fad192a76a1eb4f433bead199",
-      "com.michaldrabik.showly2": "a52e8efca1fbc427b8877f0a883a3915",
-      "dev.vodik7.atvtools": "1f02d26e2c3fd1001974533ef82dbcab",
-      "shared": "183b0a026d00f64eb7dc363370ae34d2"
+      "ch.protonmail.android": "2d72a2edc693b945818bc5dd6b0ac1bd",
+      "ch.protonvpn.android": "e73f7ffb27d61514156bda4dc052ef18",
+      "com.dubox.drive": "5ca088588625bd9681e071fe36fd9c79",
+      "com.greenstone.pocketwhip": "88124b0ba4852a638e29471894593556",
+      "com.michaldrabik.showly2": "9a90feac758c69f7ef7ab5b28e7a18b8",
+      "dev.vodik7.atvtools": "cc1bf245c662c1301384a1cb4d33ef0d",
+      "shared": "d5d25eeb694acf27c789040cf3052d11"
     }
   },
   "icysymmetra/tiktok-patches-for-morphe": {

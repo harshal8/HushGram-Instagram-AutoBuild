@@ -212,8 +212,8 @@
     "blocked": false,
     "host": "github",
     "repo": "bearinmindcat/morphe-patches",
-    "stable": "v1.4.4",
-    "stable_date": "2026-10-06T17:37:12Z"
+    "stable": "v1.5.1",
+    "stable_date": "2026-10-07T07:42:16Z"
   },
   "binarymend/morphe-patches": {
     "beta": "v1.3.1-dev.1",
@@ -261,8 +261,8 @@
     "stable_date": "2026-10-06T02:38:34Z"
   },
   "crimera/piko": {
-    "beta": "v3.10.0-dev.11",
-    "beta_date": "2026-10-05T01:59:24Z",
+    "beta": "v3.10.0-dev.12",
+    "beta_date": "2026-10-07T11:04:16Z",
     "blocked": false,
     "host": "github",
     "repo": "crimera/piko",
@@ -302,8 +302,8 @@
     "blocked": false,
     "host": "github",
     "repo": "durgesh0505/chiggi_morphe_patches",
-    "stable": "",
-    "stable_date": ""
+    "stable": "v1.23.1",
+    "stable_date": "2026-09-22T01:01:04Z"
   },
   "franticg33k/morphe-patches": {
     "beta": "v1.4.2-dev.3",
@@ -315,13 +315,13 @@
     "stable_date": "2026-09-29T16:39:00Z"
   },
   "heval99/Heval-Morphe-Patches": {
-    "beta": "v1.9.0-dev.3",
-    "beta_date": "2026-10-06T18:49:28Z",
+    "beta": "v1.9.0-dev.5",
+    "beta_date": "2026-10-07T10:31:36Z",
     "blocked": false,
     "host": "github",
     "repo": "heval99/Heval-Morphe-Patches",
-    "stable": "v1.8.0",
-    "stable_date": "2026-10-05T18:03:18Z"
+    "stable": "v1.9.0",
+    "stable_date": "2026-10-07T10:35:28Z"
   },
   "hoo-dles/morphe-patches": {
     "beta": "v1.47.1-dev.1",
@@ -347,8 +347,8 @@
     "blocked": false,
     "host": "github",
     "repo": "hxreborn/morphe-patches",
-    "stable": "v1.43.0",
-    "stable_date": "2026-10-06T11:53:00Z"
+    "stable": "v1.44.0",
+    "stable_date": "2026-10-07T08:45:24Z"
   },
   "icysymmetra/tiktok-patches-for-morphe": {
     "beta": "v0.8.0-dev.12",
