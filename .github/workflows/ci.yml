@@ -10,6 +10,10 @@ on:
     - cron: "03 20 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+  actions: write
+
 concurrency:
   group: ci
   cancel-in-progress: false
@@ -17,10 +21,8 @@ concurrency:
 jobs:
   check_patch:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      actions: write
     timeout-minutes: 60
+
     services:
       cf_solver:
         image: ghcr.io/sarperavci/cloudflarebypassforscraping:latest
