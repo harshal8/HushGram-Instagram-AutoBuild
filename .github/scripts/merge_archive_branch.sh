@@ -53,7 +53,7 @@ fi
 
 # 2. APK/ZIP assets actually present in the archive release right now
 #    (releases remain the source of truth for file existence).
-gh api --paginate "repos/$REPO/releases/tags/$ARCHIVE_TAG" -q '.assets[].name' \
+gh api --paginate "repos/$REPO/releases/tags/$BUILD_TAG" -q '.assets[].name' \
   | grep -E '\.(apk|zip)$' > "$LIVE_LIST" || true
 jq -Rn '[inputs]' "$LIVE_LIST" > temp/manifest/archive-live.json
 
