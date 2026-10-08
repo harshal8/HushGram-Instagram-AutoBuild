@@ -4683,7 +4683,7 @@ build_rv() {
 			per_bundle_ed_joined+="${cur_per_bundle_ed_args[$bi]}"
 		done
 
-		local apk_output="${BUILD_DIR}/${file_prefix}-v${version_f}-${arch_f}.apk"
+		local apk_output="${BUILD_DIR}/${brand_slug:-$file_prefix}-v${version_f}-${arch_f}.apk"
 		if [ "${NORB:-}" != true ] || { [ ! -f "$patched_apk" ] && [ ! -f "$apk_output" ]; }; then
 			if ! patch_apk "$stock_apk_to_patch" "$patched_apk" "${patcher_args[*]}" "${args[cli]}" "${args[ptjar]}" "${args[cli_source]}" "$per_bundle_ed_joined"; then
 				epr "Building '${table}' failed!"
