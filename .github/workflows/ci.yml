@@ -113,8 +113,7 @@ jobs:
       - name: Commit updated patch sources and configs
         if: ${{ steps.flags.outputs.ANYTHING_CHANGED == '1' }}
         run: bash .github/scripts/commit_data_branch.sh
-
-  build_beta:
+build_beta:
     needs: check_patch
     if: ${{ needs.check_patch.outputs.trigger_beta == '1' }}
     permissions:
