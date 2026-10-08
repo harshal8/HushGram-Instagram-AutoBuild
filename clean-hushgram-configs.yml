@@ -1,0 +1,43 @@
+name: Clean HushGram Configs
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout data branch
+        uses: actions/checkout@v4
+        with:
+          ref: data
+          fetch-depth: 0
+
+      - name: Keep only Instagram HushGram config
+        run: |
+          echo "Before cleanup:"
+          find configs/patches -maxdepth 1 -type f -name "*.toml" -print
+
+          find configs/patches -maxdepth 1 -type f -name "*.toml" ! -name "instagram.toml" -delete
+
+          echo "After cleanup:"
+          find configs/patches -maxdepth 1 -type f -name "*.toml" -print
+
+      - name: Commit cleanup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add configs/patches
+
+          if git diff --cached --quiet; then
+            echo "No changes required."
+            exit 0
+          fi
+
+          git commit -m "Keep only HushGram Instagram config"
+          git push origin data
