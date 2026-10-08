@@ -1,53 +1,15 @@
-name: Manual CI
-
-on:
-  workflow_dispatch:
-    inputs:
-      config_file:
-        description: "Select the config file to use"
-        required: true
-        type: choice
-        default: "configs/config.manual.toml"
-        options:
-          - "configs/config.manual.toml"
-          - "configs/beta_build.json"
-          - "configs/stable_build.json"
-      remove_apks:
-        description: "Optional: APKs to remove from cache (space-separated, e.g., com.brave.browser-1.93.138-*.apk)"
-        required: false
-        type: string
-        default: ""
-
-concurrency:
-  group: ci
-  cancel-in-progress: false
-
-jobs:
-  build_manual:
-    permissions:
-      contents: write
-    uses: ./.github/workflows/build.yml
-    with:
-      config_file: ${{ inputs.config_file }}
-      remove_apks: ${{ inputs.remove_apks }}
-    secrets: inherit
-
-  trigger_cleanup:
-    needs: [build_manual]
-    if: ${{ always() && needs.build_manual.result == 'success' }}
-    permissions:
-      contents: write
-      actions: write
-    uses: ./.github/workflows/cleanup.yml
-    secrets: inherit
-
-  trigger_notify_failure:
-    needs: [build_manual]
-    if: ${{ failure() }}
-    permissions:
-      contents: write
-    uses: ./.github/workflows/notify.yml
-    with:
-      workflow_name: "Manual CI"
-      already_reported: ${{ needs.build_manual.outputs.reported_failures == 'true' }}
-    secrets: inherit
+[Instagram-HushGram]
+enabled = true
+pkg-name = "com.instagram.android"
+app-name = "Instagram"
+patches-source = "SysAdminDoc/HushGram"
+patches-version = "stable"
+brand = "HushGram"
+arch = "arm64-v8a"
+inclusive-patches = true
+version = "auto"
+version-code = "auto"
+build-mode = "apk"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
+uptodown-dlurl = "https://instagram.en.uptodown.com/android"
+archive-dlurl = "https://archive.org/download/geologically/apks/com.instagram.android"
