@@ -14,6 +14,10 @@ concurrency:
   group: ci
   cancel-in-progress: false
 
+permissions:
+  contents: write
+  actions: write
+
 jobs:
   check_patch:
     runs-on: ubuntu-latest
