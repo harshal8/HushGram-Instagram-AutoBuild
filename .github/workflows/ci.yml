@@ -117,17 +117,21 @@ jobs:
         # and go through push_data_configs.sh). Counterpart: fetch_data_branch.sh.
         run: bash .github/scripts/commit_data_branch.sh
 
-  build_beta:
+    build_beta:
     needs: check_patch
     if: ${{ needs.check_patch.outputs.trigger_beta == '1' }}
+    permissions:
+      contents: write
     uses: ./.github/workflows/build.yml
     with:
       config_file: "configs/beta_build.json"
     secrets: inherit
 
-  build_stable:
+    build_stable:
     needs: [check_patch, build_beta]
     if: ${{ always() && needs.check_patch.outputs.trigger_stable == '1' && needs.check_patch.result == 'success' && needs.build_beta.result != 'cancelled' }}
+    permissions:
+      contents: write
     uses: ./.github/workflows/build.yml
     with:
       config_file: "configs/stable_build.json"
