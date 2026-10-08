@@ -21,14 +21,17 @@ jobs:
       contents: write
       actions: write
     timeout-minutes: 60
+
     services:
       cf_solver:
         image: ghcr.io/sarperavci/cloudflarebypassforscraping:latest
         ports:
           - 8000:8000
+
     outputs:
       trigger_stable: ${{ steps.effective_triggers.outputs.TRIGGER_STABLE }}
       trigger_beta: ${{ steps.effective_triggers.outputs.TRIGGER_BETA }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -62,8 +65,9 @@ jobs:
         id: compare_apps
         run: bash .github/scripts/ci_compare_app_versions.sh
 
-      # Single owner of "is there any work left downstream". Every step below
-      # reads these two outputs instead of re-pasting the trigger expressions.
+      # Single owner of "is there any work left downstream".
+      # Every step below reads these two outputs instead of re-pasting
+      # the trigger expressions.
       - name: Classify triggers
         id: flags
         env:
@@ -137,7 +141,7 @@ jobs:
       config_file: "configs/stable_build.json"
     secrets: inherit
 
-    trigger_cleanup:
+  trigger_cleanup:
     needs: [build_beta, build_stable]
     if: ${{ always() && (needs.build_beta.result == 'success' || needs.build_stable.result == 'success') }}
     permissions:
