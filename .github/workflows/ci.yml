@@ -125,7 +125,7 @@ jobs:
         # and go through push_data_configs.sh). Counterpart: fetch_data_branch.sh.
         run: bash .github/scripts/commit_data_branch.sh
 
-    build_beta:
+ build_beta:
     needs: check_patch
     if: ${{ needs.check_patch.outputs.trigger_beta == '1' }}
     permissions:
