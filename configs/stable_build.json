@@ -1,11 +1,11 @@
 {
-  "patches-version": "stable",
+  "patches-version": "beta",
   "Instagram-HushGram": {
     "enabled": true,
     "pkg-name": "com.instagram.android",
     "app-name": "Instagram",
     "patches-source": "SysAdminDoc/HushGram",
-    "patches-version": "stable",
+    "patches-version": "beta",
     "brand": "HushGram",
     "arch": "arm64-v8a",
     "inclusive-patches": true,
