@@ -2,16 +2,117 @@ name: CI
 
 on:
   schedule:
-    - cron: "0 0,4,8,12,16,20 * * *"
+    - cron: "11 0 * * *"
+    - cron: "46 4 * * *"
+    - cron: "08 8 * * *"
+    - cron: "52 12 * * *"
+    - cron: "29 16 * * *"
+    - cron: "03 20 * * *"
   workflow_dispatch:
 
-permissions:
-  contents: write
+concurrency:
+  group: ci
+  cancel-in-progress: false
 
 jobs:
   check_patch:
-    uses: ./.github/workflows/check_patch.yml
-    secrets: inherit
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+    timeout-minutes: 60
+    services:
+      cf_solver:
+        image: ghcr.io/sarperavci/cloudflarebypassforscraping:latest
+        ports:
+          - 8000:8000
+
+    outputs:
+      trigger_stable: ${{ steps.effective_triggers.outputs.TRIGGER_STABLE }}
+      trigger_beta: ${{ steps.effective_triggers.outputs.TRIGGER_BETA }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Setup Python dependencies
+        run: pip install --no-cache-dir curl_cffi || true
+
+      - name: Fetch configs & state (data branch)
+        run: bash .github/scripts/fetch_data_branch.sh
+
+      - name: Compile Base Configs (JSON)
+        run: bash .github/scripts/ci_compile_base_configs.sh
+
+      - name: Sync Patch Sources
+        id: sync_patch_sources
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CODEBERG_TOKEN: ${{ secrets.CODEBERG_TOKEN }}
+        run: python3 .github/scripts/sync_patch_sources.py
+
+      - name: Fetch App Versions
+        id: fetch_app_versions
+        env:
+          CF_SOLVER_URL: "http://localhost:8000"
+        run: bash .github/scripts/ci_fetch_app_versions.sh
+
+      - name: Compare App Versions
+        id: compare_apps
+        run: bash .github/scripts/ci_compare_app_versions.sh
+
+      - name: Classify triggers
+        id: flags
+        env:
+          TRIGGER_STABLE: ${{ steps.sync_patch_sources.outputs.TRIGGER_STABLE || '0' }}
+          TRIGGER_BETA: ${{ steps.sync_patch_sources.outputs.TRIGGER_BETA || '0' }}
+          TRIGGER_BLOCKED: ${{ steps.sync_patch_sources.outputs.TRIGGER_BLOCKED || '0' }}
+          TRIGGER_APP_UPDATE: ${{ steps.compare_apps.outputs.TRIGGER_APP_UPDATE || '0' }}
+        run: bash .github/scripts/ci_trigger_flags.sh
+
+      - name: Check Patch App Updates
+        if: ${{ steps.flags.outputs.SOURCES_CHANGED == '1' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 .github/scripts/ci_check_app_patches.py
+
+      - name: Generate configs (JSON)
+        if: ${{ steps.flags.outputs.ANYTHING_CHANGED == '1' }}
+        id: generate_configs
+        env:
+          TRIGGER_STABLE: ${{ steps.sync_patch_sources.outputs.TRIGGER_STABLE }}
+          TRIGGER_BETA: ${{ steps.sync_patch_sources.outputs.TRIGGER_BETA }}
+          TRIGGER_APP_UPDATE: ${{ steps.compare_apps.outputs.TRIGGER_APP_UPDATE }}
+          TRIGGER_BLOCKED: ${{ steps.sync_patch_sources.outputs.TRIGGER_BLOCKED }}
+        run: bash .github/scripts/ci_generate_configs.sh
+
+      - name: Resolve effective triggers
+        id: effective_triggers
+        env:
+          RAW_TRIGGER_STABLE: ${{ steps.sync_patch_sources.outputs.TRIGGER_STABLE || '0' }}
+          RAW_TRIGGER_BETA: ${{ steps.sync_patch_sources.outputs.TRIGGER_BETA || '0' }}
+          RAW_TRIGGER_APP_UPDATE: ${{ steps.compare_apps.outputs.TRIGGER_APP_UPDATE || '0' }}
+        run: bash .github/scripts/ci_resolve_triggers.sh
+
+      - name: Notify telegram
+        if: ${{ steps.flags.outputs.ANYTHING_CHANGED == '1' }}
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHAT_ID: "${{ vars.TG_CHAT_ID || '@rvb27' }}"
+          TG_THREAD_CI: "${{ vars.TG_THREAD_CI || '2747' }}"
+          TRIGGER_STABLE: ${{ steps.sync_patch_sources.outputs.TRIGGER_STABLE }}
+          TRIGGER_BETA: ${{ steps.sync_patch_sources.outputs.TRIGGER_BETA }}
+          TRIGGER_APP_UPDATE: ${{ steps.compare_apps.outputs.TRIGGER_APP_UPDATE }}
+          EFFECTIVE_STABLE: ${{ steps.effective_triggers.outputs.TRIGGER_STABLE }}
+          EFFECTIVE_BETA: ${{ steps.effective_triggers.outputs.TRIGGER_BETA }}
+        run: bash .github/scripts/ci_notify_telegram.sh
+
+      - name: Commit updated patch sources and configs
+        if: ${{ steps.flags.outputs.ANYTHING_CHANGED == '1' }}
+        run: bash .github/scripts/commit_data_branch.sh
 
   build_beta:
     needs: check_patch
