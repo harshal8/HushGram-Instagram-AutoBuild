@@ -117,8 +117,6 @@ jobs:
   build_beta:
     needs: check_patch
     if: ${{ needs.check_patch.outputs.trigger_beta == '1' }}
-    permissions:
-      contents: write
     uses: ./.github/workflows/build.yml
     with:
       config_file: "configs/beta_build.json"
@@ -127,8 +125,6 @@ jobs:
   build_stable:
     needs: [check_patch, build_beta]
     if: ${{ always() && needs.check_patch.outputs.trigger_stable == '1' && needs.check_patch.result == 'success' && needs.build_beta.result != 'cancelled' }}
-    permissions:
-      contents: write
     uses: ./.github/workflows/build.yml
     with:
       config_file: "configs/stable_build.json"
@@ -137,17 +133,12 @@ jobs:
   trigger_cleanup:
     needs: [build_beta, build_stable]
     if: ${{ always() && (needs.build_beta.result == 'success' || needs.build_stable.result == 'success') }}
-    permissions:
-      contents: write
-      actions: write
     uses: ./.github/workflows/cleanup.yml
     secrets: inherit
 
   trigger_notify_failure:
     needs: [check_patch, build_beta, build_stable]
     if: ${{ failure() }}
-    permissions:
-      contents: write
     uses: ./.github/workflows/notify.yml
     with:
       workflow_name: "CI"
