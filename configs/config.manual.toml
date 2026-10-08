@@ -1,24 +1,15 @@
-[GoogleMaps-bearinmindcat]
+[Instagram-HushGram]
 enabled = true
-pkg-name = "com.google.android.apps.maps"
-app-name = "Google Maps"
-patches-source = "bearinmindcat/morphe-patches"
-brand = "bearinmindcat"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/maps"
-uptodown-dlurl = "https://google-maps.en.uptodown.com/android/download"
-apkpure-dlurl = "https://apkpure.com/google-maps-app/com.google.android.apps.maps"
-apkcombo-dlurl = "https://apkcombo.com/google-maps/com.google.android.apps.maps"
-
-[ProtonMail-hxreborn]
-enabled = true
-pkg-name = "ch.protonmail.android"
-app-name = "Proton Mail"
-brand = "hxreborn"
-patches-source = "hxreborn/morphe-patches"
-arch = "all"
-apkmirror-dlurl = "https://apkmirror.com/apk/proton-technologies-ag/protonmail-encrypted-email"
-uptodown-dlurl = "https://protonmail.en.uptodown.com/android"
-apkpure-dlurl = "https://apkpure.com/proton-mail-encrypted-email/ch.protonmail.android"
-apkcombo-dlurl = "https://apkcombo.com/proton-mail/ch.protonmail.android"
-archive-dlurl = "https://archive.org/download/geologically/apks/ch.protonmail.android"
-
+pkg-name = "com.instagram.android"
+app-name = "Instagram"
+patches-source = "SysAdminDoc/HushGram"
+patches-version = "stable"
+brand = "HushGram"
+arch = "arm64-v8a"
+inclusive-patches = true
+version = "auto"
+version-code = "auto"
+build-mode = "apk"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
+uptodown-dlurl = "https://instagram.en.uptodown.com/android"
+archive-dlurl = "https://archive.org/download/geologically/apks/com.instagram.android"
