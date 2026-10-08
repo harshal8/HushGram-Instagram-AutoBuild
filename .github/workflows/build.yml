@@ -239,20 +239,6 @@ jobs:
           git checkout -f main
           bash .github/scripts/build_exclude_from_archive.sh
 
-      - name: Upload to release (Archive)
-        id: archive_upload
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_TAG: ${{ steps.context.outputs.ARCHIVE_TAG }}
-          # Assets only: no metadata field is named, so the archive releases keep
-          # the title, notes and pre-release badge written by hand while files are
-          # (re)uploaded with --clobber. Why: docs/decisions/0001-release-metadata-ownership.md
-          RELEASE_TARGET: main
-          UPLOAD_FILES: "./build/*"
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        run: bash .github/scripts/build_upload_release.sh
-
       - name: Merge archive manifest into website branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
