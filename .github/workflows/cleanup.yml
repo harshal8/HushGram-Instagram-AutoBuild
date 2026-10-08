@@ -1,37 +1,59 @@
-name: Clean Patch Configs
+name: Cleanup
 
 on:
+  workflow_call:
   workflow_dispatch:
 
-permissions:
-  contents: write
+concurrency:
+  group: clean
+  cancel-in-progress: true
 
 jobs:
-  clean:
+  cleanup:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+    timeout-minutes: 10
 
     steps:
-      - name: Clone data branch
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Delete Older Releases and Workflows
+        uses: ophub/delete-releases-workflows@main
+        with:
+          delete_releases: true
+          delete_tags: true
+          releases_keep_latest: 98
+          delete_workflows: true
+          workflows_keep_day: 30
+          releases_keep_keyword: stable/beta
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cleanup Archive Release Assets
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 .github/scripts/cleanup-archive-assets.py
+
+      - name: Cleanup Update Branch Changelogs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash .github/scripts/cleanup_update_branch.sh
+
+      - name: Cleanup Website Branch Manifests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash .github/scripts/cleanup_website_branch.sh
+
+      - name: Notify website catalog rebuild
+        continue-on-error: true
+        env:
+          DISPATCH_TOKEN: ${{ secrets.WEBSITE_DISPATCH_TOKEN || secrets.APKS_REPO_TOKEN }}
+          WEBSITE_REPO: "${{ vars.WEBSITE_REPO || 'nullcpy/nullcpy.github.io' }}"
         run: |
-          git clone --branch data https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git data-branch
-
-      - name: Delete all patch configs except Instagram
-        run: |
-          cd data-branch
-
-          find configs/patches -type f -name "*.toml" ! -name "instagram.toml" -print -delete
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add configs/patches
-
-          if git diff --cached --quiet; then
-            echo "Nothing to delete."
-            exit 0
-          fi
-
-          git commit -m "Keep only HushGram Instagram patch config"
-          git push origin data
+          curl -fsS -X POST "https://api.github.com/repos/${WEBSITE_REPO}/dispatches" \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $DISPATCH_TOKEN" \
+            -d '{"event_type": "catalog-updated"}' \
+            || echo "::warning::Website catalog dispatch failed; the scheduled rebuild will converge."
