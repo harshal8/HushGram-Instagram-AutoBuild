@@ -4,7 +4,7 @@
   "meta": {
     "build": "stable",
     "channel": "stable",
-    "publishedAt": "2026-10-08T11:25:26Z"
+    "publishedAt": "2026-10-08T12:08:14Z"
   },
   "files": {
     "instagram-hushgram-v450.0.0.50.77-arm64-v8a.apk": {
@@ -102,8 +102,8 @@
         "View live anonymously",
         "View stories anonymously"
       ],
-      "originBuild": "260005",
-      "publishedAt": "2026-10-08T11:25:07Z"
+      "originBuild": "260006",
+      "publishedAt": "2026-10-08T12:07:56Z"
     }
   }
 }
