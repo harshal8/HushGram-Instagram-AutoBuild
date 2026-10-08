@@ -1,0 +1,27 @@
+name: Initialize Update Branch
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  initialize:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch upstream update branch
+        run: |
+          git remote add upstream https://github.com/nullcpy/rvb.git
+          git fetch upstream update
+
+      - name: Create update branch
+        run: |
+          git checkout -B update upstream/update
+          git push origin update --force
