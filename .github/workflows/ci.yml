@@ -141,7 +141,7 @@ jobs:
       config_file: "configs/stable_build.json"
     secrets: inherit
 
-  trigger_cleanup:
+    trigger_cleanup:
     needs: [build_beta, build_stable]
     if: ${{ always() && (needs.build_beta.result == 'success' || needs.build_stable.result == 'success') }}
     permissions:
@@ -150,7 +150,7 @@ jobs:
     uses: ./.github/workflows/cleanup.yml
     secrets: inherit
 
-    trigger_notify_failure:
+  trigger_notify_failure:
     needs: [check_patch, build_beta, build_stable]
     if: ${{ failure() }}
     permissions:
