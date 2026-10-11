@@ -7,5 +7,14 @@
     "repo": "SysAdminDoc/HushGram",
     "stable": "v0.0.8",
     "stable_date": "2026-10-10T04:24:39Z"
+  },
+  "kveld9/kveld-morphe-patches": {
+    "beta": "v2.7.0-experimental.8",
+    "beta_date": "2026-10-11T17:17:55Z",
+    "blocked": false,
+    "host": "github",
+    "repo": "kveld9/kveld-morphe-patches",
+    "stable": "v2.6.0",
+    "stable_date": "2026-10-10T03:05:27Z"
   }
 }
