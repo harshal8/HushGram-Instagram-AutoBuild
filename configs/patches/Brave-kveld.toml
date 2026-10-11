@@ -1,0 +1,13 @@
+patches-source = "kveld9/kveld-morphe-patches"
+patches-source-host = "github"
+patches-version = "stable"
+brand = "kveld"
+
+[Brave]
+app-name = "Brave"
+pkg-name = "com.brave.browser"
+github-dlurl = "https://github.com/brave/brave-browser"
+github-regex = "arm64-v8a: '^Bravemonoarm64\\.apk$'"
+arch = "arm64-v8a"
+version = "auto"
+build-mode = "apk"
