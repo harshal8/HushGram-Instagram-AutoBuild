@@ -5,8 +5,8 @@
     "blocked": false,
     "host": "github",
     "repo": "SysAdminDoc/HushGram",
-    "stable": "v0.0.9",
-    "stable_date": "2026-10-11T22:21:55Z"
+    "stable": "v0.0.11",
+    "stable_date": "2026-10-15T14:22:42Z"
   },
   "kveld9/kveld-morphe-patches": {
     "beta": "v2.7.0-experimental.24",
