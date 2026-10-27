@@ -1,7 +1,7 @@
 {
   "patches-version": "stable",
   "Brave-Kveld": {
-    "enabled": false,
+    "enabled": true,
     "pkg-name": "com.brave.browser",
     "app-name": "Brave",
     "patches-source": "kveld9/kveld-morphe-patches",
@@ -15,7 +15,7 @@
     "uptodown-dlurl": "https://brave.en.uptodown.com/android"
   },
   "Instagram-HushGram": {
-    "enabled": true,
+    "enabled": false,
     "pkg-name": "com.instagram.android",
     "app-name": "Instagram",
     "patches-source": "SysAdminDoc/HushGram",
