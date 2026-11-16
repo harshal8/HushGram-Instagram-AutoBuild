@@ -296,8 +296,8 @@
   "kveld9/kveld-morphe-patches": {
     "beta": {},
     "stable": {
-      "com.brave.browser": "a77fafeacb756f4b4d95810c99344083",
-      "shared": "284d5669d1225b91375cb66107fd7d0d"
+      "com.brave.browser": "61b3e851c7d0d2fd3eda9a7ce9ab08a9",
+      "shared": "aa4b2362020db8b0ef072932d948552e"
     }
   },
   "liongalahad/nuviotv-morphe-patches": {
